@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite", // This should be used to start the development server locally
+    "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint 'src/**/*.ts'" // Checks for linting errors, use the --fix parameter to fix them. Please see .eslintrc.json for the linting rules.
+    "lint": "eslint 'src/**/*.ts'"
   },
   "dependencies": {
     "vue": "^3.2.47"
