@@ -1,2 +1,2 @@
 # TechTubHub
-A private, tech tub bookings manager to manage and facilitate the booking of DSBN devices.
+A private, bookings manager used to book devices, tools, and other resources through an online dashboard. 
