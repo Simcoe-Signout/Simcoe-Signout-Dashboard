@@ -26,10 +26,10 @@
       "@/*": [
         "src/*"
       ],
-      "@cpnts/*": [
+      "@components/*": [
         "src/components/*"
       ],
-      "@pgs/*": [
+      "@pages/*": [
         "src/pages/*"
       ]
     }
