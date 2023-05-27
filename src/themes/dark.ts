@@ -16,4 +16,4 @@ const Dark: ThemeDefinition = {
   },
 }
 
-export type Dark;
+export type Dark = typeof Dark;

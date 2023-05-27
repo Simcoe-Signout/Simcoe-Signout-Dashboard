@@ -16,4 +16,4 @@ const Light: ThemeDefinition = {
   },
 }
 
-export type Light;
+export type Light = typeof Light;

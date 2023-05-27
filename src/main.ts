@@ -4,11 +4,11 @@ import { createPinia } from 'pinia';
 
 import router from './config/router';
 
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
-import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
 const vuetify = createVuetify({
     icons: {
@@ -23,7 +23,7 @@ const vuetify = createVuetify({
     },
     components,
     directives,
-})
+});
 
 const pinia = createPinia();
 
@@ -31,4 +31,4 @@ const app = createApp(App);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);
-app.mount("#app");
+app.mount('#app');

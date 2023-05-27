@@ -6,16 +6,16 @@
 import DefaultLayout from '@/layouts/default';
 import LoginLayout from '@/layouts/login';
 
-const fallbackLayout = 'DefaultLayout'
+const fallbackLayout = 'DefaultLayout';
 
 export default {
+  name: 'App',
   components: { DefaultLayout, LoginLayout },
   computed: {
     layout() {
-      const loadedLayout = (this.$route?.meta?.layout || fallbackLayout)
-      return `${loadedLayout}-layout`
+      const loadedLayout = (this.$route?.meta?.layout || fallbackLayout);
+      return `${loadedLayout}-layout`;
     }
-  },
-  name: 'App'
-}
+  }
+};
 </script>
