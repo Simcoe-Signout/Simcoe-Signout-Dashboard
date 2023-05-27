@@ -7,7 +7,8 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         - BUILD_USER=${BUILD_USER}
-    command: ['npm', 'run', 'dev']
+        - NODE_ENV=${NODE_ENV}
+    command: ['yarn', 'run', 'dev']
     tty: true
     stdin_open: true
     env_file:
