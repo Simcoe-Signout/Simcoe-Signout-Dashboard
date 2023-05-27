@@ -4502,11 +4502,6 @@ vue-router@^4.2.1:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
 
-vue-sidebar-menu@^5.2.8:
-  version "5.2.8"
-  resolved "https://registry.yarnpkg.com/vue-sidebar-menu/-/vue-sidebar-menu-5.2.8.tgz#2d89c1aed5485a1352d0e00cac06cde7897990c7"
-  integrity sha512-nC9jItwp3TM3wrbbzdCnniTFAjsaPx+q3GIJO3tJT2RDfIezZUr1BUHVE/s7adbX//9Za+KwvxwRWDUhrPdjmQ==
-
 vue-template-compiler@^2.7.14:
   version "2.7.14"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.7.14.tgz#4545b7dfb88090744c1577ae5ac3f964e61634b1"
