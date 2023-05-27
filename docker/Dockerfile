@@ -1,16 +1,31 @@
 # base image
 FROM node:20.2.0
 
-# set working directory
-WORKDIR /var/www/dsbnbooking.com
+# Import our BUILD_USER from any env file, default to app
+ENV APP_ROOT /var/www/dsbnbooking.com
+ENV BUILD_USER="app"
+ARG BUILD_USER="$BUILD_USER"
 
-COPY . /var/www/dsbnbooking.com
+RUN \
+  mkdir -p /usr/local/etc && \
+  adduser --disabled-password --gecos '' $BUILD_USER && \
+  mkdir -p $APP_ROOT && \
+  chown -R $BUILD_USER:$BUILD_USER ${APP_ROOT}
 
-# install and cache app dependencies\
-RUN npm ci
+# Switch to a non privalged user to install packages
+USER $BUILD_USER
+WORKDIR $APP_ROOT
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# copy package.json and package-lock.json separately
+COPY --chown=${BUILD_USER}:${BUILD_USER} package* $APP_ROOT
+
+# install dependencies
+RUN npm install
+
+# copy the rest of the application
+COPY --chown=${BUILD_USER}:${BUILD_USER} . $APP_ROOT
+
+USER root
 
 # start app
 CMD ["npm", "run", "dev"]

@@ -48,3 +48,20 @@ if ! command -v docker-compose &> /dev/null; then
 else
     echo "Docker Compose is already installed."
 fi
+
+env_file=".env"
+example_file="env.example"
+
+# Check if .env file already exists
+if [ -f "$env_file" ]; then
+    echo ".env file already exists."
+else
+    # Copy .env from env.example
+    if [ -f "$example_file" ]; then
+        cp "$example_file" "$env_file"
+        echo "Copied $example_file to $env_file."
+    else
+        echo "$example_file not found. Cannot copy .env file."
+        exit 1
+    fi
+fi

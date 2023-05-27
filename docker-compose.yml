@@ -5,16 +5,18 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
-    command: ['yarn', 'run', 'vite']
+      args:
+        - BUILD_USER=${BUILD_USER}
+    command: ['npm', 'run', 'dev']
     tty: true
     stdin_open: true
+    env_file:
+      - .env
     volumes:
       - '.:/var/www/dsbnbooking.com'
       - node_modules:/var/www/dsbnbooking.com/node_modules/
     ports:
       - 4000:5173
-    environment:
-    - CHOKIDAR_USEPOLLING=true
 
 volumes:
   node_modules:
