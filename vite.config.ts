@@ -8,6 +8,14 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [vue()],
+  server: {
+    port: 5173,
+    host: true,
+    strictPort: true,
+    watch: {
+      usePolling: true
+    }
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
