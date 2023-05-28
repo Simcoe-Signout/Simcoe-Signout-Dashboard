@@ -6,7 +6,7 @@
 import DefaultLayout from '@/layouts/default';
 import LoginLayout from '@/layouts/login';
 
-const fallbackLayout = 'DefaultLayout';
+const fallbackLayout = 'Default';
 
 export default {
   name: 'App',

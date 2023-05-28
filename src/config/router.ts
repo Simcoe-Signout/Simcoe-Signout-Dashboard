@@ -6,15 +6,12 @@ import LoginPage from '@pages/login/index.vue';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: Home,
-    meta: {
-      layout: 'Default',
-    }
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: LoginPage,
     meta: {
       layout: 'login',
