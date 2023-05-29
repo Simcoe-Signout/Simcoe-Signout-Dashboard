@@ -22,10 +22,13 @@ export default {
 @import '@/layouts/variables/Default.css';
 
 .item-button {
+    text-decoration: none;
+    font-size: var(--sidebar-item-font-size);
+    line-height: 30px;
+    color: inherit;
+}
 
-  text-decoration: none;
-  font-size: var(--sidebar-item-font-size);
-  line-height: 30px;
-  color: inherit;
+.item-button:hover {
+    color: rgb(155, 155, 155);
 }
 </style>
