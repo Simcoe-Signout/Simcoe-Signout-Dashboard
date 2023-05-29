@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "start": "node server.js",
     "preview": "vite preview",
     "lint": "eslint 'src/*'",
     "test": "jest"
