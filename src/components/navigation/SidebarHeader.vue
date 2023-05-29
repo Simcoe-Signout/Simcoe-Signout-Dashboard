@@ -17,7 +17,6 @@ export default {
 </script>  
 
 <style>
-
 .sidebar-header {
     color: grey;
     display: flex;

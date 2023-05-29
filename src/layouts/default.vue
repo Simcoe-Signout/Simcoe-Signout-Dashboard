@@ -6,7 +6,7 @@
         <v-list-item-group>
           <template v-for="route in routeCategory.routes" :key="route.name">
             <v-list-item>
-              <v-icon class="sidebar-item-icon">{{ route.icon }}</v-icon> <!-- Add the icon here -->
+              <SidebarIcon :icon="route.icon" />
               <SidebarItem :name="route.route.name" :href="route.route.path" />
             </v-list-item>
           </template>
@@ -25,18 +25,18 @@
     <v-main>
       <router-view />
     </v-main>
-
   </v-app>
 </template>
 
 <script>
 import router from '@/config/router';
+import SidebarIcon from '@/components/navigation/SidebarIcon.vue';
 import SidebarItem from '@components/navigation/SidebarItem.vue';
 import SidebarHeader from '@/components/navigation/SidebarHeader.vue';
 
 export default {
   name: 'DefaultLayout',
-  components: { SidebarItem, SidebarHeader },
+  components: { SidebarIcon, SidebarItem, SidebarHeader },
   data() {
     return {
       drawer: null,
@@ -45,6 +45,7 @@ export default {
   },
   computed: {
     // Returns the routes with their respective categories
+    // When adding more routes, be sure to add the route into the category here
     routeCategories() {
       return [
         {
@@ -73,10 +74,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.sidebar-item-icon {
-  margin-right: 30px;
-  margin-bottom: 5px;
-}
-</style>
