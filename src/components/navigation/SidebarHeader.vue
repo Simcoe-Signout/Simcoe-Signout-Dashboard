@@ -27,6 +27,6 @@ export default {
     font-weight: bold;
     margin-bottom: 5px;
     margin-left: 15px;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 </style>

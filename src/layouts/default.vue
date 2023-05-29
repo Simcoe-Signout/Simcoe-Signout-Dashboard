@@ -6,7 +6,8 @@
         <v-list-item-group>
           <template v-for="route in routeCategory.routes" :key="route.name">
             <v-list-item>
-              <SidebarItem :name="route.name" :href="route.path" />
+              <v-icon class="sidebar-item-icon">{{ route.icon }}</v-icon> <!-- Add the icon here -->
+              <SidebarItem :name="route.route.name" :href="route.route.path" />
             </v-list-item>
           </template>
         </v-list-item-group>
@@ -24,6 +25,7 @@
     <v-main>
       <router-view />
     </v-main>
+
   </v-app>
 </template>
 
@@ -47,18 +49,34 @@ export default {
       return [
         {
           header: 'Simcoe Resource Booking',
-          routes: [this.routes[0], this.routes[1]],
+          routes: [
+            { route: this.routes[0], icon: 'mdi-home' },
+            { route: this.routes[1], icon: 'mdi-database' },
+          ],
         },
         {
           header: 'Administration',
-          routes: [this.routes[2], this.routes[3]],
+          routes: [
+            { route: this.routes[2], icon: 'mdi-lock' },
+            { route: this.routes[3], icon: 'mdi-cog' },
+          ],
         },
         {
           header: 'My Account',
-          routes: [this.routes[4], this.routes[5]],
+          routes: [
+            { route: this.routes[4], icon: 'mdi-account-circle' },
+            { route: this.routes[5], icon: 'mdi-calendar-multiselect' },
+          ],
         },
       ];
     },
   },
 };
 </script>
+
+<style>
+.sidebar-item-icon {
+  margin-right: 30px;
+  margin-bottom: 5px;
+}
+</style>
