@@ -2,6 +2,7 @@ import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
 
 import Home from '@pages/home/index.vue';
 import LoginPage from '@pages/login/index.vue';
+import Resources from '@pages/resources/index.vue';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))
@@ -13,7 +14,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/resources',
     name: 'Resources',
-    component: Home,
+    component: Resources,
   },
   // Administration only routes (developers and managers)
   {
