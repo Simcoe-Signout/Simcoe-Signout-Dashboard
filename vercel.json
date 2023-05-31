@@ -1,0 +1,10 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/resources", "dest": "/index.html" },
+    { "src": "/manage-users", "dest": "/index.html" },
+    { "src": "/edit-resources", "dest": "/index.html" },
+    { "src": "/login", "dest": "/index.html" },
+    { "src": "/my-bookings", "dest": "/index.html" }
+  ]
+}
