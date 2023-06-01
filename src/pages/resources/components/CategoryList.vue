@@ -27,7 +27,7 @@ export default {
 <style>
 .category-card {
     position: absolute;
-    max-width: 300px;
+    max-width: 230px;
     margin-top: 20px;
 }
 
