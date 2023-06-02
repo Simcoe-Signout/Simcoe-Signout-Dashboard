@@ -30,13 +30,13 @@
 
 <script>
 import router from '@/config/router';
-import SidebarIcon from '@/components/navigation/sidebarIcon.vue';
-import SidebarItem from '@/components/navigation/sidebarItem.vue';
-import SidebarHeader from '@/components/navigation/sidebarHeader.vue';
+import sidebarIcon from '@/components/navigation/sidebarIcon.vue';
+import sidebarItem from '@/components/navigation/sidebarItem.vue';
+import sidebarHeader from '@/components/navigation/sidebarHeader.vue';
 
 export default {
   name: 'DefaultLayout',
-  components: { SidebarIcon, SidebarItem, SidebarHeader },
+  components: { sidebarIcon, sidebarItem, sidebarHeader },
   data() {
     return {
       drawer: null,
