@@ -3,6 +3,7 @@ import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
 import Home from '@pages/home/index.vue';
 import LoginPage from '@pages/login/index.vue';
 import Resources from '@pages/resources/index.vue';
+import EditResources from '@pages/administration/index.vue';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))
@@ -25,7 +26,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/edit-resources',
     name: 'Edit Resources',
-    component: Home,
+    component: EditResources,
   },
   // Account related routes (login, my resource bookings, etc.)
   {
