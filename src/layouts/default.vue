@@ -2,12 +2,12 @@
   <v-app>
     <v-navigation-drawer v-model="drawer">
       <template v-for="routeCategory in routeCategories" :key="routeCategory.header">
-        <SidebarHeader :name="routeCategory.header" />
+        <sidebarHeader :name="routeCategory.header" />
         <v-list-item-group>
           <template v-for="route in routeCategory.routes" :key="route.name">
             <v-list-item>
-              <SidebarIcon :icon="route.icon" />
-              <SidebarItem :name="route.route.name" :href="route.route.path" />
+              <sidebarIcon :icon="route.icon" />
+              <sidebarItem :name="route.route.name" :href="route.route.path" />
             </v-list-item>
           </template>
         </v-list-item-group>
