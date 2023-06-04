@@ -17,7 +17,6 @@
 
             <!-- Categories tab -->
             <v-expand-transition>
-                <!-- Still need to fix this not keeping track and losing checkmarks when the card is closed -->
                 <v-card v-if="activeFilterTab === 'categories'" class="v-card--reveal">
                     <v-checkbox hide-details density="comfortable" v-for="(category, i) in store.getCategories" :key="i"
                         :value="category" :label="category" v-model="store.filteredCategories"></v-checkbox>

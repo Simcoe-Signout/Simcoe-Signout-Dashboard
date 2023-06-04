@@ -25,7 +25,6 @@
 
 <script>
 import { resourcesPageStore } from '@/stores/resources';
-import tags from './tags.vue';
 
 export default {
     data: () => {
@@ -37,9 +36,6 @@ export default {
             tags: null,
             store: resourcesPageStore()
         }
-    },
-    components: {
-        tags
     },
     methods: {
         clearInput() {

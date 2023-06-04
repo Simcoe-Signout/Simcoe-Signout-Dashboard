@@ -1,11 +1,6 @@
 <template>
   <v-row no-gutters class="mt-3">
-    <!-- <v-col cols="2" class="category-column" id="category-column">
-      <h1>Booking</h1>
-      <CategoryList />
-    </v-col> -->
     <v-col class="booking-column ml-10">
-      <!-- Filter goes here -->
       <FilterButton />
       <!-- All active filters will go here -->
       <div>
@@ -42,7 +37,6 @@
 </template>
   
 <script>
-import CategoryList from '@/pages/resources/components/categoryList.vue';
 import ResourceItems from '@/pages/resources/components/resourceItems.vue';
 import FilterButton from '@/pages/resources/components/filterButton.vue';
 import { resourcesPageStore } from '@/stores/resources';
@@ -106,7 +100,6 @@ export default {
     }
   },
   components: {
-    CategoryList,
     ResourceItems,
     FilterButton,
   },
