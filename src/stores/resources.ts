@@ -2,17 +2,26 @@ import { defineStore } from 'pinia'
 const resources = localStorage.getItem('resources');
 const parsedResources = resources ? JSON.parse(resources) : [];
 
-const currentCategory = localStorage.getItem('currentCategory');
-const parsedCurrentCategory = currentCategory ? JSON.parse(currentCategory) : 'All';
-
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        currentCategory: parsedCurrentCategory,
+        categories: [
+            'Category 1',
+            'Category 2',
+        ],
+        filteredCategories: [] as string[],
+        availabilityTypes: [
+            'Available',
+            'Unavailable',
+        ],
+        filteredAvailabilityTypes: [] as string[],
         resources: Array.isArray(parsedResources) ? parsedResources : [] as Resource[]
     }),
     getters: {
-        getCategory: (state) => state.currentCategory,
+        getCategories: (state) => state.categories,
+        getFilteredCategories: (state) => state.filteredCategories,
+        getAvailabilityTypes: (state) => state.availabilityTypes,
+        getFilteredAvailabilityTypes: (state) => state.filteredAvailabilityTypes,
         getResources: (state) => state.resources,
         getResource: (state) => (uuid: string) => {
             return state.resources.find((r: { uuid: string; }) => r.uuid === uuid);
@@ -21,11 +30,20 @@ export const resourcesPageStore = defineStore({
             const resource = state.resources.find((r: { name: string; }) => r.name === name);
             return resource ? resource.uuid : '';
         },
-        getResourcesByCategory: (state) => (category: string) => {
-            if (category === 'All') {
+        getResourcesByFilteredCategories: (state) => {
+            if (state.filteredCategories.length === 0) {
                 return state.resources;
             } else {
-                return state.resources.filter((r: { category: string; }) => r.category === category);
+                return state.resources.filter((r) =>
+                    state.filteredCategories.includes(r.category)
+                );
+            }
+        },
+        getResourcesByCategories: (state) => (categories: string[]) => {
+            if (categories.includes('All')) {
+                return state.resources;
+            } else {
+                return state.resources.filter((r: { category: string; }) => categories.includes(r.category));
             }
         },
         hasResource: (state) => (uuid: string) => {
@@ -33,9 +51,14 @@ export const resourcesPageStore = defineStore({
         }
     },
     actions: {
-        setCategory(category: string) {
-            this.currentCategory = category;
-            localStorage.setItem('currentCategory', JSON.stringify(category));
+        setFilteredCategories(categories: string[]) {
+            this.filteredCategories = categories;
+        },
+        setFilteredAvailabilityTypes(availabilityTypes: string[]) {
+            this.filteredAvailabilityTypes = availabilityTypes;
+        },
+        removeCategoryFilter(category: string) {
+            this.filteredCategories = this.filteredCategories.filter(c => !c.includes(category));
         },
         createResource(resource: Resource) {
             this.resources.push(resource);

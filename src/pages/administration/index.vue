@@ -25,6 +25,7 @@
 
 <script>
 import { resourcesPageStore } from '@/stores/resources';
+import tags from './tags.vue';
 
 export default {
     data: () => {
@@ -36,6 +37,9 @@ export default {
             tags: null,
             store: resourcesPageStore()
         }
+    },
+    components: {
+        tags
     },
     methods: {
         clearInput() {
@@ -52,7 +56,12 @@ export default {
                 description: this.description,
                 category: this.category,
                 location: this.location,
-                tags: this.tags
+                tags: [
+                    {
+                        name: this.tags,
+                        colour: 'red'
+                    }
+                ]
             })
         }
     }
