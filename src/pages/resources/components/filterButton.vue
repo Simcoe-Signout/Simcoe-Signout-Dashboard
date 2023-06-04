@@ -1,5 +1,6 @@
 <template>
     <v-menu v-model="filterMenuOpen" :close-on-content-click="false" location="end">
+        <!-- Add filter button creation -->
         <template v-slot:activator="{ props }">
             <v-btn variant="outlined" color="blue" class="mb-3 mt-2" prepend-icon="mdi-plus" v-bind="props">
                 Add Filter
@@ -40,6 +41,7 @@
                 </v-card>
             </v-expand-transition>
 
+            <!-- These are buttons/actions you can press/execute that are displayed on the bottom of the card -->
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue" variant="text" @click="filterMenuOpen = false">
@@ -49,8 +51,10 @@
         </v-card>
     </v-menu>
 </template>
+
 <script>
 import { resourcesPageStore } from '@/stores/resources';
+
 export default {
     data() {
         return {
@@ -61,6 +65,7 @@ export default {
     },
 }
 </script>
+
 <style>
 .v-card--reveal {
     bottom: 0;

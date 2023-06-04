@@ -3,6 +3,7 @@
         <v-sheet v-for="(resource, i) in this.store.getResourcesByFilteredCategories" :key="i" rounded="xl"
             class="d-flex flex-wrap text-left px-3 mt-5" max-width="350" width="100%">
             <div class="ml-2 mb-2">
+                
                 <h3 class="mt-2">{{ resource.name }}</h3>
 
                 <div class="text-h7 font-weight-medium">
@@ -13,7 +14,7 @@
 
                 <div>
                     <v-chip v-for="tag in store.getResource(store.getResourceUUID(resource.name)).tags" class="mt-2 mr-2"
-                        :color="tag.colour" text-color="white">
+                        :color="tag.colour">
                         {{ tag.name }}
                     </v-chip>
                 </div>
