@@ -15,8 +15,8 @@
                     </v-form>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn href="/resources" @click="createResource">Create</v-btn>
-                    <v-btn @click="">Clear</v-btn>
+                    <v-btn @click="createResource" href="/resources">Create</v-btn>
+                    <v-btn @click="clearInput">Clear</v-btn>
                 </v-card-actions>
             </v-card>
         </v-col>
@@ -38,6 +38,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Sets all of the resource vairables back to null
+         */
         clearInput() {
             this.name = null;
             this.description = null;
@@ -45,20 +48,19 @@ export default {
             this.location = null;
             this.tags = null;
         },
+        /**
+         * Creates a resource with the supplied information
+         */
         createResource() {
-            this.store.createResource({
-                uuid: 'args',
-                name: this.name,
-                description: this.description,
-                category: this.category,
-                location: this.location,
-                tags: [
-                    {
-                        name: this.tags,
-                        colour: 'red'
-                    }
-                ]
-            })
+            this.store.createResource(
+                this.name,
+                this.description,
+                this.location,
+                [{ text: "beans", colour: "blue" }], // TODO: Still need to modify this to accept color
+                this.category
+            );
+
+            this.clearInput();
         }
     }
 }

@@ -1,10 +1,9 @@
 import { defineStore } from 'pinia'
-const resources = localStorage.getItem('resources');
-const parsedResources = resources ? JSON.parse(resources) : [];
 
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
+        api_uri: 'http://localhost:3000/resources',
         categories: [
             'Category 1',
             'Category 2',
@@ -15,7 +14,7 @@ export const resourcesPageStore = defineStore({
             'Unavailable',
         ],
         filteredAvailabilityTypes: [] as string[],
-        resources: Array.isArray(parsedResources) ? parsedResources : [] as Resource[]
+        resources: [] as any[],
     }),
     getters: {
         getCategories: (state) => state.categories,
@@ -23,13 +22,17 @@ export const resourcesPageStore = defineStore({
         getAvailabilityTypes: (state) => state.availabilityTypes,
         getFilteredAvailabilityTypes: (state) => state.filteredAvailabilityTypes,
         getResources: (state) => state.resources,
-        getResource: (state) => (uuid: string) => {
-            return state.resources.find((r: { uuid: string; }) => r.uuid === uuid);
+        // Returns a resource based on its ID
+        getResource: (state) => (id: string) => {
+            return state.resources.find((r) => r.id === id);
         },
-        getResourceUUID: (state) => (name: string) => {
-            const resource = state.resources.find((r: { name: string; }) => r.name === name);
-            return resource ? resource.uuid : '';
+        // Returns a resources ID based on its name
+        getResourceID: (state) => (name: string) => {
+            const resource = state.resources.find((r) => r.name === name);
+            return resource.id ? resource.id : '';
         },
+        // Returns a list of resources that have one of the filtered categories
+        // If there are none, it just returns all of them
         getResourcesByFilteredCategories: (state) => {
             if (state.filteredCategories.length === 0) {
                 return state.resources;
@@ -39,18 +42,13 @@ export const resourcesPageStore = defineStore({
                 );
             }
         },
-        getResourcesByCategories: (state) => (categories: string[]) => {
-            if (categories.includes('All')) {
-                return state.resources;
-            } else {
-                return state.resources.filter((r: { category: string; }) => categories.includes(r.category));
-            }
-        },
-        hasResource: (state) => (uuid: string) => {
-            return state.resources.some((r: { uuid: string; }) => r.uuid === uuid);
-        }
     },
     actions: {
+        // Fetches all resources from the API
+        async fetchResources() {
+            const res = await fetch(this.api_uri)
+            this.resources = await res.json();
+        },
         setFilteredCategories(categories: string[]) {
             this.filteredCategories = categories;
         },
@@ -60,27 +58,68 @@ export const resourcesPageStore = defineStore({
         removeCategoryFilter(category: string) {
             this.filteredCategories = this.filteredCategories.filter(c => !c.includes(category));
         },
-        createResource(resource: Resource) {
-            this.resources.push(resource);
-            localStorage.setItem('resources', JSON.stringify(this.resources));
-        },
-        updateResource(uuid: string, updates: Partial<Resource>) {
-            const resource = this.resources.find((r: { uuid: string; }) => r.uuid === uuid);
-            if (resource) {
-                Object.assign(resource, updates);
-                localStorage.setItem('resources', JSON.stringify(this.resources));
+        // Adds a new resource to the API
+        async createResource(name: string, description: string, location: string, tags: Tag[], category: string) {
+            const res = await fetch(this.api_uri, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    description: description,
+                    location: location,
+                    category: category,
+                    tags: tags
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error('Error:', res.status);
+                console.log('Response:', data);
+                return;
             }
+
+            this.resources.push(data);
         },
-        deleteResource(uuid: string) {
-            const resourceIndex = this.resources.findIndex((r: { uuid: string; }) => r.uuid === uuid);
-            if (resourceIndex !== -1) {
-                this.resources.splice(resourceIndex, 1);
-                localStorage.setItem('resources', JSON.stringify(this.resources));
+        // Updates a resource in the API
+        async updateResource(id: string, name: string, description: string, location: string, tags: string[], category: string) {
+            const res = await fetch(this.api_uri, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    description: description,
+                    location: location,
+                    tags: tags,
+                    category: category,
+                    id: id
+                })
+            });
+
+            let data = await res.json();
+
+            const resourceIndex = this.resources.findIndex(resource => resource.id === id);
+            this.resources[resourceIndex] = data;
+        },
+        // Deletes a resource from the API
+        async deleteResource(id: number) {
+            await fetch(`${this.api_uri}/${id}`, {
+                method: 'DELETE',
+            })
+            this.resources = this.resources.filter(resource => resource.id !== id);
+        },
+        // Deletes ALL resources from the API
+        // USE THIS WITH CAUTION
+        deleteAllResources() {
+            for (const resource of this.resources) {
+                this.deleteResource(resource.id);
             }
-        },
-        clearResources() {
             this.resources = [];
-            localStorage.setItem('resources', JSON.stringify(this.resources));
         }
     }
 })

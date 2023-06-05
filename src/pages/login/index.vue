@@ -8,24 +8,9 @@
           </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="login">
-              <v-text-field
-                v-model="email"
-                label="Email"
-                required
-                type="email"
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                label="Password"
-                required
-                type="password"
-              ></v-text-field>
-              <v-btn
-                type="submit"
-                color="primary"
-                class="mt-4"
-                block
-              >
+              <v-text-field v-model="email" label="Email" required type="email"></v-text-field>
+              <v-text-field v-model="password" label="Password" required type="password"></v-text-field>
+              <v-btn type="submit" color="primary" class="mt-4" block>
                 Login
               </v-btn>
             </v-form>
