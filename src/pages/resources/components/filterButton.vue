@@ -36,7 +36,7 @@
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'availability'" class="v-card--reveal">
                     <v-checkbox hide-details density="comfortable" v-for="(availability, i) in store.getAvailabilityTypes"
-                        :key="i" :value="availability" :label="availability.text"
+                        :key="i" :value="availability" :label="availability"
                         v-model="store.filteredAvailabilityTypes"></v-checkbox>
                 </v-card>
             </v-expand-transition>

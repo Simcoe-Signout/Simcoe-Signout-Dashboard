@@ -19,7 +19,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title>Governor Simcoe Resource Bookings</v-toolbar-title>
+      <v-toolbar-title>DSBN Resources Booking</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -49,7 +49,7 @@ export default {
     routeCategories() {
       return [
         {
-          header: 'Simcoe Resource Booking',
+          header: 'DSBN Resources Booking',
           routes: [
             { route: this.routes[0], icon: 'mdi-home' },
             { route: this.routes[1], icon: 'mdi-database' },
