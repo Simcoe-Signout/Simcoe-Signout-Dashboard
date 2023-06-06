@@ -57,10 +57,13 @@ export default {
      * Creates an example resource
      */
     createExampleResource() {
-      this.store.createResource("New Resource", "Description", "Location", [
-        { text: "beans1", colour: "blue" },
-        { text: "beans2", colour: "green" }
-      ], "Category 2");
+      this.store.createResource("Math Tote", "A tote filled with chromebooks that belongs to the math department. This is an example description that is longer.", "Location", [
+        { text: "Tote", colour: "orange" },
+        { text: "Math Department", colour: "blue" },
+        { text: "Beans", colour: "yellow" },
+        { text: "Beans", colour: "white" },
+        { text: "Beans", colour: "purple" },
+      ], "Category 1");
     },
     /**
      * Removes a category from the list of filtered categories

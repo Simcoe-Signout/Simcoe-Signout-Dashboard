@@ -66,7 +66,6 @@ export default {
           header: 'My Account',
           routes: [
             { route: this.routes[4], icon: 'mdi-account-circle' },
-            { route: this.routes[5], icon: 'mdi-calendar-multiselect' },
           ],
         },
       ];

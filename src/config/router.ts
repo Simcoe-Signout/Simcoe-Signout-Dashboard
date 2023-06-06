@@ -37,11 +37,6 @@ const routes: RouteRecordRaw[] = [
       layout: 'login',
     },
   },
-  {
-    path: '/my-bookings',
-    name: 'My Bookings',
-    component: Home,
-  },
 ];
 
 const router = createRouter({

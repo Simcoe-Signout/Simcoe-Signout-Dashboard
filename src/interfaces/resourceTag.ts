@@ -1,4 +1,4 @@
 interface Tag {
-    name: string;
+    text: string;
     colour: string;
 }
