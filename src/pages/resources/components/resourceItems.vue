@@ -42,17 +42,13 @@ export default {
      * @param resource The resource to retrieve the tags of (this parses them correctly)
      */
     getTags(resource) {
-      if (typeof resource.tags === 'string') {
-        try {
-          const tagsArray = JSON.parse(resource.tags.replace(/"=>"/g, '":"').replace(/"/g, '"'));
-          return tagsArray.map(tag => ({ text: tag.text, colour: tag.colour }));
-        } catch (error) {
-          console.error('Error parsing tags:', error);
-          return [];
-        }
-      } else {
-        return [];
-      }
+
+      const parsedTagsArray = resource.tags.map(item => {
+        const jsonItem = item.replace(/=>/g, ":");
+        return eval("(" + jsonItem + ")");
+      });
+
+      return parsedTagsArray
     }
   },
 };
