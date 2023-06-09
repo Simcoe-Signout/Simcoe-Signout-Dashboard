@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: 'http://localhost:3000/resources',
+        api_uri: 'http://[::1]:3000//resources',
         categories: [
             'Category 1',
             'Category 2',
@@ -85,8 +85,8 @@ export const resourcesPageStore = defineStore({
             this.resources.push(data);
         },
         // Updates a resource in the API
-        async updateResource(id: string, name: string, description: string, location: string, tags: string[], category: string) {
-            const res = await fetch(this.api_uri, {
+        async updateResource(id: string, name: string, description: string, location: string, tags: Tag[], category: string) {
+            const res = await fetch(`${this.api_uri}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

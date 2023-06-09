@@ -9,22 +9,15 @@
           {{ category }}
         </v-chip>
       </div>
-      <!-- <div class="filtered-categories">
-        Filtered Categories:
-        <span v-for="(category, i) in store.filteredCategories" :key="i">
-          {{ category }}
-          <template v-if="i !== store.getFilteredCategories.length - 1">, </template>
-        </span>
-      </div> -->
 
       <v-row no-gutters class="date-row">
         <h1>{{ formattedDate }}</h1>
       </v-row>
       <v-row no-gutters class="button-row">
-        <v-btn @click="createExampleResource">
+        <v-btn>
           <v-icon>mdi-less-than</v-icon>
         </v-btn>
-        <v-btn class="ml-2" @click="store.deleteAllResources">
+        <v-btn class="ml-2">
           <v-icon>mdi-greater-than</v-icon>
         </v-btn>
         <v-btn class="ml-6">
@@ -45,7 +38,7 @@ export default {
   data() {
     return {
       date: new Date(),
-      store: resourcesPageStore(),
+      store: resourcesPageStore()
     };
   },
   components: {
@@ -55,16 +48,17 @@ export default {
   methods: {
     /**
      * Creates an example resource
+     * Removing functionality as it's testing
      */
-    createExampleResource() {
-      this.store.createResource("Math Tote", "A tote filled with chromebooks that belongs to the math department. This is an example description that is longer.", "Location", [
-        { text: "Tote", colour: "orange" },
-        { text: "Math Department", colour: "blue" },
-        { text: "Beans", colour: "yellow" },
-        { text: "Beans", colour: "white" },
-        { text: "Beans", colour: "purple" },
-      ], "Category 1");
-    },
+    // createExampleResource() {
+    //   this.store.createResource("Math Tote", "A tote filled with chromebooks that belongs to the math department. This is an example description that is longer.", "Location", [
+    //     { text: "Tote", colour: "orange" },
+    //     { text: "Math Department", colour: "blue" },
+    //     { text: "Beans", colour: "yellow" },
+    //     { text: "Beans", colour: "white" },
+    //     { text: "Beans", colour: "purple" },
+    //   ], "Category 1");
+    // },
     /**
      * Removes a category from the list of filtered categories
      * @param category The category to remove from the list of filtered categories
@@ -91,6 +85,9 @@ export default {
       });
     }
   },
+  /**
+   * Fetches the resources from the store
+   */
   mounted() {
     this.store.fetchResources();
   },
