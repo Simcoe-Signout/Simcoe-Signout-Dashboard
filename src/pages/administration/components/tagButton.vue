@@ -11,7 +11,6 @@
             <h2 class="ml-4 mt-2 mb-2">Create Tag</h2>
             <v-divider />
 
-            <!-- Categories tab -->
             <v-expand-transition>
                 <v-card>
                     <v-text-field class="ml-2 mr-2" v-model="tagName" label="Tag Name" />

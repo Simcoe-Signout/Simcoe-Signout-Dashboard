@@ -102,10 +102,10 @@ export default {
          * Sets all of the resource vairables back to null
          */
         clearInput() {
-            this.name = null;
-            this.description = null;
-            this.category = null;
-            this.location = null;
+            this.resourceName = null;
+            this.resourceDescription = null;
+            this.resourceCategory = null;
+            this.resourceLocation = null;
             this.tagsArray = [];
             this.isEditingResource = false;
             this.currentlyEditingResource = null;
@@ -114,13 +114,13 @@ export default {
          * Creates a resource with the supplied information
          */
         createResource() {
-            this.store.createResource(
-                this.resourceName,
-                this.resourceDescription,
-                this.resourceLocation,
-                this.tagsArray,
-                this.resourceCategory
-            );
+            this.store.createResource({
+                resourceName: this.resourceName,
+                resourceDescription: this.resourceDescription,
+                resourceLocation: this.resourceLocation,
+                resourceTags: this.tagsArray,
+                resourceCategory: this.resourceCategory
+        });
 
             this.clearInput();
         },
@@ -129,10 +129,10 @@ export default {
          * @param resource The resource to edit
          */
         editResource(resource) {
-            this.name = resource.name;
-            this.description = resource.description;
-            this.category = resource.category;
-            this.location = resource.location;
+            this.resourceName = resource.name;
+            this.resourceDescription = resource.description;
+            this.resourceCategory = resource.category;
+            this.resourceLocation = resource.location;
             this.tagsArray = this.getTags(resource);
             this.isEditingResource = true;
             this.currentlyEditingResource = resource;
@@ -150,12 +150,13 @@ export default {
         updateResource(resource) {
             this.store.updateResource(
                 resource.id,
-                this.resourceName,
-                this.resourceDescription,
-                this.resourceLocation,
-                this.tagsArray,
-                this.resourceCategory
-            );
+                {
+                    resourceName: this.resourceName,
+                    resourceDescription: this.resourceDescription,
+                    resourceLocation: this.resourceLocation,
+                    resourceTags: this.tagsArray,
+                    resourceCategory: this.resourceCategory
+                });
 
             this.clearInput();
         },

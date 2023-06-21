@@ -59,18 +59,18 @@ export const resourcesPageStore = defineStore({
             this.filteredCategories = this.filteredCategories.filter(c => !c.includes(category));
         },
         // Adds a new resource to the API
-        async createResource(name: string, description: string, location: string, tags: Tag[], category: string) {
+        async createResource(resource: Resource) {
             const res = await fetch(this.api_uri, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: name,
-                    description: description,
-                    location: location,
-                    category: category,
-                    tags: tags
+                    name: resource.resourceName,
+                    description: resource.resourceDescription,
+                    location: resource.resourceLocation,
+                    category: resource.resourceCategory,
+                    tags: resource.resourceTags,
                 })
             });
 
@@ -85,18 +85,18 @@ export const resourcesPageStore = defineStore({
             this.resources.push(data);
         },
         // Updates a resource in the API
-        async updateResource(id: string, name: string, description: string, location: string, tags: Tag[], category: string) {
+        async updateResource(id: string, resource: Resource) {
             const res = await fetch(`${this.api_uri}/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    name: name,
-                    description: description,
-                    location: location,
-                    tags: tags,
-                    category: category,
+                    name: resource.resourceName,
+                    description: resource.resourceDescription,
+                    location: resource.resourceLocation,
+                    tags: resource.resourceTags,
+                    category: resource.resourceCategory,
                     id: id
                 })
             });

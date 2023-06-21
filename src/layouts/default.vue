@@ -60,12 +60,13 @@ export default {
           routes: [
             { route: this.routes[2], icon: 'mdi-lock' },
             { route: this.routes[3], icon: 'mdi-cog' },
+            { route: this.routes[4], icon: 'mdi-book-lock-open-outline'}
           ],
         },
         {
           header: 'My Account',
           routes: [
-            { route: this.routes[4], icon: 'mdi-account-circle' },
+            { route: this.routes[5], icon: 'mdi-account-circle' },
           ],
         },
       ];

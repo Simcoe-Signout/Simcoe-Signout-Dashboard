@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import App from './app.vue';
 import { createPinia } from 'pinia';
+import { setupCalendar, Calendar, DatePicker } from "v-calendar";
+import 'v-calendar/style.css'
 
 import router from './config/router';
 
@@ -33,5 +35,8 @@ const app = createApp(App);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);
+app.use(setupCalendar)
+app.component("VCalendar", Calendar)
+app.component("VDatePicker", DatePicker)
 app.component('VIcon', VIcon);
 app.mount('#app');

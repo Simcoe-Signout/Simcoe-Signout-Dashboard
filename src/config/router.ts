@@ -28,6 +28,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Edit Resources',
     component: EditResources,
   },
+  {
+    path: '/manage-bookings',
+    name: 'Bookings',
+    component: Home,
+  },
   // Account related routes (login, my resource bookings, etc.)
   {
     path: '/login',
