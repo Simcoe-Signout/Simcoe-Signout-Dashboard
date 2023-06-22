@@ -1,6 +1,7 @@
 class ResourcesController < ApplicationController
   before_action :set_resource, only: %i[ show update destroy ]
 
+
   # GET /resources
   def index
     @resources = Resource.all
