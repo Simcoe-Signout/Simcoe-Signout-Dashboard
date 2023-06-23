@@ -1,0 +1,58 @@
+{
+    "root": true,
+    "env": {
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended"
+    ],
+    "parserOptions": {
+        "parser": "@babel/eslint-parser"
+    },
+    "plugins": [
+        "vue"
+    ],
+    "rules": {
+        // Require the use of single quotes for strings
+        "quotes": [
+            "error",
+            "single"
+        ],
+        // Enforce semicolon usage
+        "semi": [
+            "error",
+            "always"
+        ],
+        // Require camelCase for variable and function names
+        "camelcase": "error",
+        // Enforce consistent spacing around keywords and blocks
+        "keyword-spacing": "error",
+        // Disallow trailing spaces at the end of lines
+        "no-trailing-spaces": "error",
+        // Require strict equality (===) over loose equality (==)
+        "eqeqeq": "error",
+        // Enforce consistent spacing inside array brackets
+        "array-bracket-spacing": "error",
+        // Require a space before and after arrow function arrows
+        "arrow-spacing": "error",
+        // Enforce curly braces for blocks, even if one line
+        "curly": "error",
+        // Enforce consistent line breaks
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        // Disallow unused variables
+        "no-unused-vars": "error",
+        // Enforce consistent function style, either `function` or arrow `=>`
+        "func-style": [
+            "error",
+            "expression"
+        ],
+        // Enforce consistent object shorthand syntax
+        "object-shorthand": "error",
+        // Disallow unnecessary `return await`
+        "no-return-await": "error"
+    }
+}
