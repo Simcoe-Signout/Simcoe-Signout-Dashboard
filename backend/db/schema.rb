@@ -35,11 +35,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_22_110623) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "full_name"
-    t.string "uid"
-    t.string "avatar_url"
-    t.string "provider"
+    t.string "full_name", default: "", null: false
     t.string "email", default: "", null: false
+    t.string "uid", default: "", null: false
+    t.text "avatar_url", default: "", null: false
+    t.string "provider", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
