@@ -5,13 +5,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.from_omniauth(auth)
 
     if user.present?
-      #sign_out_all_scopes
       puts "user: #{user}. Success! Signed in: #{user.email}"
-      #flash[:success] = t 'devise.omniauth_callbacks.success', kind: 'Google'
       sign_in user, store: false
-      render json: { auth_token: JsonWebToken.encode(user_id: user.id) }
+      auth_token = JsonWebToken.encode(user_id: user.id) # Shouldn't be storing anything else but their user_id in this! >:(
+      render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
     else
-      #flash[:alert] = t 'devise.omniauth_callbacks.failure', kind: 'Google', reason: "#{auth.info.email} is not authorized."
       puts "#{auth.info.email} is not authorized."
       redirect_to resources_path
     end

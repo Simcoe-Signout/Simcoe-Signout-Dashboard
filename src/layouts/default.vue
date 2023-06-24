@@ -30,9 +30,9 @@
 
 <script>
 import router from '@/config/router';
-import sidebarIcon from '@/components/navigation/sidebarIcon.vue';
-import sidebarItem from '@/components/navigation/sidebarItem.vue';
-import sidebarHeader from '@/components/navigation/sidebarHeader.vue';
+import sidebarIcon from '@components/sidebar/sidebarIcon.vue';
+import sidebarItem from '@components/sidebar/sidebarItem.vue';
+import sidebarHeader from '@components/sidebar/sidebarHeader.vue';
 
 export default {
   name: 'DefaultLayout',
