@@ -3,6 +3,7 @@
     <googleLoginButton class="mt-5" :click="openGoogleLoginPopup" />
 
     <h2 class="mt-5 mb-5">Your token: {{ token }}</h2>
+    <h2>Stored Token: {{ this.$cookies.get('auth_token') }}</h2>
     <div>
         <div v-if="myData != null && myData.full_name != null">
             <h2>Name: {{ myData.full_name }}</h2>
@@ -10,7 +11,7 @@
             <h2>Role: {{ myData.role }}</h2>
             <h2>Google UID: {{ myData.uid }}</h2>
         </div>
-            <h2 v-else>Data not requested! Token and data is null.</h2>
+        <h2 v-else>Data not requested! Token and data is null.</h2>
     </div>
 </template>
   
@@ -30,18 +31,16 @@ export default {
     },
     methods: {
         openGoogleLoginPopup() {
-            var popup = window.open('http://127.0.0.1:3000/users/auth/google_oauth2', '_blank', 'width=600,height=600');
+            var popup = window.open('http://localhost:3000/users/auth/google_oauth2', '_blank', 'width=600,height=600');
 
-            window.addEventListener('message', (event) => {
+            const handleMessage = (event) => {
                 this.token = event.data.auth_token;
                 this.requestData();
-            });
+                console.log(this.$cookies.get('auth_token'));
+                window.removeEventListener('message', handleMessage);
+            };
 
-            var intervalId = setInterval(() => {
-                if (popup.closed) {
-                    clearInterval(intervalId);
-                }
-            }, 500);
+            window.addEventListener('message', handleMessage);
         },
         async requestData() {
             const decoded_token = VueJwtDecode.decode(this.token);
@@ -52,9 +51,7 @@ export default {
                     'Authorization': `${this.token}`
                 },
             });
-
             const data = await res.json();
-
             this.myData = data;
         }
     },

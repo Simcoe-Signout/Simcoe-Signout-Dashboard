@@ -1,5 +1,6 @@
 class ResourceBookingsController < ApplicationController
   before_action :set_resource_booking, only: %i[ show update destroy ]
+  skip_before_action :authenticate_request
 
   # GET /resource_bookings
   def index

@@ -11,27 +11,42 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: 'Home',
     component: Home,
+    meta: {
+      requiredRole: 'member'
+    }
   },
   {
     path: '/resources',
     name: 'Resources',
     component: Resources,
+    meta: {
+      requiredRole: 'member'
+    }
   },
   // Administration only routes (developers and managers)
   {
     path: '/manage-users',
     name: 'Manage Users',
     component: Home,
+    meta: {
+      requiredRole: 'administrator'
+    }
   },
   {
     path: '/edit-resources',
     name: 'Edit Resources',
     component: EditResources,
+    meta: {
+      requiredRole: 'administrator'
+    }
   },
   {
     path: '/manage-bookings',
     name: 'Bookings',
     component: Home,
+    meta: {
+      requiredRole: 'administrator'
+    }
   },
   // Account related routes (login, my resource bookings, etc.)
   {
@@ -40,6 +55,7 @@ const routes: RouteRecordRaw[] = [
     component: LoginPage,
     meta: {
       layout: 'login',
+      requiredRole: 'member'
     },
   },
 ];

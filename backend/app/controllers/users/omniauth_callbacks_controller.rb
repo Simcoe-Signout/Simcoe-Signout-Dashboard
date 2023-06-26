@@ -1,3 +1,4 @@
+include ActionController::Cookies
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   skip_before_action :authenticate_request
 
@@ -8,7 +9,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       puts "user: #{user}. Success! Signed in: #{user.email}"
       sign_in user, store: false
       auth_token = JsonWebToken.encode(user_id: user.id) # Shouldn't be storing anything else but their user_id in this! >:(
+        cookies[:auth_token] = {
+          value: auth_token,
+          domain: 'localhost', # SET THIS TO YOUR FRONTEND ADDRESS
+          httpOnly: true,
+          secure: true,
+          expires: 30.minutes # This should be set the expiry time of the JWT, we mine as well automatically clear it from cookies when it expires!
+        }
+        
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
+      puts "auth_token: #{cookies[:auth_token]}"
     else
       puts "#{auth.info.email} is not authorized."
       redirect_to resources_path
