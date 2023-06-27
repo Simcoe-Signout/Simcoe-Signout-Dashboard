@@ -4,7 +4,8 @@ import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
 import Home from '@pages/home/index.vue';
 import LoginPage from '@pages/login/index.vue';
 import Resources from '@pages/resources/index.vue';
-import EditResources from '@pages/administration/index.vue';
+import EditResources from '@pages/administration/editResources.vue';
+import ManageUsers from '@pages/administration/manageUsers.vue';
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
 import { inject } from 'vue';
@@ -31,7 +32,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/manage-users',
     name: 'Manage Users',
-    component: Home,
+    component: ManageUsers,
     meta: {
       requiredRole: 'administrator'
     }
@@ -69,7 +70,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  //const isLoggedIn = false;
   const authentication = authenticationStore();
   const $cookies = inject<VueCookies>('$cookies'); 
 

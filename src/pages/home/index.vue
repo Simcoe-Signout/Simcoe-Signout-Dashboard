@@ -1,8 +1,8 @@
 <template>
     <h1>Ian wuz here lol beans</h1>
-    <googleLoginButton class="mt-5" :click="openGoogleLoginPopup" />
+    <!-- <googleLoginButton class="mt-5" :click="openGoogleLoginPopup" />
 
-    <!-- <h2 class="mt-5 mb-5">Your token: {{ token }}</h2> -->
+    <h2 class="mt-5 mb-5">Your token: {{ token }}</h2>
     <h2>Stored Token: {{ this.$cookies.get('auth_token') }}</h2>
     <div>
         <div v-if="myData != null && myData.full_name != null">
@@ -12,10 +12,10 @@
             <h2>Google UID: {{ myData.uid }}</h2>
         </div>
         <h2 v-else>Data not requested! Token and data is null.</h2>
-    </div>
+    </div> -->
 </template>
   
-<script>
+<!-- <script>
 import googleLoginButton from '@components/authentication/googleLoginButton.vue';
 import VueJwtDecode from 'vue-jwt-decode'
 import { authenticationStore } from '@/stores/authentication.ts'
@@ -55,5 +55,5 @@ export default {
     }
   }
 };
-</script>
+</script> -->
   

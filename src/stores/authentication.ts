@@ -9,6 +9,8 @@ export const authenticationStore = defineStore({
     }),
     getters: {
         // TODO
+        getUserID: (state) => state.userID,
+        getUserRole: (state) => state.userRole,
     },
     actions: {
         // TODO
@@ -29,6 +31,18 @@ export const authenticationStore = defineStore({
             this.userRole = data.role;
             localStorage.setItem('userRole', data.role);
             
+            return data;
+        },
+        async getAllUsers() {
+            if (this.userRole !== 'administrator') {
+                throw console.warn('User does not have permission to access this resource');
+            }
+
+            const response = await fetch(`${this.api_uri}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            const data = await response.json()
             return data;
         },
         setUserID(id: number) {
