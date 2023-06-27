@@ -3,7 +3,7 @@ import App from './app.vue';
 import { createPinia } from 'pinia';
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';
-import VueCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies';
 
 import router from './config/router';
 

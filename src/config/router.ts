@@ -68,7 +68,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   //const isLoggedIn = false;
   const authentication = authenticationStore();
   const $cookies = inject<VueCookies>('$cookies'); 
