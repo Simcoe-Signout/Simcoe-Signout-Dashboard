@@ -29,8 +29,7 @@ export const authenticationStore = defineStore({
                 credentials: 'include'
             })
             const data = await response.json()
-            this.userRole = data.role;
-            localStorage.setItem('userRole', data.role);
+            this.setUserRole(data.role);
 
             return data;
         },
