@@ -1,6 +1,6 @@
 class ResourcesController < ApplicationController
   before_action :set_resource, only: %i[ show update destroy ]
-
+  before_action :authenticate_admin, only: %i[create update destroy]
 
   # GET /resources
   def index
@@ -49,4 +49,10 @@ class ResourcesController < ApplicationController
     def resource_params
       params.require(:resource).permit(:id, :name, :description, :location, :category, tags: [:text, :colour])
     end
+
+    def authenticate_admin
+      unless current_user && current_user.role == "administrator"
+        render json: { error: 'User does not have permission to access this endpoint.' }, status: :forbidden
+      end
+    end  
 end

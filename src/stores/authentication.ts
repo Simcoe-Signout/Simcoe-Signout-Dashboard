@@ -1,3 +1,4 @@
+import router from '@/config/router';
 import { defineStore } from 'pinia'
 
 export const authenticationStore = defineStore({
@@ -30,14 +31,10 @@ export const authenticationStore = defineStore({
             const data = await response.json()
             this.userRole = data.role;
             localStorage.setItem('userRole', data.role);
-            
+
             return data;
         },
         async getAllUsers() {
-            if (this.userRole !== 'administrator') {
-                throw console.warn('User does not have permission to access this resource');
-            }
-
             const response = await fetch(`${this.api_uri}`, {
                 method: 'GET',
                 credentials: 'include'
@@ -45,9 +42,36 @@ export const authenticationStore = defineStore({
             const data = await response.json()
             return data;
         },
+        updateUser(id: number, user: User) {
+            fetch(`${this.api_uri}/${id}`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    full_name: user.full_name,
+                    email: user.email,
+                    role: user.role,
+                    uid: user.uid,
+                    avatar_url: user.avatar_url,
+                })
+            })
+
+            if (id === this.userID) {
+                this.setUserRole(user.role);
+                if (user.role === 'member') {
+                    router.push({ name: 'Home' });
+                }
+            }
+        },
         setUserID(id: number) {
             this.userID = id;
             localStorage.setItem('userID', id.toString());
+        },
+        setUserRole(role: string) {
+            this.userRole = role;
+            localStorage.setItem('userRole', role);
         }
     },
 })

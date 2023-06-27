@@ -1,5 +1,6 @@
 class ResourceBookingsController < ApplicationController
   before_action :set_resource_booking, only: %i[ show update destroy ]
+  before_action :authenticate_admin, only: %i[index show update destroy]
 
   # GET /resource_bookings
   def index
@@ -48,4 +49,10 @@ class ResourceBookingsController < ApplicationController
     def resource_booking_params
       params.require(:resource_booking).permit(:id, :bookedBy, :resourceName, { bookingDates: [:date, :period, :periodLength] }, :destination, :comments)
     end
+
+    def authenticate_admin
+      unless current_user && current_user.role == "administrator"
+        render json: { error: 'User does not have permission to access this endpoint.' }, status: :forbidden
+      end
+    end  
 end
