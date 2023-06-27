@@ -6,7 +6,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user = User.from_omniauth(auth)
 
     if user.present?
-      puts "user: #{user}. Success! Signed in: #{user.email}"
       sign_in user, store: false
       auth_token = JsonWebToken.encode(user_id: user.id) # Shouldn't be storing anything else but their user_id in this! >:(
         cookies[:auth_token] = {
@@ -18,7 +17,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         }
         
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
-      puts "auth_token: #{cookies[:auth_token]}"
     else
       puts "#{auth.info.email} is not authorized."
       redirect_to resources_path
