@@ -52,8 +52,7 @@
 
             <v-expand-transition>
                 <v-card v-if="bookingPhaseIndex == 1" class="v-card--reveal">
-                    <v-text-field clearable class="ml-7 mt-4 mr-7" hint="The destination it's going to (ex. 207D, 130)" v-model="destination" label="Destination"/>
-                    <h4 class="ml-7 mb-4 mr-7">Resource Location: {{ resource.location }}</h4>
+                    <v-text-field clearable class="ml-7 mt-4 mr-7 mb-3" hint="The destination it's going to (ex. 207D, 130)" v-model="destination" label="Destination"/>
                 </v-card>
             </v-expand-transition>
 
@@ -64,13 +63,13 @@
             </v-expand-transition>
 
             <v-expand-transition>
-                <v-card v-if="bookingPhaseIndex == 3" class="v-card--reveal">
+                <v-card v-if="bookingPhaseIndex == 3" class="v-card--reveal ml-3 mt-3" max-width="350">
                     <h3>Selected Dates:</h3>
-                    <h2 v-for="date in selectedDates">{{ date.id }}</h2>
-                    <h3>Selected Period: {{ selectedPeriod }}</h3>
-                    <h3>Period Length: {{ periodLength }}</h3>
-                    <h3>Destination: {{ destination }}</h3>
-                    <h3>Comments: {{ comments }}</h3>
+                    <v-chip v-for="date in selectedDates" color="blue" class="mr-2 mt-2">{{ date.id }}</v-chip>
+                    <h3 class="mt-2">Selected Period: <span class="font-weight-regular">{{ selectedPeriod }}</span></h3>
+                    <h3 class="mt-2">Period Length: <span class="font-weight-regular">{{ periodLength }}</span></h3>
+                    <h3 class="mt-2">Destination: <span class="font-weight-regular">{{ destination }}</span></h3>
+                    <h3 class="mt-2 mb-3">Comments: <span class="font-weight-regular">{{ comments }}</span></h3>
                 </v-card>
             </v-expand-transition>
 
