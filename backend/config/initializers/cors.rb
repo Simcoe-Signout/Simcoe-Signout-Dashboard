@@ -7,11 +7,12 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "localhost" # SET THIS TO YOUR FRONTEND ADDRESS
+    origins "http://localhost:5173" # This should be set to your frontend URL when deploying to production!
 
     resource "*",
       headers: :any,
       methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      expose: ['access-token', 'expiry', 'token-type', 'Authorization']
+      expose: ['access-token', 'expiry', 'token-type', 'Authorization'],
+      credentials: true
   end
 end

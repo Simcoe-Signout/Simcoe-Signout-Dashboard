@@ -2,7 +2,7 @@
     <h1>Ian wuz here lol beans</h1>
     <googleLoginButton class="mt-5" :click="openGoogleLoginPopup" />
 
-    <h2 class="mt-5 mb-5">Your token: {{ token }}</h2>
+    <!-- <h2 class="mt-5 mb-5">Your token: {{ token }}</h2> -->
     <h2>Stored Token: {{ this.$cookies.get('auth_token') }}</h2>
     <div>
         <div v-if="myData != null && myData.full_name != null">
@@ -18,43 +18,42 @@
 <script>
 import googleLoginButton from '@components/authentication/googleLoginButton.vue';
 import VueJwtDecode from 'vue-jwt-decode'
+import { authenticationStore } from '@/stores/authentication.ts'
 export default {
     name: 'Home',
     data() {
         return {
-            token: null,
-            myData: null
+            myData: null,
+            authentication: authenticationStore(),
         };
     },
     components: {
         googleLoginButton
     },
     methods: {
-        openGoogleLoginPopup() {
-            var popup = window.open('http://localhost:3000/users/auth/google_oauth2', '_blank', 'width=600,height=600');
+    openGoogleLoginPopup() {
+      var popup = window.open('http://localhost:3000/users/auth/google_oauth2', '_blank', 'width=600,height=600');
 
-            const handleMessage = (event) => {
-                this.token = event.data.auth_token;
-                this.requestData();
-                console.log(this.$cookies.get('auth_token'));
-                window.removeEventListener('message', handleMessage);
-            };
+      const handleMessage = async (event) => {
+        const decoded_token = VueJwtDecode.decode(this.$cookies.get('auth_token'));
+        this.authentication.setUserID(decoded_token.user_id);
 
-            window.addEventListener('message', handleMessage);
-        },
-        async requestData() {
-            const decoded_token = VueJwtDecode.decode(this.token);
-            const res = await fetch(`http://127.0.0.1:3000/users/${decoded_token.user_id}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `${this.token}`
-                },
-            });
-            const data = await res.json();
-            this.myData = data;
-        }
+        this.myData = await this.authentication.requestUserData();
+
+        window.removeEventListener('message', handleMessage);
+
+        // NAvigate the user to the home page
+        this.$router.push({ name: 'Home' });
+      };
+
+      window.addEventListener('message', handleMessage);
     },
+  },
+  async mounted()  {
+    if (this.$cookies.get('auth_token') != null) {
+      this.myData = await this.authentication.requestUserData();
+    }
+  }
 };
 </script>
   

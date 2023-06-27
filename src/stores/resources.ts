@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: 'http://[::1]:3000//resources',
+        api_uri: 'http://localhost:3000/resources',
         categories: [
             'Category 1',
             'Category 2',
@@ -46,7 +46,10 @@ export const resourcesPageStore = defineStore({
     actions: {
         // Fetches all resources from the API
         async fetchResources() {
-            const res = await fetch(this.api_uri)
+            const res = await fetch(this.api_uri, {
+                    method: 'GET',
+                    credentials: 'include'
+            })
             this.resources = await res.json();
         },
         setFilteredCategories(categories: string[]) {
@@ -62,8 +65,9 @@ export const resourcesPageStore = defineStore({
         async createResource(resource: Resource) {
             const res = await fetch(this.api_uri, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     name: resource.resourceName,
@@ -88,8 +92,9 @@ export const resourcesPageStore = defineStore({
         async updateResource(id: string, resource: Resource) {
             const res = await fetch(`${this.api_uri}/${id}`, {
                 method: 'PUT',
+                credentials: 'include',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     name: resource.resourceName,
@@ -110,6 +115,7 @@ export const resourcesPageStore = defineStore({
         async deleteResource(id: number) {
             await fetch(`${this.api_uri}/${id}`, {
                 method: 'DELETE',
+                credentials: 'include'
             })
             this.resources = this.resources.filter(resource => resource.id !== id);
         },

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const bookingsStore = defineStore({
     id: 'bookings',
     state: () => ({
-        api_uri: 'http://[::1]:3000//resource_bookings',
+        api_uri: 'http://localhost:3000/resource_bookings',
         validPeriods: [1, 2, 3, 4, 5],
         validPeriodLengths: ["Full Period", "Half Period"],
         bookings: [] as any[],
@@ -26,13 +26,17 @@ export const bookingsStore = defineStore({
     actions: {
         // Fetches all bookings from the API
         async fetchBookings() {
-            const res = await fetch(this.api_uri)
+            const res = await fetch(this.api_uri, {
+                method: 'GET',
+                credentials: 'include'
+            })
             this.bookings = await res.json();
         },
         // Creates a new booking
         async createBooking(booking: ResourceBooking) {
             const res = await fetch(this.api_uri, {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -52,6 +56,7 @@ export const bookingsStore = defineStore({
         async deleteBooking(id: string) {
             await fetch(`${this.api_uri}/${id}`, {
                 method: 'DELETE',
+                credentials: 'include'
             });
             this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
         }
