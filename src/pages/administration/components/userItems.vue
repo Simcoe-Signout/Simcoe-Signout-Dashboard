@@ -34,7 +34,7 @@
                         </h2>
                         <h2 v-else class="mt-3 blue-text">Member (ID: {{ user.id }})</h2>
 
-                        <h5>Created {{ user.created_at }}</h5>
+                        <h5>Created {{ getISO8601Date(user.created_at) }} at {{ getISO8601Time(user.created_at) }}</h5>
                     </div>
                 </v-sheet>
 
