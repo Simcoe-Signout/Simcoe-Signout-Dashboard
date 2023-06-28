@@ -60,7 +60,7 @@
                                 <v-icon class="mr-3">mdi-pencil</v-icon>
                                 <h3>Edit</h3>
                             </v-btn>
-                            <v-btn color="red" variant="elevated" @click="store.deleteResource(resource.id)">
+                            <v-btn color="red" variant="elevated" @click="showConfirmation(resource)">
                                 <v-icon class="mr-3">mdi-delete</v-icon>
                                 <h3>Delete</h3>
                             </v-btn>
@@ -68,9 +68,23 @@
 
                     </div>
                 </v-sheet>
+
+                <v-dialog v-model="showConfirmationDialog" @click:outside="hidePopup" max-width="500">
+                    <v-card>
+                        <v-card-title class="headline">Delete Resource Confirmation</v-card-title>
+                        <v-card-text>
+                            <p>Are you sure you want to delete {{ stagedDeletionResource.name }}? (ID: {{ stagedDeletionResource.id }})</p>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="red" text @click="hidePopup">Cancel</v-btn>
+                            <v-btn color="green" text @click="confirmDelete">Confirm</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
             </v-col>
         </v-row>
-
     </v-row>
 </template>
 
@@ -94,7 +108,10 @@ export default {
             currentlyEditingResource: null,
             tagMenuOpen: false,
             tagsArray: [],
-            store: resourcesPageStore()
+            store: resourcesPageStore(),
+
+            showConfirmationDialog: false,
+            stagedDeletionResource: null
         }
     },
     methods: {
@@ -181,6 +198,17 @@ export default {
             if (index !== -1) {
                 this.tagsArray.splice(index, 1);
             }
+        },
+        showConfirmation(resource) {
+            this.stagedDeletionResource = resource;
+            this.showConfirmationDialog = true;
+        },
+        hidePopup() {
+            this.showConfirmationDialog = false;
+        },
+        confirmDelete() {
+            this.store.deleteResource(this.stagedDeletionResource.id)
+            this.hidePopup();
         }
     },
     /**
