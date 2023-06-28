@@ -9,23 +9,8 @@ import { authenticationStore } from '@/stores/authentication.ts';
 import userItems from './components/userItems.vue';
 
 export default {
-    data() {
-        return {
-            users: [],
-            authentication: authenticationStore(),
-        }
-    },
-    methods: {
-        async getAllUsers() {
-            const users = await this.authentication.getAllUsers();
-            this.users = users;
-        }
-    },
     components: {
         userItems
-    },
-    async mounted() {
-        await this.getAllUsers();
     }
 }
 </script>

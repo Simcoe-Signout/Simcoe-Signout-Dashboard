@@ -94,7 +94,6 @@ export default {
             this.showConfirmationDialog = false;
         },
         async confirmRoleUpdate() {
-            if (this.selectedUser) {
                 this.authenticationStore.updateUser(
                     this.selectedUser.id,
                     {
@@ -104,7 +103,6 @@ export default {
                         avatar_url: this.selectedUser.avatar_url,
                     }
                 );
-            }
             this.hidePopup();
             await this.getAllUsers();
         },
