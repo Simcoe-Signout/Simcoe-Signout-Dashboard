@@ -8,8 +8,12 @@ class UsersController < ApplicationController
   end
 
   def show
-    render json: @user
-  end
+    if current_user && current_user.id == params[:id].to_i
+      render json: @user
+    else
+      render json: { error: 'User does not have permission to access this user.' }, status: :forbidden
+    end
+  end  
 
   def update
     if @user.update(user_params)
