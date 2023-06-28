@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2023_06_21_150941) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "adminpack"
   enable_extension "plpgsql"
 
   create_table "resource_bookings", force: :cascade do |t|

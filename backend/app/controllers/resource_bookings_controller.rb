@@ -47,7 +47,7 @@ class ResourceBookingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def resource_booking_params
-      params.require(:resource_booking).permit(:id, :bookedBy, :resourceName, { bookingDates: [:date, :period, :periodLength] }, :destination, :comments)
+      params.require(:resource_booking).permit(:id, :bookedBy, :resourceName, { bookingDates: [:date, :period] }, :destination, :comments)
     end
 
     def authenticate_admin

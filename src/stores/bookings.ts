@@ -5,13 +5,11 @@ export const bookingsStore = defineStore({
     state: () => ({
         api_uri: 'http://localhost:3000/resource_bookings',
         validPeriods: [1, 2, 3, 4, 5],
-        validPeriodLengths: ["Full Period", "Half Period"],
         bookings: [] as any[],
     }),
     getters: {
         getValidPeriods: (state) => state.validPeriods,
         getBookings: (state) => state.bookings,
-        getValidPeriodLengths: (state) => state.validPeriodLengths,
         // TODO
         getAvailablePeriodsForResourceOnDate: (state) => (resourceName: string, date: string) => {
             const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);

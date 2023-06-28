@@ -23,21 +23,11 @@
                     <v-row class="text-center align-center justify-center">
                         <v-col>
                             <h2>Select Your Days</h2>
-                            <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5" />
+                            <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5"/>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="bookingsStore.getValidPeriods" label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
-                                    <v-list>
-                                        <v-list-item v-for="(item, index) in items" :key="index">
-                                            <v-list-item-title>{{ item.title }}</v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
-                                
-                                <v-select class="ml-7 mr-7" v-model="periodLength"
-                                    :items="bookingsStore.getValidPeriodLengths" label="Period Length"></v-select>
-                                <v-menu :period="periodLength">
                                     <v-list>
                                         <v-list-item v-for="(item, index) in items" :key="index">
                                             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -67,7 +57,6 @@
                     <h3>Selected Dates:</h3>
                     <v-chip v-for="date in selectedDates" color="blue" class="mr-2 mt-2">{{ date.id }}</v-chip>
                     <h3 class="mt-2">Selected Period: <span class="font-weight-regular">{{ selectedPeriod }}</span></h3>
-                    <h3 class="mt-2">Period Length: <span class="font-weight-regular">{{ periodLength }}</span></h3>
                     <h3 class="mt-2">Destination: <span class="font-weight-regular">{{ destination }}</span></h3>
                     <h3 class="mt-2 mb-3">Comments: <span class="font-weight-regular">{{ comments }}</span></h3>
                 </v-card>
@@ -133,7 +122,6 @@ export default {
             // When
             selectedDates: [],
             selectedPeriod: null,
-            periodLength: null,
             
             // Where
             destination: null,
@@ -160,7 +148,6 @@ export default {
             this.bookingPhaseIndex = 0;
             this.selectedDates = [];
             this.selectedPeriod = null;
-            this.periodLength = null;
             this.destination = null;
             this.comments = null;
         },
@@ -184,7 +171,7 @@ export default {
             this.bookingsStore.createBooking({
                 bookedBy: "Ian Tapply",
                 resourceName: resource.name,
-                bookingDates: [{date: this.selectedDates[0].id, period: this.selectedPeriod, periodLength: this.periodLength}],
+                bookingDates: [{ date: this.selectedDates[0].id, period: this.selectedPeriod }],
                 destination: this.destination,
                 comments: this.comments,
             })
