@@ -13,7 +13,6 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
-import { VIcon } from 'vuetify/components';
 
 const vuetify = createVuetify({
     icons: {
@@ -40,5 +39,4 @@ app.use(setupCalendar);
 app.use(VueCookies);
 app.component('VCalendar', Calendar);
 app.component('VDatePicker', DatePicker);
-app.component('VIcon', VIcon);
 app.mount('#app');

@@ -3,14 +3,14 @@
     <v-navigation-drawer v-model="drawer">
       <template v-for="routeCategory in routeCategories" :key="routeCategory.header">
         <sidebarHeader :name="routeCategory.header" />
-        <v-list-item-group>
+        <v-item-group>
           <template v-for="route in routeCategory.routes" :key="route.name">
             <v-list-item>
               <sidebarIcon :icon="route.icon" />
               <sidebarItem :name="route.route.name" :href="route.route.path" />
             </v-list-item>
           </template>
-        </v-list-item-group>
+        </v-item-group>
       </template>
     </v-navigation-drawer>
 

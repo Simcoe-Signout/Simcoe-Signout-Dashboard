@@ -8,7 +8,7 @@ class ResourceBookingsController < ApplicationController
 
     render json: @resource_bookings
   end
-
+  
   # GET /resource_bookings/1
   def show
     render json: @resource_booking

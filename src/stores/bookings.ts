@@ -10,15 +10,28 @@ export const bookingsStore = defineStore({
     getters: {
         getValidPeriods: (state) => state.validPeriods,
         getBookings: (state) => state.bookings,
-        // TODO
-        getAvailablePeriodsForResourceOnDate: (state) => (resourceName: string, date: string) => {
+        getBookingsForResourceOnDate: (state) => (resourceName: string, date: string) => {
             const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
-            const periods = [1, 2, 3, 4, 5, 6, 7, 8];
-            const availablePeriods = periods.filter((period) => {
-                const booking = bookings.find((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.date === date && bookingDate.period === period));
-                return !booking;
+            const filteredBookings = bookings.filter((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.date === date));
+            return filteredBookings;
+        },
+        getBookingsForResource: (state) => (resourceName: string) => {
+            const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
+            return bookings;
+        },
+        getBookingsWithDates: (state) => (date: string) => {
+            const bookings = state.bookings.filter((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.date === date));
+            return bookings;
+        },
+        getBookingsInDateRange: (state) => (startDate: string, endDate: string) => {
+            const bookings = state.bookings.filter((booking: ResourceBooking) => {
+                // check if any of the dates within the bookingdates array are the same as the start or end date
+                const bookingDates = booking.bookingDates.filter((bookingDate: BookingDate) => {
+                    return bookingDate.date === startDate || bookingDate.date === endDate;
+                })
+                return bookingDates;
             });
-            return availablePeriods;
+            return bookings;
         }
     },
     actions: {
@@ -29,6 +42,7 @@ export const bookingsStore = defineStore({
                 credentials: 'include'
             })
             this.bookings = await res.json();
+            console.log(this.getBookingsWithDates('2023-06-01'));
         },
         // Creates a new booking
         async createBooking(booking: ResourceBooking) {
