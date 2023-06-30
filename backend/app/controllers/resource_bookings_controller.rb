@@ -4,10 +4,21 @@ class ResourceBookingsController < ApplicationController
 
   # GET /resource_bookings
   def index
-    @resource_bookings = ResourceBooking.all
-
+    if params[:date]
+      target_date = params[:date]
+      @resource_bookings = ResourceBooking.select do |booking|
+        booking.bookingDates.any? do |bd_string|
+          bd_date = bd_string.match(/\"date\"=>\"([^"]+)\"/)&.captures&.first # Very goofy way to extract the date from the string
+          booking_date = Date.parse(bd_date)
+          booking_date == Date.parse(target_date)
+        end
+      end
+    else
+      @resource_bookings = ResourceBooking.all
+    end
+  
     render json: @resource_bookings
-  end
+  end  
   
   # GET /resource_bookings/1
   def show
@@ -40,6 +51,7 @@ class ResourceBookingsController < ApplicationController
   end
 
   private
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_resource_booking
       @resource_booking = ResourceBooking.find(params[:id])
@@ -48,7 +60,7 @@ class ResourceBookingsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def resource_booking_params
       params.require(:resource_booking).permit(:id, :bookedBy, :resourceName, { bookingDates: [:date, :period] }, :destination, :comments)
-    end
+    end    
 
     def authenticate_admin
       unless current_user && current_user.role == "administrator"

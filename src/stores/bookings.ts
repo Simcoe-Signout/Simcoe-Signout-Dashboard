@@ -19,20 +19,6 @@ export const bookingsStore = defineStore({
             const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
             return bookings;
         },
-        getBookingsWithDates: (state) => (date: string) => {
-            const bookings = state.bookings.filter((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.date === date));
-            return bookings;
-        },
-        getBookingsInDateRange: (state) => (startDate: string, endDate: string) => {
-            const bookings = state.bookings.filter((booking: ResourceBooking) => {
-                // check if any of the dates within the bookingdates array are the same as the start or end date
-                const bookingDates = booking.bookingDates.filter((bookingDate: BookingDate) => {
-                    return bookingDate.date === startDate || bookingDate.date === endDate;
-                })
-                return bookingDates;
-            });
-            return bookings;
-        }
     },
     actions: {
         // Fetches all bookings from the API
@@ -42,7 +28,14 @@ export const bookingsStore = defineStore({
                 credentials: 'include'
             })
             this.bookings = await res.json();
-            console.log(this.getBookingsWithDates('2023-06-01'));
+        },
+        async fetchBookingsForDate(date: string) {
+            const res = await fetch(`${this.api_uri}?date=${date}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            const bookings = await res.json();
+            return bookings;
         },
         // Creates a new booking
         async createBooking(booking: ResourceBooking) {

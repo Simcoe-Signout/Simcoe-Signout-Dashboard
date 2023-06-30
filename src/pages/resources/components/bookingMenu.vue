@@ -26,7 +26,7 @@
                             <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5"/>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
-                                    :items="bookingsStore.getAvailablePeriodsForResourceOnDate(resource.name, selectedDates[0].id)" label="Period"></v-select>
+                                    :items="bookingsStore.getValidPeriods" label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
                                         <v-list-item v-for="(item, index) in items" :key="index">
