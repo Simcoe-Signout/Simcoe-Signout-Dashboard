@@ -12,9 +12,12 @@
             <!-- Navigation buttons -->
             <v-list>
                 <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 0">When</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 1">Where</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 2">Comments</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 3">Review</v-btn>
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                    @click="bookingPhaseIndex = 1">Where</v-btn>
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                    @click="bookingPhaseIndex = 2">Comments</v-btn>
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                    @click="bookingPhaseIndex = 3">Review</v-btn>
             </v-list>
             <v-divider />
 
@@ -23,10 +26,10 @@
                     <v-row class="text-center align-center justify-center">
                         <v-col>
                             <h2>Select Your Days</h2>
-                            <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5"/>
+                            <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5" />
                             <div v-if="selectedDates.length != 0">
-                                <v-select class="ml-7 mr-7" v-model="selectedPeriod"
-                                    :items="bookingsStore.getValidPeriods" label="Period"></v-select>
+                                <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getValidPeriods"
+                                    label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
                                         <v-list-item v-for="(item, index) in items" :key="index">
@@ -42,13 +45,15 @@
 
             <v-expand-transition>
                 <v-card v-if="bookingPhaseIndex == 1" class="v-card--reveal">
-                    <v-text-field clearable class="ml-7 mt-4 mr-7 mb-3" hint="The destination it's going to (ex. 207D, 130)" v-model="destination" label="Destination"/>
+                    <v-text-field clearable class="ml-7 mt-4 mr-7 mb-3" hint="The destination it's going to (ex. 207D, 130)"
+                        v-model="destination" label="Destination" />
                 </v-card>
             </v-expand-transition>
 
             <v-expand-transition>
                 <v-card v-if="bookingPhaseIndex == 2" class="v-card--reveal">
-                    <v-text-field clearable class="ml-7 mt-4 mb-4 mr-7" hint="Any comments regarding the booking" v-model="comments" label="Comments"/>
+                    <v-text-field clearable class="ml-7 mt-4 mb-4 mr-7" hint="Any comments regarding the booking"
+                        v-model="comments" label="Comments" />
                 </v-card>
             </v-expand-transition>
 
@@ -88,6 +93,7 @@
 <script>
 import { resourcesPageStore } from '@/stores/resources';
 import { bookingsStore } from '@/stores/bookings';
+import { authenticationStore } from '@/stores/authentication';
 
 const validPhases = ["when", "where", "comments", "review"];
 
@@ -113,6 +119,7 @@ export default {
     data() {
         return {
             bookingsStore: bookingsStore(),
+            authenticationStore: authenticationStore(),
             bookingMenuOpen: [],
             date: new Date(),
             bookingPhaseIndex: 0,
@@ -122,7 +129,7 @@ export default {
             // When
             selectedDates: [],
             selectedPeriod: null,
-            
+
             // Where
             destination: null,
 
@@ -144,7 +151,7 @@ export default {
         /**
          * Resets all variables related to the booking process (phase index, selected dates, etc.)
         */
-       resetAllVariables() {
+        resetAllVariables() {
             this.bookingPhaseIndex = 0;
             this.selectedDates = [];
             this.selectedPeriod = null;
@@ -167,20 +174,26 @@ export default {
         /**
          * Books the resource
          */
-        bookResource(resource, index) {
+        async bookResource(resource, index) {
             const bookingDates = [];
-            for (let i = 0; i < this.selectedDates.length; i++) {
-                bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
+            try {
+                const userData = await this.authenticationStore.requestUserData();
+                for (let i = 0; i < this.selectedDates.length; i++) {
+                    bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
+                }
+                this.bookingsStore.createBooking({
+                    bookedBy: userData.full_name,
+                    resourceName: resource.name,
+                    bookingDates: bookingDates,
+                    destination: this.destination,
+                    comments: this.comments,
+                });
+                this.resetAllVariables();
+                this.closeBookingMenu(index);
+            } catch (error) {
+                // Handle the error appropriately
+                console.error('Error occurred during booking:', error);
             }
-            this.bookingsStore.createBooking({
-                bookedBy: "Ian Tapply",
-                resourceName: resource.name,
-                bookingDates: bookingDates,
-                destination: this.destination,
-                comments: this.comments,
-            })
-            this.resetAllVariables();
-            this.closeBookingMenu(index);
         },
         /**
          * Move to next phase of booking
@@ -264,7 +277,7 @@ export default {
         },
     },
     async mounted() {
-        console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-03", "2023-06-08"))
+        console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-23", "2023-06-23"))
     }
 }
 </script>
@@ -275,5 +288,4 @@ export default {
     opacity: 1 !important;
     position: absolute;
     width: 100%;
-}
-</style>
+}</style>
