@@ -17,8 +17,9 @@ export const bookingsStore = defineStore({
         },
         getBookingsForResource: (state) => (resourceName: string) => {
             const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
+            console.log(bookings);
             return bookings;
-        },
+        }
     },
     actions: {
         // Fetches all bookings from the API
@@ -34,9 +35,43 @@ export const bookingsStore = defineStore({
                 method: 'GET',
                 credentials: 'include'
             })
-            const bookings = await res.json();
-            return bookings;
+            return await res.json();
         },
+        async getAvailablePeriodsFromBookings(resourceName: string, start_date: string, end_date: string) {
+            const res = await fetch(`${this.api_uri}?start_date=${start_date}&end_date=${end_date}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            console.log(await res.json());
+
+            return this.validPeriods;
+          
+            // const bookedPeriods = bookings.filter((booking) => {
+            //     return (
+            //       booking.resourceName === resourceName &&
+            //       booking.bookingDates.some((bookingDate) => {
+            //         const bookingDateObj = JSON.parse(bookingDate.replace(/=>/g, ':'));
+            //         const bookingDate2 = bookingDateObj.date;
+            //         return bookingDate2 >= start_date && bookingDate2 <= end_date;
+            //       })
+            //     );
+            //   }).flatMap((booking) => {
+            //     return booking.bookingDates
+            //       .map((bookingDate) => JSON.parse(bookingDate.replace(/=>/g, ':')))
+            //       .filter((bookingDateObj) => {
+            //         const bookingDate = bookingDateObj.date;
+            //         return bookingDate >= start_date && bookingDate <= end_date;
+            //       })
+            //       .map((bookingDateObj) => bookingDateObj.period);
+            //   });
+            
+            //   const availablePeriods = this.validPeriods.filter(
+            //     (period) => !bookedPeriods.includes(period)
+            //   );
+            
+            //   console.log(availablePeriods);
+            //   return availablePeriods;
+          },
         // Creates a new booking
         async createBooking(booking: ResourceBooking) {
             const res = await fetch(this.api_uri, {

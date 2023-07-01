@@ -168,10 +168,14 @@ export default {
          * Books the resource
          */
         bookResource(resource, index) {
+            const bookingDates = [];
+            for (let i = 0; i < this.selectedDates.length; i++) {
+                bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
+            }
             this.bookingsStore.createBooking({
                 bookedBy: "Ian Tapply",
                 resourceName: resource.name,
-                bookingDates: [{ date: this.selectedDates[0].id, period: this.selectedPeriod }],
+                bookingDates: bookingDates,
                 destination: this.destination,
                 comments: this.comments,
             })
@@ -254,10 +258,13 @@ export default {
                     dates: date,
                 })),
             ];
-        }
+        },
+        async loadAvailablePeriods(name, start_date, end_date) {
+            return await this.bookingsStore.getAvailablePeriodsFromBookings(name, start_date, end_date);
+        },
     },
     async mounted() {
-        await this.bookingsStore.fetchBookings();
+        console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-03", "2023-06-08"))
     }
 }
 </script>

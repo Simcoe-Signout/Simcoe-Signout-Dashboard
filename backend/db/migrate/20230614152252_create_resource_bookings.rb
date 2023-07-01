@@ -3,7 +3,7 @@ class CreateResourceBookings < ActiveRecord::Migration[7.0]
     create_table :resource_bookings do |t|
       t.string :bookedBy
       t.string :resourceName
-      t.string :bookingDates, array: true, default: []
+      t.jsonb :bookingDates, null: false, default: {}
       t.string :destination
       t.string :comments
 

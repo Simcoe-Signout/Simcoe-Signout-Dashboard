@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_21_150941) do
   create_table "resource_bookings", force: :cascade do |t|
     t.string "bookedBy"
     t.string "resourceName"
-    t.string "bookingDates", default: [], array: true
+    t.jsonb "bookingDates", default: {}, null: false
     t.string "destination"
     t.string "comments"
     t.datetime "created_at", null: false

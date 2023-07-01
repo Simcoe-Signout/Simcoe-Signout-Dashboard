@@ -4,13 +4,15 @@ class ResourceBookingsController < ApplicationController
 
   # GET /resource_bookings
   def index
-    if params[:date]
-      target_date = params[:date]
+    if params[:start_date] && params[:end_date]
+      start_date = Date.parse(params[:start_date])
+      end_date = Date.parse(params[:end_date])
+  
       @resource_bookings = ResourceBooking.select do |booking|
-        booking.bookingDates.any? do |bd_string|
-          bd_date = bd_string.match(/\"date\"=>\"([^"]+)\"/)&.captures&.first # Very goofy way to extract the date from the string
+        booking.bookingDates.any? do |bd_jsonb|
+          bd_date = bd_jsonb['date']
           booking_date = Date.parse(bd_date)
-          booking_date == Date.parse(target_date)
+          booking_date >= start_date && booking_date <= end_date
         end
       end
     else
@@ -18,7 +20,7 @@ class ResourceBookingsController < ApplicationController
     end
   
     render json: @resource_bookings
-  end  
+  end    
   
   # GET /resource_bookings/1
   def show
