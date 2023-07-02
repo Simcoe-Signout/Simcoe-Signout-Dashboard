@@ -29,14 +29,20 @@ class ResourceBookingsController < ApplicationController
 
   # POST /resource_bookings
   def create
-    @resource_booking = ResourceBooking.new(resource_booking_params)
-
+    if current_user.role == "administrator"
+      # Allow administrators to forcibly set the bookedBy name
+      @resource_booking = ResourceBooking.new(resource_booking_params)
+    else
+      # Set bookedBy to current_user.full_name for members
+      @resource_booking = ResourceBooking.new(resource_booking_params.merge(bookedBy: current_user.full_name))
+    end
+  
     if @resource_booking.save
       render json: @resource_booking, status: :created, location: @resource_booking
     else
       render json: @resource_booking.errors, status: :unprocessable_entity
     end
-  end
+  end  
 
   # PATCH/PUT /resource_bookings/1
   def update

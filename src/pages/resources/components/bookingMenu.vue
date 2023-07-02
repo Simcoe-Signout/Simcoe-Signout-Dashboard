@@ -182,7 +182,7 @@ export default {
                     bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
                 }
                 this.bookingsStore.createBooking({
-                    bookedBy: userData.full_name,
+                    bookedBy: userData.full_name, // Don't worry, you can't spoof this ;)
                     resourceName: resource.name,
                     bookingDates: bookingDates,
                     destination: this.destination,
