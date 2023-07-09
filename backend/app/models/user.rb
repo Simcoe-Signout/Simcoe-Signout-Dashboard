@@ -4,7 +4,7 @@ class User < ApplicationRecord
     user = User.where(uid: provider_data.uid).first
 
     unless user
-      user = User.create(
+      User.create(
         uid: provider_data.uid,
         email: provider_data.info.email,
       )
