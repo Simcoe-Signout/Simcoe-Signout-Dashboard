@@ -2,7 +2,7 @@
 FROM node:16 as builder
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /
 
 # Copy the package.json and package-lock.json (or yarn.lock) files first to leverage Docker cache
 COPY package*.json ./
@@ -21,7 +21,7 @@ FROM nginx:alpine
 WORKDIR /usr/share/nginx/html
 
 # Copy the built files from the builder stage to the Nginx container
-COPY --from=builder /app/dist .
+COPY --from=builder /dist .
 
 # (Optional) If you need to provide a custom nginx configuration
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
