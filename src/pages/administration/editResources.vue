@@ -1,5 +1,5 @@
 <template>
-    <v-row class="ml-3 mt-2">
+    <v-row class="ml-3 mt-2 mr-3">
         <v-col cols="12" class="resource-column">
             <v-card>
 

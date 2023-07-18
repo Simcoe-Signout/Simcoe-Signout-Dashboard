@@ -4,8 +4,8 @@
       <v-row no-gutters class="align-center">
         <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350" width="100%">
           <div class="ml-2 mb-2 text-wrap">
-            <h3 class="mt-2">{{ resource.name }}</h3>
-            <div class="text-h7 font-weight-medium">
+            <h2 class="mt-2">{{ resource.name }}</h2>
+            <div class="text-h6 font-weight-medium">
               {{ resource.description }}
             </div>
             <h3 class="mt-2">Location: {{ resource.location }}</h3>

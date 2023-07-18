@@ -6,7 +6,8 @@
           <h2>Login</h2>
         </h1>
 
-        <h2 class="text-center font-weight-light pt-12">A booking program for schools to book computer devices, rooms, and resources.</h2>
+        <h2 class="text-center font-weight-light pt-12">A booking program for schools to book computer devices, rooms, and
+          resources.</h2>
         <googleLoginButton class="mt-15" :click="openGoogleLoginPopup" />
       </v-col>
     </v-row>
@@ -15,8 +16,9 @@
 
 <script>
 import googleLoginButton from '@components/authentication/googleLoginButton.vue';
-import VueJwtDecode from 'vue-jwt-decode'
-import { authenticationStore } from '@/stores/authentication.ts'
+import VueJwtDecode from 'vue-jwt-decode';
+import { authenticationStore } from '@/stores/authentication.ts';
+
 export default {
   name: 'Login',
   data() {

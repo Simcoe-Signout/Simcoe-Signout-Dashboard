@@ -55,6 +55,8 @@
             </v-row>
         </v-col>
     </v-row>
+
+    <v-pagination class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
 </template>
   
 <script>
@@ -72,6 +74,8 @@ export default {
             showConfirmationDialog: false,
             selectedUser: null,
             selectedRole: '',
+            pageNo: 1,
+            usersPerPage: 12,
         };
     },
     methods: {
@@ -94,19 +98,29 @@ export default {
             this.showConfirmationDialog = false;
         },
         async confirmRoleUpdate() {
-                this.authenticationStore.updateUser(
-                    this.selectedUser.id,
-                    {
-                        full_name: this.selectedUser.full_name,
-                        email: this.selectedUser.email,
-                        role: this.selectedRole,
-                        avatar_url: this.selectedUser.avatar_url,
-                    }
-                );
+            this.authenticationStore.updateUser(
+                this.selectedUser.id,
+                {
+                    full_name: this.selectedUser.full_name,
+                    email: this.selectedUser.email,
+                    role: this.selectedRole,
+                    avatar_url: this.selectedUser.avatar_url,
+                }
+            );
             this.hidePopup();
             await this.getAllUsers();
         },
+    },
+    computed: {
+        numPages() {
+            return Math.ceil(this.users.length / this.usersPerPage);
+        },
+        pagedUsers() {
+            const startIndex = (this.pageNo - 1) * this.usersPerPage;
+            const endIndex = startIndex + this.usersPerPage;
 
+            return this.users.slice(startIndex, endIndex);
+        }
     },
     async mounted() {
         await this.getAllUsers();

@@ -4,7 +4,7 @@ export const bookingsStore = defineStore({
     id: 'bookings',
     state: () => ({
         api_uri: 'http://localhost:3000/resource_bookings',
-        validPeriods: [1, 2, 3, 4, 5],
+        validPeriods: [1, 2, 3, 4],
         bookings: [] as any[],
     }),
     getters: {
@@ -37,7 +37,7 @@ export const bookingsStore = defineStore({
             })
             return await res.json();
         },
-        async getAvailablePeriodsFromBookings(resourceName: string, start_date: string, end_date: string) {
+        async getAvailablePeriodsFromBookings(start_date: string, end_date: string) {
             const res = await fetch(`${this.api_uri}?start_date=${start_date}&end_date=${end_date}`, {
                 method: 'GET',
                 credentials: 'include'

@@ -26,8 +26,7 @@
                     <v-row class="text-center align-center justify-center">
                         <v-col>
                             <h2>Select Your Days</h2>
-                            <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
-                                class="mb-5" />
+                            <VCalendar :attributes="attributes" is-dark="system" @dayclick="onDayClick" class="mb-5" />
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getValidPeriods"
                                     label="Period"></v-select>
@@ -97,6 +96,24 @@ import { bookingsStore } from '@/stores/bookings';
 import { authenticationStore } from '@/stores/authentication';
 
 const validPhases = ["when", "where", "comments", "review"];
+
+const example1 = [
+    {
+        description: 'Tapply, Ian - Math Tote 1 (Period 4)',
+        isComplete: false,
+        dates: [new Date(2023, 5, 17), new Date(2023, 5, 18), new Date(2023, 5, 21)],
+        color: 'blue',
+    },
+];
+
+const example2 = [
+    {
+        description: 'Tapply, Ian - Math Tote 3 (Period 2)',
+        isComplete: false,
+        dates: [new Date(2023, 5, 19), new Date(2023, 5, 18), new Date(2023, 5, 21)],
+        color: 'red',
+    },
+];
 
 export default {
     data() {
@@ -173,7 +190,6 @@ export default {
                 });
                 this.resetAllVariables();
                 this.closeBookingMenu(index);
-                await this.bookingsStore.fetchBookings();
             } catch (error) {
                 // Handle the error appropriately
                 console.error('Error occurred during booking:', error);
@@ -198,41 +214,17 @@ export default {
         /**
          * Get bookings in an array form for the calendar
          */
-        getBookings(resourceName) {
+        getBookings() {
             const bookings = [];
-            const colors = ['red', 'blue', 'green', 'yellow', 'orange-lighten-1']; // List of available colors
-            const usedColors = new Set();
-
-            this.bookingsStore.getBookingsForResource(resourceName).forEach(booking => {
-                booking.bookingDates.forEach(bookingDate => {
-                    let color = null;
-
-                    // Find a unique color for the booking
-                    for (let i = 0; i < colors.length; i++) {
-                        if (!usedColors.has(colors[i])) {
-                            color = colors[i];
-                            usedColors.add(color);
-                            break;
-                        }
-                    }
-
-                    // If all colors are already used, assign a random color from the available colors
-                    if (!color) {
-                        const randomIndex = Math.floor(Math.random() * colors.length);
-                        color = colors[randomIndex];
-                    }
-
+            this.resourceStore.resources.forEach(resource => {
+                resource.bookings.bookingDates.forEach(booking => {
                     bookings.push({
-                        resourceName: booking.resourceName,
-                        period: bookingDate.period,
-                        date: new Date(bookingDate.date),
-                        bookerFirstName: booking.bookedBy.split(' ')[0],
-                        bookerLastName: booking.bookedBy.split(' ')[1],
-                        color: color,
+                        name: resource.name,
+                        date: booking.date,
+                        colour: resource.colour,
                     });
                 });
             });
-
             return bookings;
         },
         onDayClick(day) {
@@ -247,36 +239,45 @@ export default {
                 });
             }
         },
-        attributes(resourceName) {
-            return [
-                ...this.dates.map(date => ({
-                    highlight: true,
-                    dates: date,
-                })),
-                ...this.getBookings(resourceName).map(booking => ({
-                    dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
-                    dot: {
-                        color: booking.color,
-                        class: booking.isComplete ? "opacity-75" : "",
-                    },
-                    popover: {
-                        label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-                    },
-                })),
-            ];
-        },
     },
     computed: {
         dates() {
             return this.selectedDates.map(day => day.date);
+        },
+        attributes() {
+            return [
+                ...example1.map(example1 => ({
+                    dates: example1.dates,
+                    dot: {
+                        color: example1.color,
+                        class: example1.isComplete ? "opacity-75" : "",
+                    },
+                    popover: {
+                        label: example1.description,
+                    },
+                })),
+                ...example2.map(example2 => ({
+                    dates: example2.dates,
+                    dot: {
+                        color: example2.color,
+                        class: example2.isComplete ? "opacity-75" : "",
+                    },
+                    popover: {
+                        label: example2.description,
+                    },
+                })),
+                ...this.dates.map(date => ({
+                    highlight: true,
+                    dates: date,
+                })),
+            ];
         },
         async loadAvailablePeriods(name, start_date, end_date) {
             return await this.bookingsStore.getAvailablePeriodsFromBookings(name, start_date, end_date);
         },
     },
     async mounted() {
-        await this.bookingsStore.fetchBookings();
-        // console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-23", "2023-06-23"))
+        console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-23", "2023-06-23"))
     }
 }
 </script>
@@ -287,5 +288,4 @@ export default {
     opacity: 1 !important;
     position: absolute;
     width: 100%;
-}
-</style>
+}</style>
