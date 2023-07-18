@@ -1,5 +1,5 @@
 # Stage 1: Install dependencies and build the Vite project
-FROM node:14 as builder
+FROM node:16 as builder
 
 WORKDIR /
 
