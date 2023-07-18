@@ -1,7 +1,8 @@
 # Stage 1: Install dependencies and build the Vite project
 FROM node:16 as builder
 
-WORKDIR /
+# Set the working directory inside the container
+WORKDIR /app
 
 # Copy the package.json and package-lock.json (or yarn.lock) files first to leverage Docker cache
 COPY package*.json ./
@@ -16,8 +17,11 @@ RUN yarn build
 # Stage 2: Serve the production build using a lightweight HTTP server
 FROM nginx:alpine
 
-# Copy the built files from the previous stage
-COPY --from=builder /dist /usr/share/nginx/html
+# Set the working directory inside the Nginx container
+WORKDIR /usr/share/nginx/html
+
+# Copy the built files from the builder stage to the Nginx container
+COPY --from=builder /app/dist .
 
 # (Optional) If you need to provide a custom nginx configuration
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
