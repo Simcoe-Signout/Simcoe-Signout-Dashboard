@@ -1,10 +1,4 @@
  {
   "schemaVersion": 2,
-  "dockerfileLines": [
-                        "FROM node:16-alpine",
-                        "RUN mkdir -p /usr/src/app",
-                        "COPY . /usr/src/app",
-                        "RUN yarn",
-                        "CMD [ \"yarn\", \"build\" ]"
-                    ]
+  "templateId" :"node/16.18.0"
  }
