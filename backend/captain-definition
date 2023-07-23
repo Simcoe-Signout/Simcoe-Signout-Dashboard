@@ -1,9 +1,12 @@
 {
     "schemaVersion": 2,
     "dockerfileLines": [
-        "FROM steebchen/nginx-spa:stable",
-        "COPY . /app",
-        "EXPOSE 80",
-        "CMD [\"nginx\"]"
+        "FROM ruby:3.0.6",
+        "WORKDIR /app",
+        "COPY Gemfile* .",
+        "RUN bundle install",
+        "COPY . .",
+        "EXPOSE 3000",
+        "CMD [\"rails\", \"server\", \"-b\", \"0.0.0.0\"]"
     ]
 }
