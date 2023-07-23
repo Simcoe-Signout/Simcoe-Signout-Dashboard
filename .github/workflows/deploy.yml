@@ -32,7 +32,7 @@ jobs:
           cwd: "./"
           files: |
             backend/
-            frontend/dist/
+            dist/
             captain-definition
           outPath: deploy.tar
 
