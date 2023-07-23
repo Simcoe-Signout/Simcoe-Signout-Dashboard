@@ -31,7 +31,8 @@ jobs:
           command: c
           cwd: "./"
           files: |
-            .
+            ./
+            captain-definition
           outPath: deploy.tar
 
       - uses: caprover/deploy-from-github@main
