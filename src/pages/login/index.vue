@@ -35,14 +35,19 @@ export default {
       var popup = window.open('http://localhost:3000/users/auth/google_oauth2', '_blank', 'width=600,height=600');
 
       const handleMessage = async (event) => {
-        const decoded_token = VueJwtDecode.decode(this.$cookies.get('auth_token'));
-        this.authentication.setUserID(decoded_token.user_id);
+        const authToken = this.$cookies.get('auth_token');
+        if (authToken) {
+          const decoded_token = VueJwtDecode.decode(authToken);
+          this.authentication.setUserID(decoded_token.user_id);
 
-        this.myData = await this.authentication.requestUserData();
+          this.myData = await this.authentication.requestUserData();
 
-        window.removeEventListener('message', handleMessage);
+          window.removeEventListener('message', handleMessage);
 
-        this.$router.push({ name: 'Home' });
+          this.$router.push({ name: 'Home' });
+        } else {
+          console.error("Auth token is missing.");
+        }
       };
 
       window.addEventListener('message', handleMessage);
