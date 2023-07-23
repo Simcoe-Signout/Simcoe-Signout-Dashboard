@@ -1,0 +1,10 @@
+{
+    "schemaVersion": 2,
+    "dockerfileLines": [
+        "FROM ruby:3.0.6 AS rails-toolbox",
+        "WORKDIR /app",
+        "COPY . .",
+        "RUN gem install rails bundler",
+        "rails s"
+    ]
+}
