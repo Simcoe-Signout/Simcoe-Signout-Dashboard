@@ -21,7 +21,7 @@ jobs:
           files: |
             backend/
             backend/captain-definition
-          outPath: deploy.tar
+          outPath: deploy-backend.tar
 
       - uses: caprover/deploy-from-github@main
         with:
