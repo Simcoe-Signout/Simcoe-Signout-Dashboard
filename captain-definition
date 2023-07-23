@@ -5,6 +5,6 @@
                         "RUN mkdir -p /usr/src/app",
                         "COPY . /usr/src/app",
                         "RUN yarn",
-                        "CMD [ \"yarn\", \"run\", \"preview\" ]"
+                        "CMD [ \"yarn\", \"build\" ]"
                     ]
  }
