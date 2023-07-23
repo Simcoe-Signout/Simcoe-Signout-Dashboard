@@ -33,7 +33,6 @@ jobs:
           files: |
             backend/
             dist/
-            captain-definition
           outPath: deploy.tar
 
       - uses: caprover/deploy-from-github@main
