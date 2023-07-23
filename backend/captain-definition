@@ -1,10 +1,9 @@
 {
     "schemaVersion": 2,
     "dockerfileLines": [
-        "FROM ruby:3.0.6 AS rails-toolbox",
-        "WORKDIR /app",
-        "COPY . .",
-        "RUN gem install rails bundler",
-        "rails s"
+        "FROM steebchen/nginx-spa:stable",
+        "COPY . /app",
+        "EXPOSE 80",
+        "CMD [\"nginx\"]"
     ]
 }
