@@ -1,12 +1,9 @@
 {
     "schemaVersion": 2,
     "dockerfileLines": [
-        "FROM node:16 AS build-stage",
-        "WORKDIR /app",
-        "COPY . .",
-        "FROM nginx AS production-stage",
-        "COPY --from=build-stage /app/dist /usr/share/nginx/html",
+        "FROM steebchen/nginx-spa:stable",
+        "COPY dist/ /app",
         "EXPOSE 80",
-        "CMD [\"nginx\", \"-g\", \"daemon off;\"]"
+        "CMD [\"nginx\"]"
     ]
 }
