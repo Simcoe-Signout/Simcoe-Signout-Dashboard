@@ -16,14 +16,14 @@ jobs:
         node-version: [16.x]
 
     steps:
-#       - uses: actions/checkout@v3
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#           cache: "yarn"
-#       - run: yarn
-#       - run: yarn run build
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+      - run: yarn
+      - run: yarn run build
 
       # Future plans in the works to create tarball from within the caprover/deploy-from-github action.
       - uses: a7ul/tar-action@v1.1.0
@@ -31,7 +31,7 @@ jobs:
           command: c
           cwd: "./"
           files: |
-            ./
+            dist/
             captain-definition
           outPath: deploy.tar
 
