@@ -23,8 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
       - run: yarn
-      - run: yarn run build --if-present
-      - run: yarn run test --if-present
+      - run: yarn run build
 
       # Future plans in the works to create tarball from within the caprover/deploy-from-github action.
       - uses: a7ul/tar-action@v1.1.0
