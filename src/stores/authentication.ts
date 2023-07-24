@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
-        api_uri: 'http://127.0.0.1:3000/users',
+        api_uri: 'http://dsbn-backend-prod.simcoe-signout.ian-tapply.me/users',
         userID: parseInt(localStorage.getItem('userID') || '0', 10),
         userRole: localStorage.getItem('userRole') || null,
     }),

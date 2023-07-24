@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const bookingsStore = defineStore({
     id: 'bookings',
     state: () => ({
-        api_uri: 'http://127.0.0.1:3000/resource_bookings',
+        api_uri: 'http://dsbn-backend-prod.simcoe-signout.ian-tapply.me/resource_bookings',
         validPeriods: [1, 2, 3, 4],
         bookings: [] as any[],
     }),
