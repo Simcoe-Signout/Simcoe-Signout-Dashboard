@@ -19,7 +19,7 @@ default: &default
   encoding: unicode
   username: postgres
   password: b945472d83fb1d72
-  host: srv-captain--dsbn-backend-prod
+  host: srv-captain--dsbn-postgres
   port: 5432
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -30,7 +30,7 @@ development:
   database: dsbn-resource-booking
   username: postgres
   password: b945472d83fb1d72
-  host: srv-captain--dsbn-backend-prod
+  host: srv-captain--dsbn-postgres
   port: 5432
 
   # The specified database role being used to connect to postgres.
@@ -68,7 +68,7 @@ test:
   database: dsbn-resource-booking
   username: postgres
   password: b945472d83fb1d72
-  host: srv-captain--dsbn-backend-prod
+  host: srv-captain--dsbn-postgres
   port: 5432
 
 # As with config/credentials.yml, you never want to store sensitive information,
@@ -96,6 +96,6 @@ production:
   database: dsbn-resource-booking
   username: postgres
   password: b945472d83fb1d72
-  host: srv-captain--dsbn-backend-prod
+  host: srv-captain--dsbn-postgres
   port: 5432
   password: <%= ENV["BACKEND_DATABASE_PASSWORD"] %>
