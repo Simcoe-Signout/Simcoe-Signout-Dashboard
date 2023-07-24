@@ -10,13 +10,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       auth_token = JsonWebToken.encode(user_id: user.id) # Shouldn't be storing anything else but their user_id in this! >:(
         cookies[:auth_token] = {
           value: auth_token,
-          domain: 'simcoe-signout.ian-tapply.me', # SET THIS TO YOUR FRONTEND ADDRESS
+          domain: '.ian-tapply.me',
           httpOnly: true,
           secure: true,
-          expires: 30.minutes # This should be set the expiry time of the JWT, we mine as well automatically clear it from cookies when it expires!
+          expires: 30.minutes
         }
-      puts "#{auth.info.email} is authorized with #{auth_token}}"
-        
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
     else
       puts "#{auth.info.email} is not authorized."

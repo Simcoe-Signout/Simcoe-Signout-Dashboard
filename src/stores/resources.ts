@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: 'http://localhost:3000/resources',
+        api_uri: 'http://127.0.0.1:3000/resources',
         categories: [
             'Category 1',
             'Category 2',
