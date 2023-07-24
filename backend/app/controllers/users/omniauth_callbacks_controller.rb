@@ -12,7 +12,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           value: auth_token,
           domain: '.ian-tapply.me',
           httpOnly: true,
-          secure: true,
+          # secure: true,
           expires: 30.minutes
         }
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
