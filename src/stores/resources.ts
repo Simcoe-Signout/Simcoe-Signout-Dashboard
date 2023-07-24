@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: 'http://dsbn-backend-prod.simcoe-signout.ian-tapply.me/resources',
+        api_uri: 'https://simcoe-signout-api.ian-tapply.me/resources',
         categories: [
             'Category 1',
             'Category 2',

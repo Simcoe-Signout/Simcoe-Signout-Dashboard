@@ -52,7 +52,7 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  config.hosts << "dsbn-backend-prod.simcoe-signout.ian-tapply.me"
+  config.hosts << "simcoe-signout-api.ian-tapply.me"
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

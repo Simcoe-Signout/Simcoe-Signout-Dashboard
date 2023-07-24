@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     openGoogleLoginPopup() {
-      var popup = window.open('http://dsbn-backend-prod.simcoe-signout.ian-tapply.me/users/auth/google_oauth2', '_blank', 'width=600,height=600');
+      var popup = window.open('https://simcoe-signout-api.ian-tapply.me/users/auth/google_oauth2', '_blank', 'width=600,height=600');
 
       const handleMessage = async (event) => {
         const authToken = this.$cookies.get('auth_token');
