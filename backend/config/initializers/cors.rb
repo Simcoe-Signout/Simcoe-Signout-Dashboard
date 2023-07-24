@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://dsbn-frontend-prod.simcoe-signout.ian-tapply.me" # This should be set to your frontend URL when deploying to production!
+    origins ".ian-tapply.me" # This should be set to your frontend URL when deploying to production!
 
     resource "*",
       headers: :any,
