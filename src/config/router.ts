@@ -72,28 +72,35 @@ const router = createRouter({
 
 router.beforeEach(async (to, _, next) => {
   const authentication = authenticationStore();
-  const $cookies = inject<VueCookies>('$cookies'); 
+  const $cookies = inject<VueCookies>('$cookies');
   let userData;
 
-  if (!$cookies || $cookies.get('auth_token') === undefined || $cookies.get('auth_token') === null) {
+  if ($cookies && $cookies.get('auth_token')) {
+    // If the user is logged in, fetch the user data
     userData = await authentication.requestUserData();
-    to.name !== 'Login' ? next({ name: 'Login' }) : next();
+  }
+
+  // If the route requires authentication and the user is not logged in, redirect to the login page
+  if (!userData && to.meta.requiredRole) {
+    next({ name: 'Login' });
   } else {
-    if (userData !== null) {
-    if (userData.role === 'administrator') {
-      // If the user is an administrator, allow access to any route
-      next();
-    } else if (userData.role === 'member' && to.meta.requiredRole === 'administrator') {
-      // If the user is a member and the required role is administrator, redirect to the 'Home' route
-      next({ name: 'Home' });
+    if (userData !== undefined) {
+      if (userData.role === 'administrator') {
+        // If the user is an administrator, allow access to any route
+        next();
+      } else if (userData.role === 'member' && to.meta.requiredRole === 'administrator') {
+        // If the user is a member and the required role is administrator, redirect to the 'Home' route
+        next({ name: 'Home' });
+      } else {
+        // For all other cases, allow access to the route
+        next();
+      }
     } else {
-      // For all other cases, allow access to the route
+      // If there is no user data, allow access to the route
       next();
     }
-  } else {
-    next({ name: 'Login' });
-  }
   }
 });
+
 
 export default router;

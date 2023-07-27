@@ -44,7 +44,7 @@ export default {
       drawer: null,
       routes: router.getRoutes(),
       authenticationStore: authenticationStore(),
-      userRole: this.userRole(),
+      userRole: this.userRole,
     };
   },
   computed: {

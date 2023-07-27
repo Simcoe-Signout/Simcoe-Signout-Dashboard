@@ -234,16 +234,16 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   debug
-  devise
-  devise-jwt
-  jsonapi-serializer
-  omniauth
-  omniauth-google-oauth2
+  devise (~> 4.9)
+  devise-jwt (~> 0.11.0)
+  jsonapi-serializer (~> 2.2)
+  omniauth (~> 2.1)
+  omniauth-google-oauth2 (~> 1.1)
   pg (~> 1.1)
   puma (~> 5.0)
-  rack-cors
+  rack-cors (~> 2.0)
   rails (~> 7.0.5)
-  simple_command
+  simple_command (~> 1.0)
   tzinfo-data
 
 RUBY VERSION
