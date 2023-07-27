@@ -10,6 +10,7 @@ import ManageBookings from '@pages/administration/manageBookings.vue';
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
 import { inject } from 'vue';
+import VueJwtDecode from 'vue-jwt-decode';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))
@@ -77,6 +78,9 @@ router.beforeEach((to, _, next) => {
   if (!$cookies || $cookies.get('auth_token') === undefined || $cookies.get('auth_token') === null) {
     to.name !== 'Login' ? next({ name: 'Login' }) : next();
   } else {
+    const authToken = $cookies.get('auth_token');
+    const decoded_token = VueJwtDecode.decode(authToken);
+    authentication.setUserID(decoded_token.user_id);
     if (authentication.userRole === 'administrator') {
       // If the user is an administrator, allow access to any route
       next();
