@@ -73,11 +73,13 @@ const router = createRouter({
 router.beforeEach(async (to, _, next) => {
   const authentication = authenticationStore();
   const $cookies = inject<VueCookies>('$cookies'); 
-  const userData = await authentication.requestUserData();
+  let userData;
 
   if (!$cookies || $cookies.get('auth_token') === undefined || $cookies.get('auth_token') === null) {
+    userData = await authentication.requestUserData();
     to.name !== 'Login' ? next({ name: 'Login' }) : next();
   } else {
+    if (userData !== null) {
     if (userData.role === 'administrator') {
       // If the user is an administrator, allow access to any route
       next();
@@ -88,6 +90,9 @@ router.beforeEach(async (to, _, next) => {
       // For all other cases, allow access to the route
       next();
     }
+  } else {
+    next({ name: 'Login' });
+  }
   }
 });
 
