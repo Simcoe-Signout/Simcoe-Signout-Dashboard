@@ -14,10 +14,10 @@ gem "omniauth"
 gem "omniauth-google-oauth2"
 
 gem "devise-jwt"
-gem "jsonapi-serializer", "~> 2.2"
+gem "jsonapi-serializer"
 
-gem "simple_command", "~> 1.0"
-gem "rack-cors", "~> 2.0"
+gem "simple_command"
+gem "rack-cors"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
