@@ -28,14 +28,7 @@
   </v-app>
 </template>
 
-
 <script>
-import router from '@/config/router';
-import sidebarIcon from '@components/sidebar/sidebarIcon.vue';
-import sidebarItem from '@components/sidebar/sidebarItem.vue';
-import sidebarHeader from '@components/sidebar/sidebarHeader.vue';
-import { authenticationStore } from '@/stores/authentication.ts'
-
 export default {
   name: 'DefaultLayout',
   components: { sidebarIcon, sidebarItem, sidebarHeader },
@@ -43,18 +36,25 @@ export default {
     return {
       drawer: null,
       routes: router.getRoutes(),
-      authenticationStore: authenticationStore(),
+      userRole: null, // Initialize userRole as null
     };
   },
   async created() {
-    await this.authenticationStore.requestUserData(); // Fetch user data on component creation
+    await this.fetchUserRole(); // Fetch the user role before rendering the sidebar
+  },
+  methods: {
+    async fetchUserRole() {
+      try {
+        const userData = await this.authenticationStore.requestUserData();
+        this.userRole = userData.role; // Update the userRole when fetched successfully
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        this.userRole = null; // Set userRole to null in case of an error
+      }
+    },
   },
   computed: {
-    async userRole() {
-      return this.authenticationStore.getUserRole();
-    },
-    // Returns the routes with their respective categories
-    async routeCategories() {
+    routeCategories() {
       const categories = [
         {
           header: 'DSBN Resources Booking',
@@ -68,7 +68,7 @@ export default {
           routes: [
             { route: this.routes[2], icon: 'mdi-lock' },
             { route: this.routes[3], icon: 'mdi-cog' },
-            { route: this.routes[4], icon: 'mdi-book-lock-open-outline' },
+            { route: this.routes[4], icon: 'mdi-book-lock-open-outline'}
           ],
         },
         {
@@ -81,7 +81,10 @@ export default {
 
       // Remove the 'Administration' category if the user's role isn't administrator
       if (this.userRole !== 'administrator') {
-        return categories.filter(category => category.header !== 'Administration');
+        const adminCategoryIndex = categories.findIndex(category => category.header === 'Administration');
+        if (adminCategoryIndex !== -1) {
+          categories.splice(adminCategoryIndex, 1);
+        }
       }
 
       return categories;
