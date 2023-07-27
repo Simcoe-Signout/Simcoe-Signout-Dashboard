@@ -44,16 +44,17 @@ export default {
       drawer: null,
       routes: router.getRoutes(),
       authenticationStore: authenticationStore(),
-      userRole: this.userRole,
     };
+  },
+  async created() {
+    await this.authenticationStore.requestUserData(); // Fetch user data on component creation
   },
   computed: {
     async userRole() {
-      return await this.authenticationStore.requestUserData().role;
+      return this.authenticationStore.getUserRole();
     },
     // Returns the routes with their respective categories
-    // When adding more routes, be sure to add the route into the category here
-    routeCategories() {
+    async routeCategories() {
       const categories = [
         {
           header: 'DSBN Resources Booking',
@@ -67,7 +68,7 @@ export default {
           routes: [
             { route: this.routes[2], icon: 'mdi-lock' },
             { route: this.routes[3], icon: 'mdi-cog' },
-            { route: this.routes[4], icon: 'mdi-book-lock-open-outline'}
+            { route: this.routes[4], icon: 'mdi-book-lock-open-outline' },
           ],
         },
         {
@@ -78,12 +79,9 @@ export default {
         },
       ];
 
-      // Remove the 'Administration' category if isLoggedInAsAdmin is false
+      // Remove the 'Administration' category if the user's role isn't administrator
       if (this.userRole !== 'administrator') {
-        const adminCategoryIndex = categories.findIndex(category => category.header === 'Administration');
-        if (adminCategoryIndex !== -1) {
-          categories.splice(adminCategoryIndex, 1);
-        }
+        return categories.filter(category => category.header !== 'Administration');
       }
 
       return categories;
