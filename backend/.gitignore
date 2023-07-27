@@ -30,3 +30,5 @@
 
 # Ignore the database.yml because it contains sensitive data like the database host
 /config/database.yml
+
+/config/credentials/production.key
