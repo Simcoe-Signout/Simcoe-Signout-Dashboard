@@ -47,6 +47,9 @@ export default {
     };
   },
   computed: {
+    async userRole() {
+      return await this.authenticationStore.requestUserData().role;
+    },
     // Returns the routes with their respective categories
     // When adding more routes, be sure to add the route into the category here
     routeCategories() {
@@ -75,7 +78,7 @@ export default {
       ];
 
       // Remove the 'Administration' category if isLoggedInAsAdmin is false
-      if (this.authenticationStore.userRole !== 'administrator') {
+      if (this.userRole !== 'administrator') {
         const adminCategoryIndex = categories.findIndex(category => category.header === 'Administration');
         if (adminCategoryIndex !== -1) {
           categories.splice(adminCategoryIndex, 1);

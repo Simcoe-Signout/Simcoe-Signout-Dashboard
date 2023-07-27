@@ -70,17 +70,18 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _, next) => {
+router.beforeEach(async (to, _, next) => {
   const authentication = authenticationStore();
   const $cookies = inject<VueCookies>('$cookies'); 
+  const userData = await authentication.requestUserData();
 
   if (!$cookies || $cookies.get('auth_token') === undefined || $cookies.get('auth_token') === null) {
     to.name !== 'Login' ? next({ name: 'Login' }) : next();
   } else {
-    if (authentication.userRole === 'administrator') {
+    if (userData.role === 'administrator') {
       // If the user is an administrator, allow access to any route
       next();
-    } else if (authentication.userRole === 'member' && to.meta.requiredRole === 'administrator') {
+    } else if (userData.role === 'member' && to.meta.requiredRole === 'administrator') {
       // If the user is a member and the required role is administrator, redirect to the 'Home' route
       next({ name: 'Home' });
     } else {
