@@ -24,4 +24,5 @@ COPY . .
 EXPOSE 3000
 
 # Start the Rails server when the container launches
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+# Run it in production mode here, but we can use an ENV variable to change this
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-e", "production"]

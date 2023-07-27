@@ -7,7 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if user.present?
       sign_in user, store: false
-      auth_token = JsonWebToken.encode(user_id: user.id) # Shouldn't be storing anything else but their user_id in this! >:(
+      auth_token = JsonWebToken.encode(user_id: user.id)
         cookies[:auth_token] = {
           value: auth_token,
           domain: '.ian-tapply.me',
