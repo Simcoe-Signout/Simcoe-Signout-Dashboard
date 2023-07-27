@@ -71,7 +71,8 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
-  config.hosts << "simcoe-signout-api.ian-tapply.me"
+  # config.hosts << "simcoe-signout-api.ian-tapply.me"
+  config.hosts.clear
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
