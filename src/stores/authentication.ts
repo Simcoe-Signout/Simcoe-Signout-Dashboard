@@ -5,11 +5,13 @@ export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
         api_uri: 'https://simcoe-signout-api.ian-tapply.me/users',
-        userID: parseInt(localStorage.getItem('userID') || '0', 10)
+        userID: parseInt(localStorage.getItem('userID') || '0', 10),
+        userRole: localStorage.getItem('userRole') || null,
     }),
     getters: {
         // TODO
         getUserID: (state) => state.userID,
+        getUserRole: (state) => state.userRole,
     },
     actions: {
         // TODO
@@ -27,6 +29,7 @@ export const authenticationStore = defineStore({
                 credentials: 'include'
             })
             const data = await response.json()
+            this.setUserRole(data.role);
 
             return data;
         },
@@ -55,6 +58,7 @@ export const authenticationStore = defineStore({
             })
 
             if (id === this.userID) {
+                this.setUserRole(user.role);
                 if (user.role === 'member') {
                     router.push({ name: 'Home' });
                 }
@@ -63,6 +67,10 @@ export const authenticationStore = defineStore({
         setUserID(id: number) {
             this.userID = id;
             localStorage.setItem('userID', id.toString());
+        },
+        setUserRole(role: string) {
+            this.userRole = role;
+            localStorage.setItem('userRole', role);
         }
     },
 })

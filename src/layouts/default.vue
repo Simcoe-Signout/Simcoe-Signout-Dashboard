@@ -28,7 +28,14 @@
   </v-app>
 </template>
 
+
 <script>
+import router from '@/config/router';
+import sidebarIcon from '@components/sidebar/sidebarIcon.vue';
+import sidebarItem from '@components/sidebar/sidebarItem.vue';
+import sidebarHeader from '@components/sidebar/sidebarHeader.vue';
+import { authenticationStore } from '@/stores/authentication.ts'
+
 export default {
   name: 'DefaultLayout',
   components: { sidebarIcon, sidebarItem, sidebarHeader },
@@ -36,24 +43,12 @@ export default {
     return {
       drawer: null,
       routes: router.getRoutes(),
-      userRole: null, // Initialize userRole as null
+      authenticationStore: authenticationStore(),
     };
   },
-  async created() {
-    await this.fetchUserRole(); // Fetch the user role before rendering the sidebar
-  },
-  methods: {
-    async fetchUserRole() {
-      try {
-        const userData = await this.authenticationStore.requestUserData();
-        this.userRole = userData.role; // Update the userRole when fetched successfully
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-        this.userRole = null; // Set userRole to null in case of an error
-      }
-    },
-  },
   computed: {
+    // Returns the routes with their respective categories
+    // When adding more routes, be sure to add the route into the category here
     routeCategories() {
       const categories = [
         {
@@ -79,8 +74,8 @@ export default {
         },
       ];
 
-      // Remove the 'Administration' category if the user's role isn't administrator
-      if (this.userRole !== 'administrator') {
+      // Remove the 'Administration' category if isLoggedInAsAdmin is false
+      if (this.authenticationStore.userRole !== 'administrator') {
         const adminCategoryIndex = categories.findIndex(category => category.header === 'Administration');
         if (adminCategoryIndex !== -1) {
           categories.splice(adminCategoryIndex, 1);
