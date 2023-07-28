@@ -15,44 +15,59 @@ export const authenticationStore = defineStore({
             return VueJwtDecode.decode(jwt);
         },
         async requestUserData() {
-
-            const response = await fetch(`${this.api_uri}/${this.decodeJWT($cookies?.get('auth_token')).user_id}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            const data = await response.json()
-
+          const authToken = $cookies?.get('auth_token');
+          if (!authToken) {
+            console.log('No auth token found')
+            return null;
+          }
+      
+          try {
+            const decodedJwt = this.decodeJWT(authToken);
+            const response = await fetch(`${this.api_uri}/${decodedJwt.user_id}`, {
+              method: 'GET',
+              credentials: 'include'
+            });
+            const data = await response.json();
             return data;
+          } catch (error) {
+            // Handle the case when the JWT is invalid or expired.
+            console.error('Error decoding JWT:', error);
+            return null;
+          }
         },
-        async getAllUsers() {
-            const response = await fetch(`${this.api_uri}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            const data = await response.json()
-            return data;
-        },
-        updateUser(id: number, user: User) {
-            fetch(`${this.api_uri}/${id}`, {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    full_name: user.full_name,
-                    email: user.email,
-                    role: user.role,
-                    uid: user.uid,
-                    avatar_url: user.avatar_url,
-                })
-            })
-
-            if (id === this.decodeJWT($cookies?.get('auth_token')).user_id) {
-                if (user.role === 'member') {
-                    router.push({ name: 'Home' });
-                }
+        async updateUser(id: number, user: User) {
+          const authToken = $cookies?.get('auth_token');
+          if (!authToken) {
+            // Handle the case when the JWT is not available.
+            return;
+          }
+      
+          try {
+            const decodedJwt = this.decodeJWT(authToken);
+            const response = await fetch(`${this.api_uri}/${id}`, {
+              method: 'PUT',
+              credentials: 'include',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                full_name: user.full_name,
+                email: user.email,
+                role: user.role,
+                uid: user.uid,
+                avatar_url: user.avatar_url,
+              })
+            });
+      
+            if (id === decodedJwt.user_id) {
+              if (user.role === 'member') {
+                router.push({ name: 'Home' });
+              }
             }
+          } catch (error) {
+            // Handle the case when the JWT is invalid or expired.
+            console.error('Error decoding JWT:', error);
+          }
         }
-    },
+      },      
 })
