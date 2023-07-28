@@ -1,9 +1,6 @@
 import router from '@/config/router';
 import VueJwtDecode from 'vue-jwt-decode';
-import { VueCookies } from 'vue-cookies';
 import { defineStore } from 'pinia';
-import { inject } from 'vue';
-const $cookies = inject<VueCookies>('$cookies'); 
 
 export const authenticationStore = defineStore({
     id: 'authentication',
@@ -14,15 +11,14 @@ export const authenticationStore = defineStore({
         decodeJWT(jwt: string) {
             return VueJwtDecode.decode(jwt);
         },
-        async requestUserData() {
-          const authToken = $cookies?.get('auth_token');
-          if (!authToken) {
+        async requestUserData(auth_token: string) {
+          if (!auth_token) {
             console.log('No auth token found')
             return null;
           }
       
           try {
-            const decodedJwt = this.decodeJWT(authToken);
+            const decodedJwt = this.decodeJWT(auth_token);
             const response = await fetch(`${this.api_uri}/${decodedJwt.user_id}`, {
               method: 'GET',
               credentials: 'include'
@@ -35,16 +31,11 @@ export const authenticationStore = defineStore({
             return null;
           }
         },
-        async updateUser(id: number, user: User) {
-          const authToken = $cookies?.get('auth_token');
-          if (!authToken) {
-            // Handle the case when the JWT is not available.
-            return;
-          }
+        async updateUser(id: number, user: User, auth_token: string) {
       
           try {
-            const decodedJwt = this.decodeJWT(authToken);
-            const response = await fetch(`${this.api_uri}/${id}`, {
+            const decodedJwt = this.decodeJWT(auth_token);
+            await fetch(`${this.api_uri}/${id}`, {
               method: 'PUT',
               credentials: 'include',
               headers: {

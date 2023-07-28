@@ -177,7 +177,7 @@ export default {
         async bookResource(resource, index) {
             const bookingDates = [];
             try {
-                const userData = await this.authenticationStore.requestUserData();
+                const userData = await this.authenticationStore.requestUserData(this.$cookies.get('auth_token'));
                 for (let i = 0; i < this.selectedDates.length; i++) {
                     bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
                 }

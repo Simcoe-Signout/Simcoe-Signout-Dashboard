@@ -105,7 +105,8 @@ export default {
                     email: this.selectedUser.email,
                     role: this.selectedRole,
                     avatar_url: this.selectedUser.avatar_url,
-                }
+                },
+                this.$cookies.get('auth_token')
             );
             this.hidePopup();
             await this.getAllUsers();
