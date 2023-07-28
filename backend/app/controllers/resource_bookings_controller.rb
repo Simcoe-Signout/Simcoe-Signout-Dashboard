@@ -1,6 +1,9 @@
 class ResourceBookingsController < ApplicationController
   before_action :set_resource_booking, only: %i[ show update destroy ]
-  before_action :authenticate_admin, only: %i[index show update destroy]
+  before_action :authenticate_admin, only: %i[ show update destroy]
+
+  # TODO: Make it so that there is an endpoint to fetch all bookings that will be shows on the booking calendar
+  # This means restricting access to gettign all bokings
 
   # GET /resource_bookings
   def index
