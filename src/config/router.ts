@@ -79,7 +79,6 @@ router.beforeEach((to, _, next) => {
   } else {
     const authToken = $cookies.get('auth_token');
     const decodedJWT = authentication.decodeJWT(authToken);
-    authentication.setUserID(decodedJWT.user_id);
     if (decodedJWT.user_role === 'administrator') {
       // If the user is an administrator, allow access to any route
       next();
