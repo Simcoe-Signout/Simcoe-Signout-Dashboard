@@ -11,6 +11,14 @@ export const authenticationStore = defineStore({
         decodeJWT(jwt: string) {
             return VueJwtDecode.decode(jwt);
         },
+        async getAllUsers() {
+            const response = await fetch(`${this.api_uri}`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            const data = await response.json()
+            return data;
+        },
         async requestUserData(auth_token: string) {
           if (!auth_token) {
             console.log('No auth token found')
