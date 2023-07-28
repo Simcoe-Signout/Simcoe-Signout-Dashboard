@@ -34,7 +34,7 @@ import router from '@/config/router';
 import sidebarIcon from '@components/sidebar/sidebarIcon.vue';
 import sidebarItem from '@components/sidebar/sidebarItem.vue';
 import sidebarHeader from '@components/sidebar/sidebarHeader.vue';
-import { authenticationStore } from '@/stores/authentication.ts'
+import { authenticationStore } from '@/stores/authentication.ts';
 
 export default {
   name: 'DefaultLayout',
@@ -74,8 +74,10 @@ export default {
         },
       ];
 
+      const authToken = this.$cookies.get('auth_token');
+      const decodedJWT = this.authenticationStore.decodeJWT(authToken);
       // Remove the 'Administration' category if isLoggedInAsAdmin is false
-      if (this.authenticationStore.userRole !== 'administrator') {
+      if (decodedJWT.user_role !== 'administrator') {
         const adminCategoryIndex = categories.findIndex(category => category.header === 'Administration');
         if (adminCategoryIndex !== -1) {
           categories.splice(adminCategoryIndex, 1);
