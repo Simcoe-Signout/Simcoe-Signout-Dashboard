@@ -1,32 +1,22 @@
 import router from '@/config/router';
 import VueJwtDecode from 'vue-jwt-decode';
-import { defineStore } from 'pinia'
+import { VueCookies } from 'vue-cookies';
+import { defineStore } from 'pinia';
+import { inject } from 'vue';
+const $cookies = inject<VueCookies>('$cookies'); 
 
 export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
         api_uri: 'https://simcoe-signout-api.ian-tapply.me/users',
-        userID: parseInt(localStorage.getItem('userID') || '0', 10),
     }),
-    getters: {
-        // TODO
-        getUserID: (state) => state.userID,
-    },
     actions: {
         decodeJWT(jwt: string) {
             return VueJwtDecode.decode(jwt);
         },
-        // TODO
         async requestUserData() {
-            if (this.userID === 0) {
-                throw console.warn('User ID not set. Value is 0');
-            }
 
-            if (this.userID === null) {
-                throw console.warn('User ID not set. Value is null??');
-            }
-
-            const response = await fetch(`${this.api_uri}/${this.userID}`, {
+            const response = await fetch(`${this.api_uri}/${this.decodeJWT($cookies?.get('auth_token')).user_id}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -58,15 +48,11 @@ export const authenticationStore = defineStore({
                 })
             })
 
-            if (id === this.userID) {
+            if (id === this.decodeJWT($cookies?.get('auth_token')).user_id) {
                 if (user.role === 'member') {
                     router.push({ name: 'Home' });
                 }
             }
-        },
-        setUserID(id: number) {
-            this.userID = id;
-            localStorage.setItem('userID', id.toString());
         }
     },
 })
