@@ -37,8 +37,6 @@ export default {
       const handleMessage = async (event) => {
         const authToken = this.$cookies.get('auth_token');
         if (authToken) {
-          const decoded_token = VueJwtDecode.decode(authToken);
-          this.authentication.setUserID(decoded_token.user_id);
 
           this.myData = await this.authentication.requestUserData();
 
