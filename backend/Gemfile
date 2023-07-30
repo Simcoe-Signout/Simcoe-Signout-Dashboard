@@ -13,6 +13,9 @@ gem "devise", "~> 4.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-google-oauth2", "~> 1.1"
 
+gem "grape", "~> 1.7"
+gem "grape-swagger", "~> 1.6"
+
 gem "devise-jwt", "~> 0.11.0"
 gem "jsonapi-serializer", "~> 2.2"
 
@@ -22,3 +25,5 @@ gem "rack-cors", "~> 2.0"
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
+
+gem "rswag-ui", "~> 2.10"
