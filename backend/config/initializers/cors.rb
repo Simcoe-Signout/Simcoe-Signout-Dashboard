@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'simcoe-signout.ian-tapply.me', 'localhost:3000', '127.0.0.1:3000', 'simcoe-signout-api.ian-tapply.me'
+    origins 'simcoe-signout.ian-tapply.me', 'localhost', '127.0.0.1:3000', 'simcoe-signout-api.ian-tapply.me'
 
     resource "*",
       headers: :any,
