@@ -8,7 +8,7 @@ module Booking
                 end
 
                 def authenticate_admin
-                    unless current_user && current_user.role == "administrator"
+                    unless @current_user && @current_user.role == "administrator"
                         error!({ error: 'User does not have permission to access this endpoint.' }, :forbidden)
                     end
                 end
