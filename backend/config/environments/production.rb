@@ -55,8 +55,6 @@ Rails.application.configure do
 
   config.action_controller.forgery_protection_origin_check = false
 
-  config.force_ssl = true
-
   config.hosts << "simcoe-signout-api.ian-tapply.me"
 
 
