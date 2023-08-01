@@ -70,14 +70,14 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _, next) => {
+router.beforeEach(async (to, _, next) => {
   const authentication = authenticationStore();
   const $cookies = inject<VueCookies>('$cookies'); 
 
-  if (!$cookies || $cookies.get('auth_token') === undefined || $cookies.get('auth_token') === null) {
+  if (!$cookies || await $cookies.get('auth_token') === undefined || await $cookies.get('auth_token') === null) {
     to.name !== 'Login' ? next({ name: 'Login' }) : next();
   } else {
-    const authToken = $cookies.get('auth_token');
+    const authToken = await $cookies.get('auth_token');
     const decodedJWT = authentication.decodeJWT(authToken);
     if (decodedJWT.user_role === 'administrator') {
       // If the user is an administrator, allow access to any route
