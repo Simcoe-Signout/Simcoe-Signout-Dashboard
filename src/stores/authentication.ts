@@ -1,5 +1,5 @@
 import router from '@/config/router';
-import VueJwtDecode from 'vue-jwt-decode';
+import jwt_decode from 'jwt-decode';
 import { defineStore } from 'pinia';
 
 export const authenticationStore = defineStore({
@@ -9,7 +9,17 @@ export const authenticationStore = defineStore({
     }),
     actions: {
         decodeJWT(jwt: string) {
-            return VueJwtDecode.decode(jwt);
+          // decalre the type of the decoded JWT as string and use it
+          // to return the decoded JWT
+          interface DecodedJWT {
+            user_id: number;
+            user_role: string;
+            user_email: string;
+            exp: number;
+          }
+
+          var decodedJWT = jwt_decode<DecodedJWT>(jwt);
+          return decodedJWT;
         },
         async getAllUsers() {
             const response = await fetch(`${this.api_uri}`, {
