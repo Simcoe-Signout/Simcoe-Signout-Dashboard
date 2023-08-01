@@ -11,7 +11,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         cookies[:auth_token] = {
           value: auth_token,
           domain: '.ian-tapply.me',
-          expires: 30.minutes
+          expires: 30.minutes.from_now.to_i
         }
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
     else
