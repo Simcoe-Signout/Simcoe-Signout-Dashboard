@@ -11,7 +11,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         cookies[:auth_token] = {
           value: auth_token,
           domain: '.ian-tapply.me',
-          secure: true,
+          httponly: true,
           same_site: :none,
           expires: 30.minutes
         }
