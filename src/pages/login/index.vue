@@ -16,7 +16,6 @@
 
 <script>
 import googleLoginButton from '@components/authentication/googleLoginButton.vue';
-import VueJwtDecode from 'vue-jwt-decode';
 import { authenticationStore } from '@/stores/authentication.ts';
 
 export default {
@@ -38,8 +37,6 @@ export default {
         const authToken = this.$cookies.get('auth_token');
         if (authToken) {
 
-          // this.myData = await this.authentication.requestUserData();
-
           window.removeEventListener('message', handleMessage);
 
           this.$router.push({ name: 'Home' });
@@ -51,10 +48,5 @@ export default {
       window.addEventListener('message', handleMessage);
     },
   },
-  // async mounted() {
-  //   if (this.$cookies.get('auth_token') != null) {
-  //     this.myData = await this.authentication.requestUserData();
-  //   }
-  // }
 };
 </script>
