@@ -10,7 +10,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       auth_token = JsonWebToken.encode(user_id: user.id, user_role: user.role)
         cookies[:auth_token] = {
           value: auth_token,
-          domain: 'simcoe-signout.ian-tapply.me',
+          domain: '.ian-tapply.me',
           expires: 30.minutes
         }
       render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe, layout: false
