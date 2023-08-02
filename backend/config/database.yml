@@ -25,10 +25,16 @@ test:
   host: srv-captain--dsbn-postgres
   port: 5432
 
+# production:
+#   <<: *default
+#   database: dsbn-resource-booking
+#   username: postgres
+#   password: <%= ENV["POSTGRES_PASSWORD"] %>
+#   host: srv-captain--dsbn-postgres
+#   port: 5432
 production:
   <<: *default
-  database: dsbn-resource-booking
+  database: dsbn-resource-booking-dev
   username: postgres
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
-  host: srv-captain--dsbn-postgres
-  port: 5432
+  password: beans # Replace this with the password you set in postgres setup
+  host: 127.0.0.1
