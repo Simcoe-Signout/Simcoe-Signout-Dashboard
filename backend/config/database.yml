@@ -10,7 +10,7 @@ default: &default
 # To setup rails, install and configure postgres, then run:
 # rails db:setup and/or rails db:create
 # then run rails db:migrate
-production:
+development:
   <<: *default
   database: dsbn-resource-booking-dev
   username: postgres
@@ -25,7 +25,7 @@ test:
   host: srv-captain--dsbn-postgres
   port: 5432
 
-development:
+production:
   <<: *default
   database: dsbn-resource-booking
   username: postgres
