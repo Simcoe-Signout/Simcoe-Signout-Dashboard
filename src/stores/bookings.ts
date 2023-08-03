@@ -45,7 +45,7 @@ export const bookingsStore = defineStore({
             console.log(await res.json());
 
             return this.validPeriods;
-          
+
             // const bookedPeriods = bookings.filter((booking) => {
             //     return (
             //       booking.resourceName === resourceName &&
@@ -64,14 +64,14 @@ export const bookingsStore = defineStore({
             //       })
             //       .map((bookingDateObj) => bookingDateObj.period);
             //   });
-            
+
             //   const availablePeriods = this.validPeriods.filter(
             //     (period) => !bookedPeriods.includes(period)
             //   );
-            
+
             //   console.log(availablePeriods);
             //   return availablePeriods;
-          },
+        },
         // Creates a new booking
         async createBooking(booking: ResourceBooking) {
             const res = await fetch(this.api_uri, {
@@ -90,6 +90,9 @@ export const bookingsStore = defineStore({
             });
             const newBooking = await res.json();
             this.bookings.push(newBooking);
+        },
+        setValidPeriods(periods: number[]) {
+            this.validPeriods = periods;
         },
         // Deletes a booking
         // Also known as cancelling bookings
