@@ -91,9 +91,6 @@ export const bookingsStore = defineStore({
             const newBooking = await res.json();
             this.bookings.push(newBooking);
         },
-        setValidPeriods(periods: number[]) {
-            this.validPeriods = periods;
-        },
         // Deletes a booking
         // Also known as cancelling bookings
         async deleteBooking(id: string) {

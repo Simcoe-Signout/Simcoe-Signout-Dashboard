@@ -29,10 +29,8 @@
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
                                 class="mb-5" />
                             <div v-if="selectedDates.length != 0">
-                                <div v-if="selectedDates.length !== 0">
-                                    <v-select class="ml-7 mr-7" v-model="selectedPeriod"
-                                        :items="bookingsStore.getValidPeriods" label="Period"></v-select>
-                                </div>
+                                <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getValidPeriods"
+                                    label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
                                         <v-list-item v-for="(item, index) in items" :key="index">
@@ -149,15 +147,6 @@ export default {
         openBookingMenu(index) {
             this.bookingMenuOpen[index] = true;
         },
-        async fetchAvailablePeriods(name, start_date, end_date) {
-            try {
-                const availablePeriods = await this.bookingsStore.getAvailablePeriodsFromBookings(name, start_date, end_date);
-                return availablePeriods;
-            } catch (error) {
-                console.error('Error fetching available periods:', error);
-                return [];
-            }
-        },
         /**
          * Closes the booking menu
          */
@@ -255,18 +244,6 @@ export default {
                     id: day.id,
                     date: day.date,
                 });
-            }
-
-            // Fetch available periods for the selected dates and update the v-select
-            if (this.selectedDates.length !== 0) {
-                const start_date = this.selectedDates[0].id; // Assuming the selectedDates array is sorted
-                const end_date = this.selectedDates[this.selectedDates.length - 1].id;
-                const availablePeriods = await this.fetchAvailablePeriods(this.resource.name, start_date, end_date);
-                this.bookingsStore.setValidPeriods(availablePeriods);
-                this.selectedPeriod = availablePeriods.length > 0 ? availablePeriods[0] : null;
-            } else {
-                this.bookingsStore.setValidPeriods([]);
-                this.selectedPeriod = null;
             }
         },
         attributes(resourceName) {
