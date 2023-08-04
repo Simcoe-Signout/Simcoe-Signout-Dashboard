@@ -4,11 +4,11 @@ class JsonWebToken
    
       def encode(payload, exp = 30.minutes.from_now)
         payload[:exp] = exp.to_i
-        JWT.encode(payload, Rails.application.secrets.secret_key_base)
+        JWT.encode(payload, ENV['JWT_ENCRYPTION_KEY'])
       end
    
       def decode(token)
-        body = JWT.decode(token, Rails.application.secrets.secret_key_base)[0]
+        body = JWT.decode(token, ENV['JWT_ENCRYPTION_KEY'])[0]
         HashWithIndifferentAccess.new body
       rescue
         nil
