@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     openGoogleLoginPopup() {
-      var popup = window.open(`${process.env.VITE_API_URI}/users/auth/google_oauth2`, '_blank', 'width=600,height=600');
+      var popup = window.open(`${import.meta.env.VITE_APP_API_URI}/users/auth/google_oauth2`, '_blank', 'width=600,height=600');
 
       const handleMessage = async (event) => {
         const authToken = this.$cookies.get('auth_token');
