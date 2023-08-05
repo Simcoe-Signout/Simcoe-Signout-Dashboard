@@ -27,3 +27,5 @@ group :development, :test do
 end
 
 gem "rswag-ui", "~> 2.10"
+
+gem "dotenv-rails", "~> 2.8"

@@ -32,3 +32,5 @@
 /config/database.yml
 
 /config/credentials/production.key
+
+.env.local
