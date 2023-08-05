@@ -6,9 +6,6 @@ import vue from '@vitejs/plugin-vue';
 // https://vitejs.dev/config/
 import path from 'path';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
 export default defineConfig({
   plugins: [vue()],
   server: {

@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
-        api_uri: `${import.meta.env.VITE_API_URI}/users`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://simcoe-signout-api.ian-tapply.me'}/users`,
     }),
     actions: {
         decodeJWT(jwt: string) {
