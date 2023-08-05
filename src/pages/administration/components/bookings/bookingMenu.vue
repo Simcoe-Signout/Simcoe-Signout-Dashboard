@@ -275,9 +275,6 @@ export default {
         async loadAvailablePeriods(name, start_date, end_date) {
             return await this.bookingsStore.getAvailablePeriodsFromBookings(name, start_date, end_date);
         },
-    },
-    async mounted() {
-        console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-23", "2023-06-23"))
     }
 }
 </script>

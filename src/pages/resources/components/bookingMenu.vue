@@ -29,7 +29,7 @@
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
                                 class="mb-5" />
                             <div v-if="selectedDates.length != 0">
-                                <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getValidPeriods"
+                                <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
                                     label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
@@ -275,7 +275,6 @@ export default {
     },
     async mounted() {
         await this.bookingsStore.fetchBookings();
-        // console.log(this.bookingsStore.getAvailablePeriodsFromBookings("beans", "2023-06-23", "2023-06-23"))
     }
 }
 </script>
