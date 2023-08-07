@@ -29,7 +29,8 @@
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
                                 class="mb-5" />
                             <div v-if="selectedDates.length != 0">
-                                <v-select class="ml-7 mr-7" v-model="selectedPeriod" :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
+                                <v-select class="ml-7 mr-7" v-model="selectedPeriod"
+                                    :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
                                     label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
@@ -47,7 +48,7 @@
             <v-expand-transition>
                 <v-card v-if="bookingPhaseIndex == 1" class="v-card--reveal">
                     <v-text-field clearable class="ml-7 mt-4 mr-7 mb-3" hint="The destination it's going to (ex. 207D, 130)"
-                        v-model="destination" label="Destination" />
+                        v-model="destination" label="Destination" :rules="[rules.required]" />
                 </v-card>
             </v-expand-transition>
 
@@ -89,6 +90,45 @@
             </v-card-actions>
         </v-card>
     </v-menu>
+
+    <v-dialog v-model="showNoDatesSelectedDialog" max-width="500">
+        <v-card>
+            <v-card-title class="headline">No Dates Selected</v-card-title>
+            <v-card-text>
+                <h3>No dates have been selected! Please select a booking date.</h3>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green" text @click="showNoDatesSelectedDialog = false">Ok</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showNoPeriodSelectedDialog" max-width="500">
+        <v-card>
+            <v-card-title class="headline">No Period Selected</v-card-title>
+            <v-card-text>
+                <h3>No period was selected for your booking! Please select a period.</h3>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green" text @click="showNoPeriodSelectedDialog = false">Ok</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="showNoDestinationDialog" max-width="500">
+        <v-card>
+            <v-card-title class="headline">No Destination Specified</v-card-title>
+            <v-card-text>
+                <h3>No destination was specified for your booking! Please specify a destination.</h3>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green" text @click="showNoDestinationDialog = false">Ok</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -99,27 +139,25 @@ import { authenticationStore } from '@/stores/authentication';
 const validPhases = ["when", "where", "comments", "review"];
 
 export default {
-    data() {
-        return {
-            bookingsStore: bookingsStore(),
-            authenticationStore: authenticationStore(),
-            bookingMenuOpen: [],
-            date: new Date(),
-            bookingPhaseIndex: 0,
+    data: () => ({
+        bookingsStore: bookingsStore(),
+        authenticationStore: authenticationStore(),
+        bookingMenuOpen: [],
+        date: new Date(),
+        bookingPhaseIndex: 0,
 
-            // THIS IS THE VITAL INFORMATION WE NEED TO TRACK FOR BOOKING
+        selectedDates: [],
+        selectedPeriod: null,
+        destination: null,
+        comments: null,
 
-            // When
-            selectedDates: [],
-            selectedPeriod: null,
-
-            // Where
-            destination: null,
-
-            // Comments
-            comments: null
-        }
-    },
+        showNoDatesSelectedDialog: false,
+        showNoPeriodSelectedDialog: false,
+        showNoDestinationDialog: false,
+        rules: {
+            required: value => !!value || 'This field is required.',
+        },
+    }),
     props: {
         index: {
             type: Number,
@@ -158,6 +196,21 @@ export default {
          * Books the resource
          */
         async bookResource(resource, index) {
+            if (this.selectedDates.length == 0) {
+                this.showNoDatesSelectedDialog = true;
+                return;
+            }
+
+            if (this.selectedPeriod == null) {
+                this.showNoPeriodSelectedDialog = true;
+                return;
+            }
+
+            if (this.destination == null) {
+                this.showNoDestinationDialog = true;
+                return;
+            }
+
             const bookingDates = [];
             try {
                 const userData = await this.authenticationStore.requestUserData(this.$cookies.get('auth_token'));

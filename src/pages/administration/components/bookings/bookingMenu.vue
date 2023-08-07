@@ -124,17 +124,10 @@ export default {
             date: new Date(),
             bookingPhaseIndex: 0,
 
-            // THIS IS THE VITAL INFORMATION WE NEED TO TRACK FOR BOOKING
-
-            // When
             selectedDates: [],
             selectedPeriod: null,
-
-            // Where
             destination: null,
-
-            // Comments
-            comments: null
+            comments: null,
         }
     },
     props: {
@@ -285,4 +278,5 @@ export default {
     opacity: 1 !important;
     position: absolute;
     width: 100%;
-}</style>
+}
+</style>

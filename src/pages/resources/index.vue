@@ -14,21 +14,21 @@
         <h1>{{ formattedDate }}</h1>
       </v-row>
       <v-row no-gutters class="button-row">
-        <v-btn>
+        <v-btn @click="changeDate(-1)">
           <v-icon>mdi-less-than</v-icon>
         </v-btn>
-        <v-btn class="ml-2">
+        <v-btn class="ml-2" @click="changeDate(1)">
           <v-icon>mdi-greater-than</v-icon>
         </v-btn>
-        <v-btn class="ml-6">
+        <v-btn class="ml-6" @click="today">
           TODAY
         </v-btn>
       </v-row>
-      <resourceItems />
+      <resourceItems/>
     </v-col>
   </v-row>
 </template>
-  
+
 <script>
 import resourceItems from '@/pages/resources/components/resourceItems.vue';
 import filterButton from '@/pages/resources/components/filterButton.vue';
@@ -47,19 +47,6 @@ export default {
   },
   methods: {
     /**
-     * Creates an example resource
-     * Removing functionality as it's testing
-     */
-    // createExampleResource() {
-    //   this.store.createResource("Math Tote", "A tote filled with chromebooks that belongs to the math department. This is an example description that is longer.", "Location", [
-    //     { text: "Tote", colour: "orange" },
-    //     { text: "Math Department", colour: "blue" },
-    //     { text: "Beans", colour: "yellow" },
-    //     { text: "Beans", colour: "white" },
-    //     { text: "Beans", colour: "purple" },
-    //   ], "Category 1");
-    // },
-    /**
      * Removes a category from the list of filtered categories
      * @param category The category to remove from the list of filtered categories
      */
@@ -71,7 +58,20 @@ export default {
         this.store.setFilteredCategories(filteredCategories);
       }
     },
-
+    /**
+     * Changes the current date by the specified number of days
+     * @param days The number of days to change the current date by
+     */
+    changeDate(days) {
+      const newDate = new Date(this.date.getTime() + days * 24 * 60 * 60 * 1000);
+      this.date = newDate;
+    },
+    /**
+     * Sets the current date to the current day
+     */
+    today() {
+      this.date = new Date();
+    }
   },
   computed: {
     /**
@@ -93,7 +93,7 @@ export default {
   },
 };
 </script>
-  
+
 <style>
 .category-column {
   margin-left: 30px;
@@ -115,4 +115,3 @@ export default {
   margin-top: 10px;
 }
 </style>
-  
