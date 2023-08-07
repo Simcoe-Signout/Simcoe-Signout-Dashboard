@@ -4,11 +4,11 @@ class JsonWebToken
    
       def encode(payload, exp = 30.minutes.from_now)
         payload[:exp] = exp.to_i
-        JWT.encode(payload, ENV['JWT_ENCRYPTION_KEY'])
+        JWT.encode(payload, ENV.fetch('JWT_ENCRYPTION_KEY', nil))
       end
    
       def decode(token)
-        body = JWT.decode(token, ENV['JWT_ENCRYPTION_KEY'])[0]
+        body = JWT.decode(token, ENV.fetch('JWT_ENCRYPTION_KEY', nil))[0]
         HashWithIndifferentAccess.new body
       rescue
         nil
