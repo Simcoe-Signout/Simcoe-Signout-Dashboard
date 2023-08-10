@@ -24,7 +24,7 @@
           TODAY
         </v-btn>
       </v-row>
-      <resourceItems/>
+      <resourceItems :date="date"/>
     </v-col>
   </v-row>
 </template>

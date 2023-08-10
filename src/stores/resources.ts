@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { bookingsStore } from './bookings';
 
 export const resourcesPageStore = defineStore({
     id: 'resources',
@@ -42,13 +43,31 @@ export const resourcesPageStore = defineStore({
                 );
             }
         },
+        getAvailableResourcesOnDate: (state) => (date: string) => {
+            const bookingStore = bookingsStore();
+            const resources = state.resources;
+
+            const previousDate = new Date(date);
+            previousDate.setDate(previousDate.getDate() - 1);
+
+            const availableResources = resources.filter((resource: any) => {
+                const bookingsOnDate = bookingStore.getBookings.filter((booking: any) => {
+                    return booking.resourceName === resource.name && booking.bookingDates.some((bookingDate: any) => {
+                        return bookingDate.date === previousDate.toISOString().slice(0, 10);
+                    });
+                });
+                return bookingsOnDate.length <= 3;
+            });
+
+            return availableResources;
+        }
     },
     actions: {
         // Fetches all resources from the API
         async fetchResources() {
             const res = await fetch(this.api_uri, {
-                    method: 'GET',
-                    credentials: 'include'
+                method: 'GET',
+                credentials: 'include'
             })
             this.resources = await res.json();
         },

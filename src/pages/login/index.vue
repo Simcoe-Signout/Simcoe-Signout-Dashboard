@@ -32,7 +32,7 @@ export default {
   methods: {
     openGoogleLoginPopup() {
       const apiURI = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://simcoe-signout-api.ian-tapply.me';
-      var popup = window.open(`${apiURI}/users/auth/google_oauth2`, '_blank', 'width=600,height=600');
+      var popup = window.open(`${apiURI}/users/auth/google_oauth2`, '_blank');
 
       const handleMessage = async (event) => {
         const authToken = this.$cookies.get('auth_token');
