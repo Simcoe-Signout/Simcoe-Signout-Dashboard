@@ -30,7 +30,7 @@ class ResourceBookingsController < ApplicationController
     render json: @resource_booking
   end
 
-  # POST /resource_bookings
+    # POST /resource_bookings
   def create
     @resource_booking = if current_user.role == "administrator"
       # Allow administrators to forcibly set the bookedBy name
@@ -38,14 +38,24 @@ class ResourceBookingsController < ApplicationController
     else
       # Set bookedBy to current_user.full_name for members
       ResourceBooking.new(resource_booking_params.merge(bookedBy: current_user.full_name))
-                        end
-  
-    if @resource_booking.save
+    end
+
+    if @resource_booking.bookingDates.uniq! { |booking_date| [booking_date["date"], booking_date["period"]] }
+      render json: { error: "Duplicate booking dates found" }, status: :unprocessable_entity
+    elsif ResourceBooking.where(resourceName: @resource_booking.resourceName).any? do |booking|
+      booking.bookingDates.any? do |booking_date|
+        @resource_booking.bookingDates.any? do |new_booking_date|
+          new_booking_date["date"] == booking_date["date"] && new_booking_date["period"] == booking_date["period"]
+        end
+      end
+    end
+      render json: { error: "Booking already exists for this resource on this date and period" }, status: :unprocessable_entity
+    elsif @resource_booking.save
       render json: @resource_booking, status: :created, location: @resource_booking
     else
       render json: @resource_booking.errors, status: :unprocessable_entity
     end
-  end  
+  end
 
   # PATCH/PUT /resource_bookings/1
   def update
