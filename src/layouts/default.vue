@@ -19,7 +19,7 @@
         <v-icon>mdi-menu</v-icon>
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title>DSBN Resources Booking</v-toolbar-title>
+      <v-toolbar-title>Simcoe Signout</v-toolbar-title>
     </v-app-bar>
 
     <v-main>
@@ -52,7 +52,7 @@ export default {
     routeCategories() {
       const categories = [
         {
-          header: 'DSBN Resources Booking',
+          header: 'Simcoe Signout',
           routes: [
             { route: this.routes[0], icon: 'mdi-home' },
             { route: this.routes[1], icon: 'mdi-database' },
