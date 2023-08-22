@@ -23,6 +23,8 @@ gem "jsonapi-serializer", "~> 2.2"
 gem "simple_command", "~> 1.0"
 gem "rack-cors", "~> 2.0"
 
+gem 'grape_on_rails_routes'
+
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end

@@ -53,7 +53,7 @@
 #   # Highlight code that triggered database queries in logs.
 #   config.active_record.verbose_query_logs = true
 
-#   config.hosts << "simcoe-signout-api.ian-tapply.me"
+#   config.hosts << "api.simcoesignout.com"
 
 
 #   # Raises error for missing translations.
@@ -151,5 +151,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.hosts << "simcoe-signout-api.ian-tapply.me"
+  config.hosts << "api.simcoesignout.com"
 end

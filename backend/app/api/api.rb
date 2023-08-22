@@ -1,6 +1,5 @@
 class Api < Grape::API
-    format :json
-    prefix :api
-    
-    mount Booking::V1::Root
+
+  mount Admin::Root
+  mount Core::Root
 end
