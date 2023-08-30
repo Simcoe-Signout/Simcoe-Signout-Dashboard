@@ -1,6 +1,6 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
     if Rails.env.production?
-        if ENV['RESTRICT_LOGIN_BY_ORGANIZATION'] == 'false'
+        if ENV['RESTRICT_LOGIN_BY_ORGANIZATION'] == 'false' # Should be kept as false from now on; Deprecating soon
             provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID', nil), ENV.fetch('GOOGLE_CLIENT_SECRET', nil), skip_jwt: true, scope: 'email, profile', redirect_uri: 'https://api.simcoesignout.com/users/auth/google_oauth2/callback'
         else
             provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID', nil), ENV.fetch('GOOGLE_CLIENT_SECRET', nil), skip_jwt: true, scope: 'email, profile', hd: 'dsbn.org', redirect_uri: 'https://api.simcoesignout.com/users/auth/google_oauth2/callback'

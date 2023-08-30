@@ -6,24 +6,40 @@ class ResourceBookingsController < ApplicationController
   # This means restricting access to gettign all bokings
 
   # GET /resource_bookings
-  def index
-    if params[:start_date] && params[:end_date]
-      start_date = Date.parse(params[:start_date])
-      end_date = Date.parse(params[:end_date])
-  
-      @resource_bookings = ResourceBooking.select do |booking|
-        booking.bookingDates.any? do |bd_jsonb|
-          bd_date = bd_jsonb['date']
-          booking_date = Date.parse(bd_date)
-          booking_date >= start_date && booking_date <= end_date
-        end
+def index
+  if params[:start_date] && params[:end_date]
+    start_date = Date.parse(params[:start_date])
+    end_date = Date.parse(params[:end_date])
+
+    @resource_bookings = ResourceBooking.select do |booking|
+      booking.bookingDates.any? do |bd_jsonb|
+        bd_date = bd_jsonb['date']
+        booking_date = Date.parse(bd_date)
+        booking_date >= start_date && booking_date <= end_date
       end
-    else
+    end.map do |booking|
+      {
+        bookedBy: booking.bookedBy,
+        resourceName: booking.resourceName,
+        bookingDates: booking.bookingDates
+      }
+    end
+  else
+    @resource_bookings = ResourceBooking.all.map do |booking|
+      {
+        bookedBy: booking.bookedBy,
+        resourceName: booking.resourceName,
+        bookingDates: booking.bookingDates
+      }
+    end
+
+    if current_user.role == "administrator"
       @resource_bookings = ResourceBooking.all
     end
-  
-    render json: @resource_bookings
-  end    
+  end
+
+  render json: @resource_bookings
+end   
   
   # GET /resource_bookings/1
   def show
