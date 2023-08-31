@@ -1,5 +1,5 @@
 module Admin
-    module Bookings
+    module Resources
         class Ping < Grape::API
             get :ping do
                 'pong'

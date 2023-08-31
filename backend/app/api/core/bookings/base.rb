@@ -1,7 +1,7 @@
-module Admin
+module Core
     module Bookings
         class Base < Grape::API
-            prefix 'api/admin/bookings'
+            prefix 'api/core/bookings'
   
             mount Get
             mount GetOne
