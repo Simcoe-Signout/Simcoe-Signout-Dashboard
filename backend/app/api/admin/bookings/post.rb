@@ -4,7 +4,7 @@ module Admin
 
       params do
         requires :booking, type: Hash do
-          optional :bookedBy, type: String, default: "testing"
+          requires :bookedBy, type: String
           requires :resourceName, type: String
           requires :bookingDates, type: Array do
             requires :date, type: String

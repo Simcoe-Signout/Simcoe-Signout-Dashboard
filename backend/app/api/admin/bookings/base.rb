@@ -7,6 +7,7 @@ module Admin
             mount GetOne
             mount Post
             mount Delete
+            mount Put
         end
     end
 end
