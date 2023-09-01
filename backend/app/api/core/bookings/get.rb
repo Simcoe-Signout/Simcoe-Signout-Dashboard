@@ -9,7 +9,7 @@ module Core
         end
   
         get do
-          if params[:start_date] && params[:end_date]
+          if params[:start_date].present? && params[:end_date].present?
             start_date = Date.parse(params[:start_date])
             end_date = Date.parse(params[:end_date])
   
@@ -29,24 +29,24 @@ module Core
               end
             end
   
-            if params[:resource_name]
+            if params[:resource_name].present?
               @resource_bookings = @resource_bookings.select do |booking|
                 booking.resourceName == params[:resource_name]
               end
             end
-          elsif params[:period]
+          elsif params[:period].present?
             @resource_bookings = ResourceBooking.select do |booking|
               booking.bookingDates.any? do |date|
                 date['period'] == params[:period]
               end
             end
   
-            if params[:resource_name]
+            if params[:resource_name].present?
               @resource_bookings = @resource_bookings.select do |booking|
                 booking.resourceName == params[:resource_name]
               end
             end
-          elsif params[:resource_name]
+          elsif params[:resource_name].present?
             @resource_bookings = ResourceBooking.select do |booking|
               booking.resourceName == params[:resource_name]
             end
