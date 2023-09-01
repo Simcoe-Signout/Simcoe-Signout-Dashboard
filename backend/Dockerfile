@@ -1,28 +1,15 @@
-# Use the official Ruby image as the base image
 FROM ruby:3.0.6
 
-# Set the working directory in the container
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client build-essential
+
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    nodejs \
-    yarn \
-    libpq-dev
+COPY Gemfile* ./
 
-# Copy the Gemfile and Gemfile.lock into the container
-COPY Gemfile Gemfile.lock ./
+RUN bundle install
 
-# Install project dependencies
-RUN gem install bundler && bundle install --jobs 20 --retry 5
-
-# Copy the application code into the container
 COPY . .
 
-# Expose port 3000 to the host
 EXPOSE 3000
 
-# Start the Rails server when the container launches
-# Run it in production mode here, but we can use an ENV variable to change this
-CMD ["bundle", "exec", "rails", "s", "-e", "production"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]

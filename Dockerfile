@@ -1,21 +1,18 @@
-# build stage
-FROM node:16 AS build-stage
+FROM node
 
 WORKDIR /app
 
-COPY package.json ./
+# Copy package.json and yarn.lock files first for caching
+COPY package.json yarn.lock ./
 
+# Install project dependencies
 RUN yarn install
 
+# Copy the rest of the application code
 COPY . .
 
-RUN yarn build
+# Expose the port your Vite app will run on
+EXPOSE 5173
 
-# production stage
-FROM nginx AS production-stage
-
-COPY --from=build-stage /app/dist /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Vite development server
+CMD ["yarn", "run", "dev"]

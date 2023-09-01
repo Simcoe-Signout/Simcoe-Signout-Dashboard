@@ -4,7 +4,7 @@ default: &default
   database: dsbn-resource-booking-dev
   username: postgres
   password: beans
-  host: 127.0.0.1
+  host: db
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 # To setup rails, install and configure postgres, then run:
@@ -14,8 +14,7 @@ development:
   <<: *default
   database: dsbn-resource-booking-dev
   username: postgres
-  password: beans # Replace this with the password you set in postgres setup
-  host: 127.0.0.1
+  password: beans
 
 test:
   <<: *default
