@@ -32,6 +32,7 @@ module Admin
     end
 
     mount Bookings::Base
+    mount Resources::Base
     # Swagger mount?
   end
 end
