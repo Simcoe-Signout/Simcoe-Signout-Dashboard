@@ -17,4 +17,16 @@ class ResourceBooking < ApplicationRecord
       error!('Booking could not be updated', 500)
     end
   end
+
+  def self.get_bookings_for_resource_on_date(resourceName, date)
+    # Find all bookings for the given resource
+    bookings = where(resourceName: resourceName)
+
+    # Find all bookings that contain the given date
+    bookings.select do |booking|
+      booking.bookingDates.any? do |bookingDate|
+        bookingDate['date'] == date
+      end
+    end
+  end
 end
