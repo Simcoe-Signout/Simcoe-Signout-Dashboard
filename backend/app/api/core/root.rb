@@ -28,7 +28,7 @@ module Core
 
     mount Bookings::Base
     mount Resources::Base
-
+    mount Users::Base
     # Swagger mount?
   end
 end

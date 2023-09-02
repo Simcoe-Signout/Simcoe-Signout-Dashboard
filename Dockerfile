@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 5173
 
 # Start the Vite development server
-CMD ["yarn", "run", "dev"]
+CMD ["yarn", "run", "dev", "--host"]

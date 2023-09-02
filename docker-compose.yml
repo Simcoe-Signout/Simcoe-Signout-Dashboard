@@ -22,13 +22,14 @@ services:
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
+      PGDATA: /var/lib/postgresql/data/simcoesignout/
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: simcoesignout
       POSTGRES_DB: dsbn-resource-booking-dev
 
   frontend:
     tty: true
-    entrypoint: yarn run dev
+    entrypoint: yarn run dev --host
     build:
       context: ./
       dockerfile: Dockerfile

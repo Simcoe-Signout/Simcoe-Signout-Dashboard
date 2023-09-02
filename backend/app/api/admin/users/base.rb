@@ -3,7 +3,8 @@ module Admin
         class Base < Grape::API
             prefix 'api/admin/users'
   
-            mount Ping
+            mount Get
+            mount Put
         end
     end
 end
