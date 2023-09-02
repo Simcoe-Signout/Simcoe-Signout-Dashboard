@@ -4,7 +4,8 @@ import { bookingsStore } from './bookings';
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/resources`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/core/resources`,
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/resources`,
         categories: [
             'Category 1',
             'Category 2',
@@ -16,6 +17,7 @@ export const resourcesPageStore = defineStore({
         ],
         filteredAvailabilityTypes: [] as string[],
         resources: [] as any[],
+        filteredDate: new Date()
     }),
     getters: {
         getCategories: (state) => state.categories,
@@ -64,8 +66,8 @@ export const resourcesPageStore = defineStore({
     },
     actions: {
         // Fetches all resources from the API
-        async fetchResources() {
-            const res = await fetch(this.api_uri, {
+        async fetchResources(date: String) {
+            const res = await fetch(`${this.api_uri}?categories=${this.filteredCategories}&available_on_date=${date}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -73,6 +75,7 @@ export const resourcesPageStore = defineStore({
         },
         setFilteredCategories(categories: string[]) {
             this.filteredCategories = categories;
+            this.fetchResources(this.filteredDate.toISOString().slice(0, 10));
         },
         setFilteredAvailabilityTypes(availabilityTypes: string[]) {
             this.filteredAvailabilityTypes = availabilityTypes;
@@ -82,47 +85,41 @@ export const resourcesPageStore = defineStore({
         },
         // Adds a new resource to the API
         async createResource(resource: Resource) {
-            const res = await fetch(this.api_uri, {
+            const res = await fetch(this.admin_api_uri, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
+                body: JSON.stringify({ resource: {
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
                     category: resource.resourceCategory,
                     tags: resource.resourceTags,
-                })
+                }})
             });
 
             const data = await res.json();
-
-            if (!res.ok) {
-                console.error('Error:', res.status);
-                console.log('Response:', data);
-                return;
-            }
 
             this.resources.push(data);
         },
         // Updates a resource in the API
         async updateResource(id: string, resource: Resource) {
-            const res = await fetch(`${this.api_uri}/${id}`, {
+            const res = await fetch(`${this.admin_api_uri}/${id}`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
+                body: JSON.stringify({ resource:{
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
                     tags: resource.resourceTags,
                     category: resource.resourceCategory,
                     id: id
-                })
+                }})
             });
 
             let data = await res.json();
@@ -132,7 +129,7 @@ export const resourcesPageStore = defineStore({
         },
         // Deletes a resource from the API
         async deleteResource(id: number) {
-            await fetch(`${this.api_uri}/${id}`, {
+            await fetch(`${this.admin_api_uri}/${id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             })

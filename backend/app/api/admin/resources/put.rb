@@ -2,6 +2,7 @@ module Admin
     module Resources
       class Put < Grape::API
         params do
+            requires :id, type: Integer 
             requires :resource, type: Hash do
                 requires :name, type: String
                 requires :description, type: String
@@ -21,8 +22,8 @@ module Admin
             error!({ error: "Resource not found" }, 404)
           end
 
-          if resource
-              error!({ error: "Resource already exists with that name" }, 400)
+          if resource && resource.id != params[:id]
+            error!({ error: "Resource already exists with that name" }, 400)
           end
   
           # Update the resource attributes

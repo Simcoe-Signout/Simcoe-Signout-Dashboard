@@ -20,7 +20,7 @@
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'categories'" class="v-card--reveal">
                     <v-checkbox hide-details density="comfortable" v-for="(category, i) in store.getCategories" :key="i"
-                        :value="category" :label="category" v-model="store.filteredCategories"></v-checkbox>
+                        :value="category" :label="category" v-model="store.filteredCategories" @change='store.fetchResources(store.filteredDate)'></v-checkbox>
                 </v-card>
             </v-expand-transition>
 

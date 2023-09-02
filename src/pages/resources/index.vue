@@ -64,6 +64,8 @@ export default {
      */
     changeDate(days) {
       const newDate = new Date(this.date.getTime() + days * 24 * 60 * 60 * 1000);
+      this.store.filteredDate = newDate.toISOString().slice(0, 10);
+      this.store.fetchResources(newDate.toISOString().slice(0, 10));
       this.date = newDate;
     },
     /**

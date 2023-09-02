@@ -1,6 +1,6 @@
 <template>
   <v-row class="ml-1 mt-2">
-    <v-col v-for="(resource, i) in availableResources" :key="resource.id" cols="12" sm="6" md="4" lg="3" class="px-0 resource-column">
+    <v-col v-for="(resource, i) in resourceStore.resources" :key="resource.id" cols="12" sm="6" md="4" lg="3" class="px-0 resource-column">
       <v-row no-gutters class="align-center">
         <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350" width="100%">
           <div class="ml-2 mb-2 text-wrap">
@@ -41,7 +41,7 @@ export default {
   computed: {
     availableResources() {
       const isoDate = this.date.toISOString().slice(0, 10);
-      return this.resourceStore.getAvailableResourcesOnDate(isoDate);
+      return this.resourceStore.resources;
     },
   },
   methods: {
@@ -58,6 +58,10 @@ export default {
     },
   },
   components: { BookingMenu },
+  // mounted() {
+  //   const isoDate = this.date.toISOString().slice(0, 10);
+  //   this.resourceStore.fetchResources(isoDate);
+  // },
 };
 </script>
 

@@ -5,6 +5,7 @@ module Admin
   
             mount Post
             mount Delete
+            mount Put
         end
     end
 end
