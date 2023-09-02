@@ -1,15 +1,20 @@
 <template>
-    <h1 class="mt-5 ml-10 mb-2">Manage Bookings</h1>
-    <v-divider class="ml-10 mr-10"></v-divider>
+        <div class="ml-10">
+            <h1 class="mt-5mb-2">Manage Bookings</h1>
+            <filterButton />
+            <v-divider class="mr-10"></v-divider>
+        </div>
     <bookingItems />
 </template>
 
 <script>
 import bookingItems from './components/bookings/bookingItems.vue'
+import filterButton from './components/bookings/filterButton.vue';
 
 export default {
     components: {
-        bookingItems
+        bookingItems,
+        filterButton
     }
 }
 </script>

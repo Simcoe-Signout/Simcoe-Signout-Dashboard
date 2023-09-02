@@ -93,13 +93,13 @@ export default {
   },
   computed: {
     numPages() {
-      return Math.ceil(this.bookings.length / this.bookingsPerPage);
+      return Math.ceil(this.bookingsStore.bookings.length / this.bookingsPerPage);
     },
     pagedBookings() {
       const startIndex = (this.pageNo - 1) * this.bookingsPerPage;
       const endIndex = startIndex + this.bookingsPerPage;
 
-      return this.bookings.slice(startIndex, endIndex);
+      return this.bookingsStore.bookings.slice(startIndex, endIndex);
     }
   },
   async mounted() {

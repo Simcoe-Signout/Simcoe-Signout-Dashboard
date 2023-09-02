@@ -17,7 +17,9 @@ export const resourcesPageStore = defineStore({
         ],
         filteredAvailabilityTypes: [] as string[],
         resources: [] as any[],
-        filteredDate: new Date()
+        filteredDate: new Date(),
+
+        resourceNames: [] as string[],
     }),
     getters: {
         getCategories: (state) => state.categories,
@@ -72,6 +74,14 @@ export const resourcesPageStore = defineStore({
                 credentials: 'include'
             })
             this.resources = await res.json();
+        },
+        async fetchAllResourceNames() {
+            const res = await fetch(`${this.api_uri}?categories=&available_on_date=`, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            const resources = await res.json();
+            this.resourceNames = resources.map((resource: any) => resource.name);
         },
         setFilteredCategories(categories: string[]) {
             this.filteredCategories = categories;

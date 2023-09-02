@@ -73,6 +73,8 @@ export default {
      */
     today() {
       this.date = new Date();
+      this.store.filteredDate = this.date.toISOString().slice(0, 10);
+      this.store.fetchResources(this.date.toISOString().slice(0, 10));
     }
   },
   computed: {

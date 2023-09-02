@@ -327,7 +327,7 @@ export default {
         },
     },
     async mounted() {
-        await this.bookingsStore.fetchBookings();
+        await this.bookingsStore.fetchAllBookings();
     }
 }
 </script>
