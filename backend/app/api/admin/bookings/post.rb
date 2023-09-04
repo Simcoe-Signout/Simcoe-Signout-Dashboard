@@ -5,6 +5,7 @@ module Admin
       params do
         requires :booking, type: Hash do
           requires :bookedBy, type: String
+          optional :bookedById, type: Integer
           requires :resourceName, type: String
           requires :bookingDates, type: Array do
             requires :date, type: String
@@ -17,7 +18,12 @@ module Admin
 
       post do
         resource_booking_params = params[:booking]
-        resource_booking = ResourceBooking.new(resource_booking_params)
+
+        if params[:bookings][:bookedById].present?
+          resource_booking = ResourceBooking.new(resource_booking_params)
+        else
+          resource_booking = ResourceBooking.new(resource_booking_params.merge(bookedById: current_user.id))
+        end
 
         if resource_booking.bookingDates.uniq! { |booking_date| [booking_date["date"], booking_date["period"]] }
           error!({ error: "Duplicate booking dates found" }, 422)

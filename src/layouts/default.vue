@@ -71,6 +71,7 @@ export default {
           header: 'My Account',
           routes: [
             { route: this.routes[6], icon: 'mdi-account-circle' },
+            { route: this.routes[7], icon: 'mdi-book-account-outline' },
           ],
         },
       ];

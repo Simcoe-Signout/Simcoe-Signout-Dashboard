@@ -8,7 +8,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if user.present?
       if user.email.ends_with?('@dsbn.org') || user.email == 'iantapply22@gmail.com'
         sign_in user, store: false
-        auth_token = JsonWebToken.encode(user_id: user.id, user_role: user.role)
+        auth_token = JsonWebToken.encode(user_id: user.id, user_full_name: user.full_name, user_role: user.role)
         cookies[:auth_token] = {
           value: auth_token,
           domain: Rails.env.production? ? '.simcoesignout.com' : '127.0.0.1',

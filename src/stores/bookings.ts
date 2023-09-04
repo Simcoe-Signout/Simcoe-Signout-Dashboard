@@ -56,8 +56,17 @@ export const bookingsStore = defineStore({
             })
             this.bookings = await res.json();
         },
+        // Fetches all bookings from the API
         async fetchAllBookings() {
             const res = await fetch(this.api_uri, {
+                method: 'GET',
+                credentials: 'include'
+            })
+            this.bookings = await res.json();
+        },
+        // Fetches all my bookings from the API
+        async fetchMyBookings() {
+            const res = await fetch(`${this.api_uri}?only_mine=true`, {
                 method: 'GET',
                 credentials: 'include'
             })

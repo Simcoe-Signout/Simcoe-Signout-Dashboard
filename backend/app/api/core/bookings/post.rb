@@ -16,7 +16,7 @@ module Core
   
         post do
           resource_booking_params = params[:booking]
-          resource_booking = ResourceBooking.new(resource_booking_params.merge(bookedBy: current_user.full_name))
+          resource_booking = ResourceBooking.new(resource_booking_params.merge(bookedBy: current_user.full_name, bookedById: current_user.id))
   
           if resource_booking.bookingDates.uniq! { |booking_date| [booking_date["date"], booking_date["period"]] }
             error!({ error: "Duplicate booking dates found" }, 422)

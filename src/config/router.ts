@@ -1,6 +1,4 @@
 import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
-//import { authenticationStore } from '@/stores/authentication.ts';
-
 import Home from '@pages/home/index.vue';
 import LoginPage from '@pages/login/index.vue';
 import Resources from '@pages/resources/index.vue';
@@ -12,6 +10,7 @@ import EditCategories from '@pages/administration/editCategories.vue';
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
 import { inject } from 'vue';
+import myBookings from '@/pages/account/myBookings.vue';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))
@@ -72,6 +71,14 @@ const routes: RouteRecordRaw[] = [
     meta: {
       layout: 'login',
     },
+  },
+  {
+    path: '/my-bookings',
+    name: 'My Bookings',
+    component: myBookings,
+    meta: {
+      requiredRole: 'member'
+    }
   },
 ];
 
