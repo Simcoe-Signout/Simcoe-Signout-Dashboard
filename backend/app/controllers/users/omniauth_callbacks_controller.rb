@@ -1,6 +1,5 @@
 include ActionController::Cookies
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  skip_before_action :authenticate_request
 
   def google_oauth2
     user = User.from_omniauth(auth)

@@ -9,7 +9,7 @@ export const bookingsStore = defineStore({
         bookings: [] as any[],
 
         filteredPeriod: 1,
-        filteredDateFrom: new Date().toISOString().slice(0, 10),
+        filteredDateFrom: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
         filteredDateTo: new Date().toISOString().slice(0, 10),
         filteredResourceName: '',
     }),

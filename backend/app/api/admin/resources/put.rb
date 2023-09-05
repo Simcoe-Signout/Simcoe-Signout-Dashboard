@@ -17,13 +17,13 @@ module Admin
   
         put ':id' do
           # Find the resource by name
-          resource = Resource.find_by_name(params[:resource][:name])
+          resource = Resource.find_by_id(params[:id])
           unless resource
             error!({ error: "Resource not found" }, 404)
           end
 
           if resource && resource.id != params[:id]
-            error!({ error: "Resource already exists with that name" }, 400)
+            error!({ error: "Resource already exists with that ID" }, 400)
           end
   
           # Update the resource attributes

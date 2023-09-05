@@ -5,7 +5,7 @@ import Resources from '@pages/resources/index.vue';
 import EditResources from '@pages/administration/editResources.vue';
 import ManageUsers from '@pages/administration/manageUsers.vue';
 import ManageBookings from '@pages/administration/manageBookings.vue';
-import EditCategories from '@pages/administration/editCategories.vue';
+import Categories from '@pages/administration/categories.vue';
 
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
@@ -56,9 +56,9 @@ const routes: RouteRecordRaw[] = [
     }
   },
   {
-    path: '/edit-categories',
-    name: 'Edit Categories',
-    component: EditCategories,
+    path: '/categories',
+    name: 'Categories',
+    component: Categories,
     meta: {
       requiredRole: 'administrator'
     }

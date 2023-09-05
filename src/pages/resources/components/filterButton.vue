@@ -19,8 +19,8 @@
             <!-- Categories tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'categories'" class="v-card--reveal">
-                    <v-checkbox hide-details density="comfortable" v-for="(category, i) in store.getCategories" :key="i"
-                        :value="category" :label="category" v-model="store.filteredCategories" @change='store.fetchResources(store.filteredDate)'></v-checkbox>
+                    <v-checkbox hide-details density="comfortable" v-for="(category, i) in categoriesStore.getCategoryNames" :key="i"
+                        :value="category" :label="category" v-model="resourcesStore.filteredCategories" @change='resourcesStore.fetchResources(resourcesStore.filteredDate)'></v-checkbox>
                 </v-card>
             </v-expand-transition>
 
@@ -35,9 +35,9 @@
             <!-- Availability tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'availability'" class="v-card--reveal">
-                    <v-checkbox hide-details density="comfortable" v-for="(availability, i) in store.getAvailabilityTypes"
+                    <v-checkbox hide-details density="comfortable" v-for="(availability, i) in resourcesStore.getAvailabilityTypes"
                         :key="i" :value="availability" :label="availability"
-                        v-model="store.filteredAvailabilityTypes"></v-checkbox>
+                        v-model="resourcesStore.filteredAvailabilityTypes"></v-checkbox>
                 </v-card>
             </v-expand-transition>
 
@@ -54,15 +54,20 @@
 
 <script>
 import { resourcesPageStore } from '@/stores/resources';
+import { categoriesStore } from '@/stores/categories';
 
 export default {
     data() {
         return {
-            store: resourcesPageStore(),
+            resourcesStore: resourcesPageStore(),
+            categoriesStore: categoriesStore(),
             filterMenuOpen: false,
             activeFilterTab: 'categories',
         }
     },
+    async mounted() {
+        await this.categoriesStore.fetchCategoryNames();
+    }
 }
 </script>
 

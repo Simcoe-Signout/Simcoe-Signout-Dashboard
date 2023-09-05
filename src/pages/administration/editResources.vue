@@ -13,7 +13,7 @@
                         <!-- Other fields -->
                         <v-text-field v-model="resourceName" label="Name" required />
                         <v-text-field v-model="resourceDescription" label="Description" required />
-                        <v-select v-model="resourceCategory" :items="store.getCategories" label="Category" />
+                        <v-select v-model="resourceCategory" :items="categoriesStore.getCategoryNames" label="Category" />
                         <v-text-field v-model="resourceLocation" label="Location" required />
 
                         <!-- Tags -->
@@ -38,7 +38,7 @@
         </v-col>
         <!-- Shows the list of resources available to edit or delete -->
         <v-row class="ml-3 mt-2">
-            <v-col v-for="(resource, i) in store.getResourcesByFilteredCategories" :key="i" cols="12" sm="6" md="4" lg="3"
+            <v-col v-for="(resource, i) in resourcesStore.getResourcesByFilteredCategories" :key="i" cols="12" sm="6" md="4" lg="3"
                 class="resource-column">
                 <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5" max-width="350" width="100%">
                     <div class="ml-2 mb-2 text-wrap">
@@ -90,6 +90,7 @@
 
 <script>
 import { resourcesPageStore } from '@/stores/resources';
+import { categoriesStore } from '@/stores/categories';
 import TagButton from './components/tagButton.vue';
 
 export default {
@@ -108,7 +109,8 @@ export default {
             currentlyEditingResource: null,
             tagMenuOpen: false,
             tagsArray: [],
-            store: resourcesPageStore(),
+            resourcesStore: resourcesPageStore(),
+            categoriesStore: categoriesStore(),
 
             showConfirmationDialog: false,
             stagedDeletionResource: null
@@ -131,7 +133,7 @@ export default {
          * Creates a resource with the supplied information
          */
         createResource() {
-            this.store.createResource({
+            this.resourcesStore.createResource({
                 resourceName: this.resourceName,
                 resourceDescription: this.resourceDescription,
                 resourceLocation: this.resourceLocation,
@@ -165,7 +167,7 @@ export default {
          * @param resource The resource to update
          */
         updateResource(resource) {
-            this.store.updateResource(
+            this.resourcesStore.updateResource(
                 resource.id,
                 {
                     resourceName: this.resourceName,
@@ -207,7 +209,7 @@ export default {
             this.showConfirmationDialog = false;
         },
         confirmDelete() {
-            this.store.deleteResource(this.stagedDeletionResource.id)
+            this.resourcesStore.deleteResource(this.stagedDeletionResource.id)
             this.hidePopup();
         }
     },
@@ -215,7 +217,8 @@ export default {
      * Fetches all resources when this page is mounted
      */
     mounted() {
-        this.store.fetchResources();
+        this.resourcesStore.fetchResources();
+        this.categoriesStore.fetchCategoryNames();
     }
 }
 </script>

@@ -34,6 +34,7 @@ module Admin
     mount Bookings::Base
     mount Resources::Base
     mount Users::Base
+    mount Categories::Base
     # Swagger mount?
   end
 end

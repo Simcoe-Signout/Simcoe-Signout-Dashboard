@@ -122,7 +122,7 @@ export const resourcesPageStore = defineStore({
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ resource:{
+                body: JSON.stringify({ resource: {
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
