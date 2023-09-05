@@ -105,6 +105,13 @@ export const bookingsStore = defineStore({
                 credentials: 'include'
             });
             this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
+        },
+        async deleteMyBooking(id: string) {
+            await fetch(`${this.api_uri}/${id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
         }
     },
 })

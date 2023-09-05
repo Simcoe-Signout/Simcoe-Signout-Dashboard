@@ -5,6 +5,7 @@ module Core
   
             mount Get
             mount Post
+            mount Delete
         end
     end
 end

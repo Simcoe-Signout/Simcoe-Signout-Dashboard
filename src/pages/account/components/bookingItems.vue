@@ -15,6 +15,16 @@
             <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in booking.bookingDates" :key="i">{{ date.date
             }}</v-chip>
 
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <v-btn v-bind="props" color="red" class="mt-5 mb-3" variant="elevated"
+                  @click="openConfirmationPopup(booking)">
+                  <v-icon class="mr-2">mdi-delete</v-icon>
+                  <h3>Cancel Booking</h3>
+                </v-btn>
+              </template>
+            </v-menu>
+
             <h5>Created {{ getISO8601Date(booking.created_at) }} at {{ getISO8601Time(booking.created_at) }} (ID: {{
               booking.id }})</h5>
           </div>
@@ -22,6 +32,21 @@
       </v-row>
     </v-col>
   </v-row>
+
+  <v-dialog v-model="showConfirmationDialog" max-width="500">
+    <v-card>
+      <v-card-title class="headline">Cancel Booking Confirmation</v-card-title>
+      <v-card-text>
+        <p>Are you sure you want to cancel your booking for the resource "{{
+          selectedBooking.resourceName }}"? (booking ID: {{ selectedBooking.id }})</p>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="red" text @click="hidePopup">Cancel</v-btn>
+        <v-btn color="green" text @click="confirmCancelBooking">Confirm</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 
   <v-pagination class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
 </template>
@@ -52,6 +77,19 @@ export default {
     },
     getISO8601Time(date) {
       return new Date(date).toISOString().slice(11, 16);
+    },
+    openConfirmationPopup(booking) {
+      this.selectedBooking = booking;
+      this.showConfirmationDialog = true;
+    },
+    hidePopup() {
+      this.showConfirmationDialog = false;
+    },
+    async confirmCancelBooking() {
+      await this.bookingsStore.deleteMyBooking(this.selectedBooking.id);
+      this.hidePopup();
+      await this.getMyBookings();
+      this.bookings = this.bookingsStore.getBookings;
     },
   },
   computed: {
