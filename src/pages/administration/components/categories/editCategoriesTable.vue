@@ -21,9 +21,10 @@
                     <v-btn color="red" class="mr-2" @click="deleteCategory(category.id)">
                         <v-icon>mdi-delete</v-icon> Delete
                     </v-btn>
-                    <v-btn color="blue" class="ml-5 mr-2" @click="editCategory(category.id)">
+                    <!-- <v-btn color="blue" class="ml-5 mr-2" @click="editCategory(category.id)">
                         <v-icon>mdi-pencil</v-icon> Edit
-                    </v-btn>
+                    </v-btn> -->
+                    <!-- <editCategoryButton :title="category.title" :description="category.description" :id="category.id" :categories="categories"/> -->
                 </td>
             </tr>
         </tbody>
@@ -35,6 +36,7 @@
 <script>
 import { categoriesStore } from '@/stores/categories.ts'
 import createCategoryButton from './createCategoryButton.vue'
+import editCategoryButton from './editCategoryButton.vue'
 export default {
     data() {
         return {
@@ -43,7 +45,8 @@ export default {
         }
     },
     components: {
-        createCategoryButton
+        createCategoryButton,
+        editCategoryButton
     },
     methods: {
         async deleteCategory(id) {
