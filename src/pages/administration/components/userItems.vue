@@ -2,7 +2,7 @@
     <v-row class="ml-10 mt-2">
         <v-col v-for="(user, i) in users" :key="user.id" cols="12" sm="6" md="4" lg="3" class="px-0 user-column">
             <v-row no-gutters class="align-center">
-                <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350"
+                <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="410"
                     width="100%">
                     <div class="ml-2 mb-2 text-wrap">
                         <v-row no-gutters>
