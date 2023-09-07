@@ -236,27 +236,28 @@ export default {
          */
         getBookings(resourceName) {
             const bookings = [];
-            // const colors = ['red', 'green']; // List of available colors
-            // const usedColors = new Set();
 
             this.bookingsStore.getBookingsForResource(resourceName).forEach(booking => {
                 booking.bookingDates.forEach(bookingDate => {
-                    // let color = null;
+                    let color = null;
 
-                    // // Find a unique color for the booking
-                    // for (let i = 0; i < colors.length; i++) {
-                    //     if (!usedColors.has(colors[i])) {
-                    //         color = colors[i];
-                    //         usedColors.add(color);
-                    //         break;
-                    //     }
-                    // }
-
-                    // // If all colors are already used, assign a random color from the available colors
-                    // if (!color) {
-                    //     const randomIndex = Math.floor(Math.random() * colors.length);
-                    //     color = colors[randomIndex];
-                    // }
+                    // Set the color based on the bookingDate.period value
+                    switch (bookingDate.period) {
+                        case 1:
+                        color = 'blue';
+                        break;
+                        case 2:
+                        color = 'red';
+                        break;
+                        case 3:
+                        color = 'green';
+                        break;
+                        case 4:
+                        color = 'orange';
+                        break;
+                        default:
+                        break;
+                    }
 
                     bookings.push({
                         resourceName: booking.resourceName,
@@ -264,7 +265,7 @@ export default {
                         date: new Date(bookingDate.date),
                         bookerFirstName: booking.bookedBy.split(' ')[0],
                         bookerLastName: booking.bookedBy.split(' ')[1],
-                        color: 'blue',
+                        color: color,
                     });
                 });
             });
@@ -283,26 +284,28 @@ export default {
             }
         },
         attributes(resourceName) {
-            const test = [
-                ...this.dates.map(date => ({
-                    highlight: true,
-                    dates: date,
-                })),
-                ...this.getBookings(resourceName).map(booking => ({
-                    dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
-                    dot: {
-                        color: booking.color,
-                        class: booking.isComplete ? "opacity-75" : "",
-                    },
-                    popover: {
-                        label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-                    },
-                })),
-            ];
+        const bookings = this.getBookings(resourceName);
 
-            console.log(test)
+        const test = [
+            ...this.dates.map(date => ({
+            highlight: true,
+            dates: date,
+            })),
+            ...bookings
+            .sort((a, b) => a.period - b.period) // Sort the bookings by period value
+            .map(booking => ({
+                dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                dot: {
+                color: booking.color,
+                class: booking.isComplete ? "opacity-75" : "",
+                },
+                popover: {
+                label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
+                },
+            })),
+        ];
 
-            return test;
+        return test;
         },
     },
     computed: {
