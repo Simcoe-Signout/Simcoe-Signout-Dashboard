@@ -66,7 +66,7 @@ const routes: RouteRecordRaw[] = [
   // Account related routes (login, my resource bookings, etc.)
   {
     path: '/login',
-    name: 'Login',
+    name: 'Logout',
     component: LoginPage,
     meta: {
       layout: 'login',
@@ -92,7 +92,7 @@ router.beforeEach(async (to, _, next) => {
   const $cookies = inject<VueCookies>('$cookies'); 
 
   if (!$cookies || await $cookies.get('auth_token') === undefined || await $cookies.get('auth_token') === null) {
-    to.name !== 'Login' ? next({ name: 'Login' }) : next();
+    to.name !== 'Logout' ? next({ name: 'Logout' }) : next();
   } else {
     const authToken = await $cookies.get('auth_token');
     const decodedJWT = authentication.decodeJWT(authToken);

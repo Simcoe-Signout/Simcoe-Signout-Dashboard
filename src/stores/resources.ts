@@ -19,6 +19,9 @@ export const resourcesPageStore = defineStore({
         resources: [] as any[],
         filteredDate: new Date(),
 
+        filteredFromDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
+        filteredToDate: new Date().toISOString().slice(0, 10),
+
         resourceNames: [] as string[],
     }),
     getters: {

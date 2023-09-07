@@ -50,6 +50,26 @@ export const authenticationStore = defineStore({
             return null;
           }
         },
+        async requestMyUserData(auth_token: string) {
+          if (!auth_token) {
+            console.log('No auth token found')
+            return null;
+          }
+      
+          try {
+            const decodedJwt = this.decodeJWT(auth_token);
+            const response = await fetch(`${this.api_uri}/${decodedJwt.user_id}`, {
+              method: 'GET',
+              credentials: 'include'
+            });
+            const data = await response.json();
+            return data;
+          } catch (error) {
+            // Handle the case when the JWT is invalid or expired.
+            console.error('Error decoding JWT:', error);
+            return null;
+          }
+        },
         async updateUser(id: number, user: User, auth_token: string) {
       
           try {

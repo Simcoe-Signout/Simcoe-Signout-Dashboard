@@ -27,8 +27,8 @@
             <!-- Date range tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'dateRange'" class="v-card--reveal">
-                    <v-text-field type="date" label="Start Date"></v-text-field>
-                    <v-text-field type="date" label="End Date"></v-text-field>
+                    <v-text-field type="date" label="Start Date" v-model="resourcesStore.filteredFromDate"></v-text-field>
+                    <v-text-field type="date" label="End Date" v-model="resourcesStore.filteredToDate"></v-text-field>
                 </v-card>
             </v-expand-transition>
 

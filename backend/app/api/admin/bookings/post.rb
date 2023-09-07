@@ -11,7 +11,7 @@ module Admin
             requires :date, type: String
             requires :period, type: Integer
           end
-          requires :destination, type: String
+          optional :destination, type: String
           optional :comments, type: String
         end
       end

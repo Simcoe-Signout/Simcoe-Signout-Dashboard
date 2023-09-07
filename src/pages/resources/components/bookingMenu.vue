@@ -27,7 +27,7 @@
                         <v-col>
                             <h2>Select Your Days</h2>
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
-                                class="mb-5" />
+                                class="mb-5" expanded/>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
@@ -69,8 +69,10 @@
                 </v-card>
             </v-expand-transition>
 
+            
+
             <!-- These are buttons/actions you can press/execute that are displayed on the bottom of the card -->
-            <v-card-actions>
+            <v-card-actions class="d-flex align-items-end">
                 <v-spacer></v-spacer>
                 <v-btn color="white" variant="text" @click="closeBookingMenu(index)">
                     Cancel
@@ -84,7 +86,7 @@
                     Next
                 </v-btn>
                 <!-- Only show this is they are at the end of the booking process and are in the review phase -->
-                <v-btn color="blue" v-if="bookingPhaseIndex == 3" variant="text" @click="bookResource(resource, index)">
+                <v-btn color="blue" variant="text" @click="bookResource(resource, index)">
                     Book
                 </v-btn>
             </v-card-actions>
@@ -116,19 +118,6 @@
             </v-card-actions>
         </v-card>
     </v-dialog>
-
-    <v-dialog v-model="showNoDestinationDialog" max-width="500">
-        <v-card>
-            <v-card-title class="headline">No Destination Specified</v-card-title>
-            <v-card-text>
-                <h3>No destination was specified for your booking! Please specify a destination.</h3>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green" text @click="showNoDestinationDialog = false">Ok</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
 </template>
 
 <script>
@@ -153,7 +142,6 @@ export default {
 
         showNoDatesSelectedDialog: false,
         showNoPeriodSelectedDialog: false,
-        showNoDestinationDialog: false,
         rules: {
             required: value => !!value || 'This field is required.',
         },
@@ -206,14 +194,9 @@ export default {
                 return;
             }
 
-            if (this.destination == null) {
-                this.showNoDestinationDialog = true;
-                return;
-            }
-
             const bookingDates = [];
             try {
-                const userData = await this.authenticationStore.requestUserData(this.$cookies.get('auth_token'));
+                const userData = await this.authenticationStore.requestMyUserData(this.$cookies.get('auth_token'));
                 for (let i = 0; i < this.selectedDates.length; i++) {
                     bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
                 }
@@ -226,7 +209,7 @@ export default {
                 });
                 this.resetAllVariables();
                 this.closeBookingMenu(index);
-                await this.bookingsStore.fetchBookings();
+                this.bookingsStore.fetchAllBookings();
             } catch (error) {
                 // Handle the error appropriately
                 console.error('Error occurred during booking:', error);
@@ -253,27 +236,27 @@ export default {
          */
         getBookings(resourceName) {
             const bookings = [];
-            const colors = ['red', 'blue', 'green', 'yellow', 'orange-lighten-1']; // List of available colors
-            const usedColors = new Set();
+            // const colors = ['red', 'green']; // List of available colors
+            // const usedColors = new Set();
 
             this.bookingsStore.getBookingsForResource(resourceName).forEach(booking => {
                 booking.bookingDates.forEach(bookingDate => {
-                    let color = null;
+                    // let color = null;
 
-                    // Find a unique color for the booking
-                    for (let i = 0; i < colors.length; i++) {
-                        if (!usedColors.has(colors[i])) {
-                            color = colors[i];
-                            usedColors.add(color);
-                            break;
-                        }
-                    }
+                    // // Find a unique color for the booking
+                    // for (let i = 0; i < colors.length; i++) {
+                    //     if (!usedColors.has(colors[i])) {
+                    //         color = colors[i];
+                    //         usedColors.add(color);
+                    //         break;
+                    //     }
+                    // }
 
-                    // If all colors are already used, assign a random color from the available colors
-                    if (!color) {
-                        const randomIndex = Math.floor(Math.random() * colors.length);
-                        color = colors[randomIndex];
-                    }
+                    // // If all colors are already used, assign a random color from the available colors
+                    // if (!color) {
+                    //     const randomIndex = Math.floor(Math.random() * colors.length);
+                    //     color = colors[randomIndex];
+                    // }
 
                     bookings.push({
                         resourceName: booking.resourceName,
@@ -281,7 +264,7 @@ export default {
                         date: new Date(bookingDate.date),
                         bookerFirstName: booking.bookedBy.split(' ')[0],
                         bookerLastName: booking.bookedBy.split(' ')[1],
-                        color: color,
+                        color: 'blue',
                     });
                 });
             });
@@ -300,7 +283,7 @@ export default {
             }
         },
         attributes(resourceName) {
-            return [
+            const test = [
                 ...this.dates.map(date => ({
                     highlight: true,
                     dates: date,
@@ -316,6 +299,10 @@ export default {
                     },
                 })),
             ];
+
+            console.log(test)
+
+            return test;
         },
     },
     computed: {
@@ -338,5 +325,9 @@ export default {
     opacity: 1 !important;
     position: absolute;
     width: 100%;
+}
+.flexcard {
+  display: flex;
+  flex-direction: column;
 }
 </style>
