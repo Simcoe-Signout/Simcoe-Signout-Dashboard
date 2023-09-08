@@ -6,7 +6,7 @@ export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
         api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/core/users`,
-        adimin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/users`
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/users`
     }),
     actions: {
         decodeJWT(jwt: string) {
@@ -23,7 +23,7 @@ export const authenticationStore = defineStore({
           return decodedJWT;
         },
         async getAllUsers() {
-            const response = await fetch(`${this.adimin_api_uri}`, {
+            const response = await fetch(`${this.admin_api_uri}`, {
                 method: 'GET',
                 credentials: 'include'
             })
@@ -38,7 +38,7 @@ export const authenticationStore = defineStore({
       
           try {
             const decodedJwt = this.decodeJWT(auth_token);
-            const response = await fetch(`${this.adimin_api_uri}/${decodedJwt.user_id}`, {
+            const response = await fetch(`${this.admin_api_uri}/${decodedJwt.user_id}`, {
               method: 'GET',
               credentials: 'include'
             });
@@ -74,7 +74,7 @@ export const authenticationStore = defineStore({
       
           try {
             const decodedJwt = this.decodeJWT(auth_token);
-            await fetch(`${this.adimin_api_uri}/${id}`, {
+            await fetch(`${this.admin_api_uri}/${id}`, {
               method: 'PUT',
               credentials: 'include',
               headers: {

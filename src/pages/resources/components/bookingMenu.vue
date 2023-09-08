@@ -49,7 +49,7 @@
                                     <span class="ml-2"> = 3</span>
                                 </div>
                                 <div class="d-flex">
-                                    <v-badge dot color="yellow" class="pt-2">
+                                    <v-badge dot color="#c18900" class="pt-2">
                                     <v-icon size="x-large"></v-icon>
                                     </v-badge>
                                     <span class="ml-2"> = 4</span>
