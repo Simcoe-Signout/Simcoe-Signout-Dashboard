@@ -80,8 +80,8 @@ export default {
     },
     methods: {
         async getAllUsers() {
-            const users = await this.authenticationStore.getAllUsers();
-            this.users = users;
+            await this.authenticationStore.getAllUsers();
+            this.users = this.authenticationStore.users;
         },
         getISO8601Date(date) {
             return new Date(date).toISOString().slice(0, 10);
@@ -109,7 +109,7 @@ export default {
                 this.$cookies.get('auth_token')
             );
             this.hidePopup();
-            await this.getAllUsers();
+            this.getAllUsers();
         },
     },
     computed: {

@@ -6,7 +6,8 @@ export const authenticationStore = defineStore({
     id: 'authentication',
     state: () => ({
         api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/core/users`,
-        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/users`
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/users`,
+        users: [],
     }),
     actions: {
         decodeJWT(jwt: string) {
@@ -28,6 +29,7 @@ export const authenticationStore = defineStore({
                 credentials: 'include'
             })
             const data = await response.json()
+            this.users = data;
             return data;
         },
         async requestUserData(auth_token: string) {
@@ -71,7 +73,6 @@ export const authenticationStore = defineStore({
           }
         },
         async updateUser(id: number, user: User, auth_token: string) {
-      
           try {
             const decodedJwt = this.decodeJWT(auth_token);
             await fetch(`${this.admin_api_uri}/${id}`, {
@@ -84,7 +85,6 @@ export const authenticationStore = defineStore({
                 full_name: user.full_name,
                 email: user.email,
                 role: user.role,
-                uid: user.uid,
                 avatar_url: user.avatar_url,
               }})
             });

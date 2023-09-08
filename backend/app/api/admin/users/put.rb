@@ -3,25 +3,20 @@ module Admin
         class Put < Grape::API
 
             params do
+                requires :id, type: Integer
                 requires :user, type: Hash do
-                  requires :id, type: Integer
                   requires :full_name, type: String
                   requires :email, type: String
                   requires :role, type: String
-                  requires :uid, type: String
                   requires :avatar_url, type: String
                 end
               end
 
             put ':id' do
                 # Find the user by id
-                user = User.find_by_id(params[:user][:id])
+                user = User.find_by_id(params[:id])
                 unless user
                     error!({ error: "User not found" }, 404)
-                end
-
-                if user
-                    error!({ error: "User already exists with that ID" }, 400)
                 end
         
                 # Update the user attributes
