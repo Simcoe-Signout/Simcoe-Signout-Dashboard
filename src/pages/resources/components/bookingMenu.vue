@@ -27,7 +27,34 @@
                         <v-col>
                             <h2>Select Your Days</h2>
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick"
-                                class="mb-5" expanded/>
+                                class="mb-5" expanded />
+                            <h3 class="mb-2">Period Identifiers</h3>
+                            <div class="d-flex ml-10">
+                                <div class="d-flex align-items-center">
+                                    <v-badge dot color="blue" class="pt-2">
+                                    <v-icon size="x-large"></v-icon>
+                                    </v-badge>
+                                    <span class="ml-2"> = 1</span>
+                                </div>
+                                <div class="d-flex">
+                                    <v-badge dot color="red" class="pt-2">
+                                    <v-icon size="x-large"></v-icon>
+                                    </v-badge>
+                                    <span class="ml-2"> = 2</span>
+                                </div>
+                                <div class="d-flex">
+                                    <v-badge dot color="green" class="pt-2">
+                                    <v-icon size="x-large"></v-icon>
+                                    </v-badge>
+                                    <span class="ml-2"> = 3</span>
+                                </div>
+                                <div class="d-flex">
+                                    <v-badge dot color="yellow" class="pt-2">
+                                    <v-icon size="x-large"></v-icon>
+                                    </v-badge>
+                                    <span class="ml-2"> = 4</span>
+                                </div>
+                            </div>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
@@ -69,7 +96,7 @@
                 </v-card>
             </v-expand-transition>
 
-            
+
 
             <!-- These are buttons/actions you can press/execute that are displayed on the bottom of the card -->
             <v-card-actions class="d-flex align-items-end">
@@ -244,19 +271,19 @@ export default {
                     // Set the color based on the bookingDate.period value
                     switch (bookingDate.period) {
                         case 1:
-                        color = 'blue';
-                        break;
+                            color = 'blue';
+                            break;
                         case 2:
-                        color = 'red';
-                        break;
+                            color = 'red';
+                            break;
                         case 3:
-                        color = 'green';
-                        break;
+                            color = 'green';
+                            break;
                         case 4:
-                        color = 'yellow';
-                        break;
+                            color = 'yellow';
+                            break;
                         default:
-                        break;
+                            break;
                     }
 
                     bookings.push({
@@ -284,28 +311,28 @@ export default {
             }
         },
         attributes(resourceName) {
-        const bookings = this.getBookings(resourceName);
+            const bookings = this.getBookings(resourceName);
 
-        const test = [
-            ...this.dates.map(date => ({
-            highlight: true,
-            dates: date,
-            })),
-            ...bookings
-            .sort((a, b) => a.period - b.period) // Sort the bookings by period value
-            .map(booking => ({
-                dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
-                dot: {
-                color: booking.color,
-                class: booking.isComplete ? "opacity-75" : "",
-                },
-                popover: {
-                label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-                },
-            })),
-        ];
+            const test = [
+                ...this.dates.map(date => ({
+                    highlight: true,
+                    dates: date,
+                })),
+                ...bookings
+                    .sort((a, b) => a.period - b.period) // Sort the bookings by period value
+                    .map(booking => ({
+                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                        dot: {
+                            color: booking.color,
+                            class: booking.isComplete ? "opacity-75" : "",
+                        },
+                        popover: {
+                            label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
+                        },
+                    })),
+            ];
 
-        return test;
+            return test;
         },
     },
     computed: {
@@ -329,8 +356,9 @@ export default {
     position: absolute;
     width: 100%;
 }
+
 .flexcard {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 </style>
