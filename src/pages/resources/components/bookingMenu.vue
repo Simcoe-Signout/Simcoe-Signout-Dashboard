@@ -253,7 +253,7 @@ export default {
                         color = 'green';
                         break;
                         case 4:
-                        color = 'orange';
+                        color = 'yellow';
                         break;
                         default:
                         break;
