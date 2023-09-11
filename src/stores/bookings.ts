@@ -8,7 +8,7 @@ export const bookingsStore = defineStore({
         validPeriods: [1, 2, 3, 4],
         bookings: [] as any[],
 
-        filteredPeriod: 1,
+        filteredPeriods: [1, 2, 3, 4],
         filteredDateFrom: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
         filteredDateTo: new Date().toISOString().slice(0, 10),
         filteredResourceName: '',
@@ -50,7 +50,7 @@ export const bookingsStore = defineStore({
     actions: {
         // Fetches all bookings from the API
         async fetchBookings() {
-            const res = await fetch(`${this.admin_api_uri}?period=${this.filteredPeriod}&resource_name=${this.filteredResourceName}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`, {
+            const res = await fetch(`${this.admin_api_uri}?period=${this.filteredPeriods}&resource_name=${this.filteredResourceName}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`, {
                 method: 'GET',
                 credentials: 'include'
             })

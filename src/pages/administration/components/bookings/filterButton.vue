@@ -20,7 +20,7 @@
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'period'" class="v-card--reveal">
                     <v-checkbox hide-details density="comfortable" v-for="(period, i) in bookingsStore.getValidPeriods" :key="i"
-                        :value="period" :label="period.toString()" v-model="bookingsStore.filteredPeriod" @change='bookingsStore.fetchBookings()'></v-checkbox>
+                        :value="period" :label="period.toString()" v-model="bookingsStore.filteredPeriods" @change='bookingsStore.fetchBookings()'></v-checkbox>
                 </v-card>
             </v-expand-transition>
 

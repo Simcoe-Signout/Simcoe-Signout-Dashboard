@@ -4,7 +4,7 @@ module Admin
       params do
         optional :start_date, type: String
         optional :end_date, type: String
-        optional :period, type: Integer
+        optional :period, type: String
         optional :resource_name, type: String
       end
 
@@ -22,9 +22,10 @@ module Admin
           end
 
           if params[:period].present?
+            periods = params[:period].split(',').map(&:to_i)
             @resource_bookings = @resource_bookings.select do |booking|
               booking.bookingDates.any? do |date|
-                date['period'] == params[:period]
+                periods.include?(date['period'])
               end
             end
           end
@@ -35,9 +36,10 @@ module Admin
             end
           end
         elsif params[:period].present?
+          periods = params[:period].split(',').map(&:to_i)
           @resource_bookings = ResourceBooking.select do |booking|
             booking.bookingDates.any? do |date|
-              date['period'] == params[:period]
+              periods.include?(date['period'])
             end
           end
 
