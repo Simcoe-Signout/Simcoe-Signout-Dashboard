@@ -72,6 +72,7 @@ export default {
           routes: [
             { route: this.routes[6], icon: 'mdi-account-circle' },
             { route: this.routes[7], icon: 'mdi-book-account-outline' },
+            { route: { name: 'Report a Bug', path: 'https://docs.google.com/forms/d/e/1FAIpQLSeX6b22OVFhMCx0Lzsmivbm3YesxD9d513ULRLmxzron_UWMA/viewform'}, icon: 'mdi-bug'}
           ],
         },
       ];
