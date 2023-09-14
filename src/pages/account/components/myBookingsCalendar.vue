@@ -2,7 +2,7 @@
     <v-menu v-model="bookingsMenuOpen" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
             <v-btn class="mt-2 mb-2" color="blue" variant="outlined" v-bind="props" @click="openBookingsMenu()">
-                <h3>View My Bookings</h3>
+                <h3>My Bookings - Calendar</h3>
             </v-btn>
         </template>
 
