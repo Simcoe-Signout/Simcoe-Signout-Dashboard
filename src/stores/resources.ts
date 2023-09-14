@@ -19,6 +19,8 @@ export const resourcesPageStore = defineStore({
         resources: [] as any[],
         filteredDate: new Date(),
 
+        availablePeriods: [] as number[],
+
         filteredFromDate: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
         filteredToDate: new Date().toISOString().slice(0, 10),
 
@@ -85,6 +87,14 @@ export const resourcesPageStore = defineStore({
             })
             const resources = await res.json();
             this.resourceNames = resources.map((resource: any) => resource.name);
+        },
+        async fetchAvailablePeriodsForResource(id: number) {
+            const res = await fetch(`${this.api_uri}/available_periods?id=${id}`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const periods = await res.json();
+            this.availablePeriods = periods;
         },
         setFilteredCategories(categories: string[]) {
             this.filteredCategories = categories;

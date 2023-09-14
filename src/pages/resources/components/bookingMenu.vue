@@ -57,7 +57,7 @@
                             </div>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
-                                    :items="bookingsStore.getAvailablePeriodsForResourceOnDates(resource.name, this.selectedDates.map(date => date.id))"
+                                    :items="getAvailablePeriods(resource)"
                                     label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
@@ -184,6 +184,10 @@ export default {
         }
     },
     methods: {
+        getAvailablePeriods(resource) {
+            this.bookingsStore.getAvailablePeriodsForResourceOnDates(resource.id, resource.name, this.selectedDates.map(date => date.id))
+            return this.bookingsStore.availablePeriods;
+        },
         /**
          * Resets all variables related to the booking process (phase index, selected dates, etc.)
         */

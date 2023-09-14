@@ -3,6 +3,7 @@ module Core
         class Base < Grape::API
             prefix 'api/core/resources'
   
+            mount AvailablePeriods
             mount Get
             mount GetOne
         end

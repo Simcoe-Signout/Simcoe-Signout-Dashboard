@@ -1,4 +1,5 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+import { resourcesPageStore } from './resources';
 
 export const bookingsStore = defineStore({
     id: 'bookings',
@@ -12,6 +13,8 @@ export const bookingsStore = defineStore({
         filteredDateFrom: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
         filteredDateTo: new Date().toISOString().slice(0, 10),
         filteredResourceName: '',
+
+        availablePeriods: [] as number[],
     }),
     getters: {
         getValidPeriods: (state) => state.validPeriods,
@@ -24,27 +27,6 @@ export const bookingsStore = defineStore({
         getBookingsForResource: (state) => (resourceName: string) => {
             const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
             return bookings;
-        },
-        getAvailablePeriodsForResourceOnDates: (state) => (resourceName: string, dates: string[]) => {
-            // Get all bookings for the resource
-            const bookings = state.bookings.filter((booking: any) => booking.resourceName === resourceName);
-
-            // Filter bookings that overlap with any of the dates
-            const overlappingBookings = bookings.filter((booking: any) => {
-                const overlappingDates = booking.bookingDates.filter((bookingDate: any) => dates.includes(bookingDate.date));
-                return overlappingDates.length > 0;
-            });
-
-            // Get all periods for the resource
-            const allPeriods = state.validPeriods;
-
-            // Get all periods that are not booked on any of the dates
-            const availablePeriods = allPeriods.filter((period: number) => {
-                const overlappingBookingsForPeriod = overlappingBookings.filter((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.period === period));
-                return overlappingBookingsForPeriod.length === 0;
-            });
-
-            return availablePeriods;
         }
     },
     actions: {
@@ -112,6 +94,27 @@ export const bookingsStore = defineStore({
                 credentials: 'include'
             });
             this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
+        },
+        async getAvailablePeriodsForResourceOnDates(id: number, resourceName: string, dates: string[]) {
+            // Get all periods for the resource
+            await resourcesPageStore().fetchAvailablePeriodsForResource(id);
+
+            // Get all bookings for the resource
+            const bookings = this.bookings.filter((booking: any) => booking.resourceName === resourceName);
+
+            // Filter bookings that overlap with any of the dates
+            const overlappingBookings = bookings.filter((booking: any) => {
+                const overlappingDates = booking.bookingDates.filter((bookingDate: any) => dates.includes(bookingDate.date));
+                return overlappingDates.length > 0;
+            });
+
+            // Get all periods that are not booked on any of the dates
+            const availablePeriods = resourcesPageStore().availablePeriods.filter((period: number) => {
+                const overlappingBookingsForPeriod = overlappingBookings.filter((booking: any) => booking.bookingDates.find((bookingDate: any) => bookingDate.period === period));
+                return overlappingBookingsForPeriod.length === 0;
+            });
+
+            this.availablePeriods = availablePeriods;
         }
     },
 })
