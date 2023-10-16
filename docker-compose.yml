@@ -29,7 +29,7 @@ services:
 
   frontend:
     tty: true
-    entrypoint: yarn run dev --host
+    entrypoint: bash -c "yarn run dev"
     build:
       context: ./
       dockerfile: Dockerfile

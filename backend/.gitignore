@@ -35,4 +35,4 @@
 /config/credentials.yml.enc
 
 .env.local
-
+.env.development.local
