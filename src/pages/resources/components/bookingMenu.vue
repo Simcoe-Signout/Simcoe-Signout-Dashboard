@@ -336,6 +336,8 @@ export default {
                     })),
             ];
 
+            console.log(resourceName, test)
+
             return test;
         },
     },
