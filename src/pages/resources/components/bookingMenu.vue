@@ -331,11 +331,13 @@ export default {
             const bookings = this.getBookings(resourceName)
                                 .sort((a, b) => a.period - b.period) || [];
 
+            console.log(this.selectedDates)
+
             const test = [
-                ...this.selectedDates.map(date => ({
-                    highlight: true,
-                    dates: date,
-                })),
+                // ...this.selectedDates.map(date => ({
+                //     highlight: true,
+                //     dates: date,
+                // })),
                 ...bookings
                     .map(booking => ({
                         dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
