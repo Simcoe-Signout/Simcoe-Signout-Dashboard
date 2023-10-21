@@ -331,40 +331,24 @@ export default {
             const bookings = this.getBookings(resourceName)
                                 .sort((a, b) => a.period - b.period) || [];
 
-            const bookingMap = bookings.reduce((result, booking) => {
-                const color = booking.color;
-                // Check if the color key already exists in the result object
-                if (!result[color]) {
-                    // If not, create an array for that color
-                    result[color] = [];
-                }
-                // Push the booking object into the array for that color
-                result[color].push({
-                    dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1),
-                    dot: {
-                        color: booking.color,
-                        class: booking.isComplete ? "opacity-75" : "",
-                    },
-                    popover: {
-                        label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-                    },
-                });
-                return result;
-            }, {});
-
-            console.log(bookingMap)
+            console.log(this.selectedDates)
 
             const test = [
-                ...this.selectedDates.map(date => {
-                    console.log("Mapping date: ", date)
-                    return {
-                        highlight: true,
-                        dates: date.date
-                    }
-                }),
-                ...bookingMap.reduce((accumulator, records) => {
-                    return records
-                }, {})
+                ...this.selectedDates.map(date => ({
+                    highlight: true,
+                    dates: date.date
+                })),
+                ...bookings
+                    .map(booking => ({
+                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                        dot: {
+                            color: booking.color,
+                            class: booking.isComplete ? "opacity-75" : "",
+                        },
+                        popover: {
+                            label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
+                        },
+                    })),
             ];
 
             console.log(test)
