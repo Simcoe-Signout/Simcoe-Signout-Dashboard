@@ -329,7 +329,6 @@ export default {
         attributes(resourceName) {
             const currentMonth = new Date().getMonth();
             const bookings = this.getBookings(resourceName)
-                                .filter(booking => booking.date.getMonth() === currentMonth)
                                 .sort((a, b) => a.period - b.period) || [];
 
             const test = [
