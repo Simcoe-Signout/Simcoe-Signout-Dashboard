@@ -339,6 +339,7 @@ export default {
                     .filter(booking => booking.date.getMonth() === currentMonth)
                     .map(booking => ({
                         dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                        highlight: false,
                         dot: {
                             color: booking.color,
                             class: booking.isComplete ? "opacity-75" : "",
