@@ -89,7 +89,7 @@
             <v-expand-transition>
                 <v-card v-if="bookingPhaseIndex == 3" class="v-card--reveal ml-3 mt-3" max-width="350">
                     <h3>Selected Dates:</h3>
-                    <v-chip v-for="date in selectedDates" color="blue" class="mr-2 mt-2">{{ date.id }}</v-chip>
+                    <v-chip v-for="date in selectedDates" :key="date.id" color="blue" class="mr-2 mt-2">{{ date.id }}</v-chip>
                     <h3 class="mt-2">Selected Period: <span class="font-weight-regular">{{ selectedPeriod }}</span></h3>
                     <h3 class="mt-2">Destination: <span class="font-weight-regular">{{ destination }}</span></h3>
                     <h3 class="mt-2 mb-3">Comments: <span class="font-weight-regular">{{ comments }}</span></h3>
@@ -344,9 +344,6 @@ export default {
     computed: {
         dates() {
             return this.selectedDates.map(day => day.date);
-        },
-        async loadAvailablePeriods(name, start_date, end_date) {
-            return await this.bookingsStore.getAvailablePeriodsFromBookings(name, start_date, end_date);
         },
     },
     async mounted() {
