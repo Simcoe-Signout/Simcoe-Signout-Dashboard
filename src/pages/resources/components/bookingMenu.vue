@@ -185,7 +185,7 @@ export default {
     },
     methods: {
         getAvailablePeriods(resource) {
-            console.log("Calling the entire available periods function", resource)
+            console.log("Calling the entire available periods function", resource.id, resource.name, this.selectedDates)
             this.bookingsStore.getAvailablePeriodsForResourceOnDates(resource.id, resource.name, this.selectedDates.map(date => date.id))
             return this.bookingsStore.availablePeriods;
         },
@@ -306,13 +306,18 @@ export default {
         },
         async onDayClick(day) {
             console.log("Calling dayclick handler", day)
-            const idx = this.selectedDates.findIndex(d => d.id === day.id);
-            if (idx >= 0) {
-                this.selectedDates.splice(idx, 1);
+
+            const selectedDateIds = this.selectedDates.reduce((accumulator, date) => {
+                accumulator[date.id] = true;
+                return accumulator;
+            }, {});
+
+            if (selectedDateIds[day.id]) {
+                this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
             } else {
                 this.selectedDates.push({
-                    id: day.id,
-                    date: day.date,
+                  id: day.id,
+                  date: day.date,
                 });
             }
         },
