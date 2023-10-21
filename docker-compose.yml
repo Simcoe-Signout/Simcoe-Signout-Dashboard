@@ -33,6 +33,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    entrypoint: ./docker/entrypoints/frontend.sh
     volumes:
       - ./:/app
     ports:
