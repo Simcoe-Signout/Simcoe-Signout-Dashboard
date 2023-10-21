@@ -329,7 +329,6 @@ export default {
             this.refreshAvailablePeriods()
         },
         attributes(resourceName) {
-            const currentMonth = new Date().getMonth();
             const bookings = this.getBookings(resourceName)
                                 .sort((a, b) => {
                                     // Compare dates first
@@ -344,14 +343,23 @@ export default {
                                 }) || [];
 
             const test = [
-                {},
+                // Pushing the current date to the front of the attributes array forces the calendar to open
+                // on the current month
+                {
+                    dates: new Date()
+                },
+
+                // Also include any dates that we have manually clicked on. These will show up with a blue circle behind them
                 ...this.selectedDates.map(date => ({
                     highlight: true,
                     dates: date.date
                 })),
+
+                // Finally, include all active bookings. This will draw the "period" dot under the date where appropriate and generate
+                // the popover. I'm not sure how the library is doing the work to combine the popovers, but we have no control over it :(
                 ...bookings
                     .map(booking => ({
-                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1),
                         dot: {
                             color: booking.color,
                             class: booking.isComplete ? "opacity-75" : "",
