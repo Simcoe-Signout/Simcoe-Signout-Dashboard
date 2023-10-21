@@ -344,6 +344,7 @@ export default {
             console.log(this.selectedDates)
 
             const test = [
+                {},
                 ...this.selectedDates.map(date => ({
                     highlight: true,
                     dates: date.date
