@@ -321,11 +321,9 @@ export default {
                   id: day.id,
                   date: day.date,
                 });
-                return
             } else {
                 this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
             }
-
 
             this.refreshAvailablePeriods()
         },
