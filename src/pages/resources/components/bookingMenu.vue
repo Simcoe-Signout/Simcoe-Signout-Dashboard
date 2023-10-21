@@ -331,49 +331,23 @@ export default {
             const bookings = this.getBookings(resourceName)
                                 .sort((a, b) => a.period - b.period) || [];
 
-            // const test = [
-            //     ...this.selectedDates.map(date => ({
-            //         highlight: true,
-            //         dates: date,
-            //     })),
-            //     ...bookings
-            //         .map(booking => ({
-            //             dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
-            //             highlight: false,
-            //             dot: {
-            //                 color: booking.color,
-            //                 class: booking.isComplete ? "opacity-75" : "",
-            //             },
-            //             popover: {
-            //                 label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-            //             },
-            //         })),
-            // ];
-
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth();
             const test = [
-                {
-                    key: 'today',
-                    // highlight: false,
-                    dates: new Date(year, month, 12),
-                },
-                {
-                    highlight: {
-                    color: 'purple',
-                    fillMode: 'light',
-                    },
-                    dates: new Date(year, month, 13),
-                },
-                {
-                    highlight: {
-                    color: 'purple',
-                    fillMode: 'outline',
-                    },
-                    dates: new Date(year, month, 14),
-                }
-            ]
+                ...this.selectedDates.map(date => ({
+                    highlight: true,
+                    dates: date,
+                })),
+                ...bookings
+                    .map(booking => ({
+                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
+                        dot: {
+                            color: booking.color,
+                            class: booking.isComplete ? "opacity-75" : "",
+                        },
+                        popover: {
+                            label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
+                        },
+                    })),
+            ];
 
             console.log(test)
 
