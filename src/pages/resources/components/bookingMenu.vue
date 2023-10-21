@@ -327,7 +327,7 @@ export default {
             }
 
 
-            refreshAvailablePeriods()
+            this.refreshAvailablePeriods()
         },
         attributes(resourceName) {
             const bookings = this.getBookings(resourceName);
