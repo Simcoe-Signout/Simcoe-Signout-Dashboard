@@ -185,7 +185,7 @@ export default {
     },
     methods: {
         getAvailablePeriods(resource) {
-            console.log("Calling the entire available periods function", resource.id, resource.name, this.selectedDates)
+            console.log("Calling the entire available periods function", resource.id, resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
             this.bookingsStore.getAvailablePeriodsForResourceOnDates(resource.id, resource.name, this.selectedDates.map(date => date.id))
             return this.bookingsStore.availablePeriods;
         },
