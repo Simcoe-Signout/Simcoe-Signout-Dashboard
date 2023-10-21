@@ -1,7 +1,7 @@
 <template>
     <v-menu v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
-            {{ this.selectedDates }}
+            {{ attributes }}
             <v-btn class="mt-3 mb-1" color="green" variant="outlined" v-bind="props" @click="openBookingMenu(i)">
                 <v-icon class="mr-3">mdi-book-open-page-variant</v-icon>
                 <h3>Book Resource</h3>
@@ -327,8 +327,16 @@ export default {
         },
         attributes(resourceName) {
             const bookings = this.getBookings(resourceName);
+            const currentMonth = new Date().getMonth();
 
-            const test = bookings.sort((a, b) => a.period - b.period) // Sort the bookings by period value
+            const test = [
+                ...this.selectedDates.map(date => ({
+                    highlight: true,
+                    dates: date,
+                })),
+                ...bookings
+                    .sort((a, b) => a.period - b.period) // Sort the bookings by period value
+                    .filter(booking => booking.date.getMonth() === currentMonth)
                     .map(booking => ({
                         dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
                         dot: {
@@ -338,15 +346,13 @@ export default {
                         popover: {
                             label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
                         },
-                    }));
+                    })),
+            ];
 
             console.log(resourceName, test)
 
             return test;
         },
-        dates() {
-            return this.selectedDates.map(day => day.date);
-        }
     },
     async mounted() {
         await this.bookingsStore.fetchAllBookings();
