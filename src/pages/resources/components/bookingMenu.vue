@@ -55,7 +55,7 @@
                                     <span class="ml-2"> = 4</span>
                                 </div>
                             </div>
-                            {{ availablePeriodsForSelectedDate }}
+
                             <div v-if="selectedDates.length != 0 && !availablePeriodsForSelectedDateLoading">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="availablePeriodsForSelectedDate"
@@ -189,13 +189,11 @@ export default {
     },
     methods: {
         async refreshAvailablePeriods() {
-            console.log("Calling the entire available periods function", this.resource.id, this.resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
             this.availablePeriodsForSelectedDateLoading = true
             await this.bookingsStore.getAvailablePeriodsForResourceOnDates(this.resource.id, this.resource.name, this.selectedDates.map(date => date.id))
             this.availablePeriodsForSelectedDateLoading = false
-            this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods
 
-            console.log("available periods", this.bookingsStore.availablePeriods)
+            this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods
         },
         /**
          * Resets all variables related to the booking process (phase index, selected dates, etc.)
@@ -313,8 +311,6 @@ export default {
             return bookings;
         },
         async onDayClick(day) {
-            console.log("Calling dayclick handler", day)
-
             // Date id is yyyy-mm-dd like 2023-09-04. Assigned by VCalendar
             const selectedDateIds = this.selectedDates.reduce((accumulator, date) => {
                 accumulator[date.id] = true;
@@ -347,8 +343,6 @@ export default {
                                     return dateComparison;
                                 }) || [];
 
-            console.log(this.selectedDates)
-
             const test = [
                 {},
                 ...this.selectedDates.map(date => ({
@@ -367,8 +361,6 @@ export default {
                         },
                     })),
             ];
-
-            console.log(test)
 
             return test;
         },
