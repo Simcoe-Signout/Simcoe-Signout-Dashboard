@@ -352,6 +352,8 @@ export default {
                 return result;
             }, {});
 
+            console.log(bookingMap)
+
             const test = [
                 ...this.selectedDates.map(date => {
                     console.log("Mapping date: ", date)
