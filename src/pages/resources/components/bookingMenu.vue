@@ -58,7 +58,7 @@
                             </div>
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
-                                    :items="getAvailablePeriods(resource)"
+                                    :items="availablePeriodsForSelectedDate"
                                     label="Period"></v-select>
                                 <v-menu :period="selectedPeriod">
                                     <v-list>
@@ -168,6 +168,8 @@ export default {
         destination: null,
         comments: null,
 
+        availablePeriodsForSelectedDate: [],
+
         showNoDatesSelectedDialog: false,
         showNoPeriodSelectedDialog: false,
         rules: {
@@ -185,10 +187,10 @@ export default {
         }
     },
     methods: {
-        getAvailablePeriods(resource) {
-            console.log("Calling the entire available periods function", resource.id, resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
-            this.bookingsStore.getAvailablePeriodsForResourceOnDates(resource.id, resource.name, this.selectedDates.map(date => date.id))
-            return this.bookingsStore.availablePeriods;
+        refreshAvailablePeriods() {
+            console.log("Calling the entire available periods function", this.resource.id, this.resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
+            this.bookingsStore.getAvailablePeriodsForResourceOnDates(this.resource.id, this.resource.name, this.selectedDates.map(date => date.id))
+            this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods;
         },
         /**
          * Resets all variables related to the booking process (phase index, selected dates, etc.)
@@ -308,7 +310,6 @@ export default {
         async onDayClick(day) {
             console.log("Calling dayclick handler", day)
 
-
             // Date id is yyyy-mm-dd like 2023-09-04. Assigned by VCalendar
             const selectedDateIds = this.selectedDates.reduce((accumulator, date) => {
                 accumulator[date.id] = true;
@@ -321,9 +322,12 @@ export default {
                   date: day.date,
                 });
                 return
+            } else {
+                this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
             }
 
-            this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
+
+            refreshAvailablePeriods()
         },
         attributes(resourceName) {
             const bookings = this.getBookings(resourceName);
