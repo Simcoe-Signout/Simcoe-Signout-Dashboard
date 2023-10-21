@@ -347,6 +347,9 @@ export default {
 
             return test;
         },
+        dates() {
+            return this.selectedDates.map(day => day.date);
+        }
     },
     async mounted() {
         await this.bookingsStore.fetchAllBookings();
