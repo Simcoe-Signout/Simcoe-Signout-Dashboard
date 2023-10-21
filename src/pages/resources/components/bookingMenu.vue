@@ -320,7 +320,7 @@ export default {
             const bookings = this.getBookings(resourceName);
 
             const test = [
-                ...this.dates.map(date => ({
+                ...this.selectedDates.map(date => ({
                     highlight: true,
                     dates: date,
                 })),
