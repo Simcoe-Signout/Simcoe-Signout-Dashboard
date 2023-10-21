@@ -1,6 +1,7 @@
 <template>
     <v-menu v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
+            {{ this.selectedDates }}
             <v-btn class="mt-3 mb-1" color="green" variant="outlined" v-bind="props" @click="openBookingMenu(i)">
                 <v-icon class="mr-3">mdi-book-open-page-variant</v-icon>
                 <h3>Book Resource</h3>
@@ -307,19 +308,22 @@ export default {
         async onDayClick(day) {
             console.log("Calling dayclick handler", day)
 
+
+            // Date id is yyyy-mm-dd like 2023-09-04. Assigned by VCalendar
             const selectedDateIds = this.selectedDates.reduce((accumulator, date) => {
                 accumulator[date.id] = true;
                 return accumulator;
             }, {});
 
-            if (selectedDateIds[day.id]) {
-                this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
-            } else {
+            if (!selectedDateIds[day.id]) {
                 this.selectedDates.push({
                   id: day.id,
                   date: day.date,
                 });
+                return
             }
+
+            this.selectedDates = this.selectedDates.filter(date => date.id !== day.id);
         },
         attributes(resourceName) {
             const bookings = this.getBookings(resourceName);
