@@ -338,7 +338,7 @@ export default {
                     console.log("Mapping date: ", date)
                     return {
                         highlight: true,
-                        dates: date
+                        dates: date.date
                     }
                 }),
                 ...bookings
