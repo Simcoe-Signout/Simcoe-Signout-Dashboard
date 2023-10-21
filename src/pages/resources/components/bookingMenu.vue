@@ -356,7 +356,7 @@ export default {
             const test = [
                 {
                     key: 'today',
-                    highlight: false,
+                    // highlight: false,
                     dates: new Date(year, month, 12),
                 },
                 {
