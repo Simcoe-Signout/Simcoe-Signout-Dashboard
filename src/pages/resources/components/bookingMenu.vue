@@ -329,7 +329,17 @@ export default {
         attributes(resourceName) {
             const currentMonth = new Date().getMonth();
             const bookings = this.getBookings(resourceName)
-                                .sort((a, b) => a.period - b.period) || [];
+                                .sort((a, b) => {
+                                    // Compare dates first
+                                    const dateComparison = a.date.getTime() - b.date.getTime();
+
+                                    // If the dates are the same, compare periods
+                                    if (dateComparison === 0) {
+                                        return a.period - b.period;
+                                    }
+
+                                    return dateComparison;
+                                }) || [];
 
             console.log(this.selectedDates)
 
