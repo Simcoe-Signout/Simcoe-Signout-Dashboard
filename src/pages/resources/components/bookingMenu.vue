@@ -327,8 +327,10 @@ export default {
             this.refreshAvailablePeriods()
         },
         attributes(resourceName) {
-            const bookings = this.getBookings(resourceName);
             const currentMonth = new Date().getMonth();
+            const bookings = this.getBookings(resourceName)
+                                 .filter(booking => booking.date.getMonth() === currentMonth)
+                                 .sort((a, b) => a.period - b.period) || [];
 
             console.log(bookings)
             const bookingMap = bookings.reduce((result, booking) => {
