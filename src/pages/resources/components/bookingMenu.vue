@@ -55,6 +55,7 @@
                                     <span class="ml-2"> = 4</span>
                                 </div>
                             </div>
+                            {{ availablePeriodsForSelectedDate }}
                             <div v-if="selectedDates.length != 0">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="availablePeriodsForSelectedDate"
@@ -190,6 +191,8 @@ export default {
             console.log("Calling the entire available periods function", this.resource.id, this.resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
             this.bookingsStore.getAvailablePeriodsForResourceOnDates(this.resource.id, this.resource.name, this.selectedDates.map(date => date.id))
             this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods;
+
+            console.log("available periods", this.bookingsStore.availablePeriods)
         },
         /**
          * Resets all variables related to the booking process (phase index, selected dates, etc.)
