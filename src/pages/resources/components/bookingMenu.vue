@@ -343,11 +343,6 @@ export default {
             return test;
         },
     },
-    computed: {
-        dates() {
-            return this.selectedDates.map(day => day.date);
-        },
-    },
     async mounted() {
         await this.bookingsStore.fetchAllBookings();
     }
