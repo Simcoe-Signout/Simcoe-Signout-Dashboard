@@ -374,7 +374,7 @@ export default {
                     highlight: true,
                     dates: date,
                 })),
-                ...bookingMap
+                ...Object.values(bookingMap)
             ];
 
             console.log(resourceName, test, bookingMap)
