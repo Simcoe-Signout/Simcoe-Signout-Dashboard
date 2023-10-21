@@ -330,6 +330,7 @@ export default {
             const bookings = this.getBookings(resourceName);
             const currentMonth = new Date().getMonth();
 
+            console.log(bookings)
             const bookingMap = bookings.reduce((result, booking) => {
                 const color = booking.color;
 
