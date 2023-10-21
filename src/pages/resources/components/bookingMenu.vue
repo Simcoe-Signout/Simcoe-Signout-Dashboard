@@ -356,11 +356,7 @@ export default {
             const test = [
                 {
                     key: 'today',
-                    highlight: {
-                    color: 'purple',
-                    fillMode: 'solid',
-                    contentClass: 'italic',
-                    },
+                    highlight: false,
                     dates: new Date(year, month, 12),
                 },
                 {
