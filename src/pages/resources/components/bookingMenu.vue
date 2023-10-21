@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             {{ availablePeriodsForSelectedDate }}
-                            <div v-if="selectedDates.length != 0">
+                            <div v-if="selectedDates.length != 0 && !availablePeriodsForSelectedDateLoading">
                                 <v-select class="ml-7 mr-7" v-model="selectedPeriod"
                                     :items="availablePeriodsForSelectedDate"
                                     label="Period"></v-select>
@@ -168,6 +168,7 @@ export default {
         destination: null,
         comments: null,
 
+        availablePeriodsForSelectedDateLoading: false,
         availablePeriodsForSelectedDate: [],
 
         showNoDatesSelectedDialog: false,
@@ -187,10 +188,12 @@ export default {
         }
     },
     methods: {
-        refreshAvailablePeriods() {
+        async refreshAvailablePeriods() {
             console.log("Calling the entire available periods function", this.resource.id, this.resource.name, JSON.parse(JSON.stringify(this.selectedDates)))
-            this.bookingsStore.getAvailablePeriodsForResourceOnDates(this.resource.id, this.resource.name, this.selectedDates.map(date => date.id))
-            this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods;
+            this.availablePeriodsForSelectedDateLoading = true
+            await this.bookingsStore.getAvailablePeriodsForResourceOnDates(this.resource.id, this.resource.name, this.selectedDates.map(date => date.id))
+            this.availablePeriodsForSelectedDateLoading = false
+            this.availablePeriodsForSelectedDate = this.bookingsStore.availablePeriods
 
             console.log("available periods", this.bookingsStore.availablePeriods)
         },
