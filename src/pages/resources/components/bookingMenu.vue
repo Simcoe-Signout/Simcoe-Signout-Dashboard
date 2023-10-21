@@ -1,7 +1,6 @@
 <template>
     <v-menu v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
-            {{ attributes(resource.name) }}
             <v-btn class="mt-3 mb-1" color="green" variant="outlined" v-bind="props" @click="openBookingMenu(i)">
                 <v-icon class="mr-3">mdi-book-open-page-variant</v-icon>
                 <h3>Book Resource</h3>
@@ -331,28 +330,40 @@ export default {
             const bookings = this.getBookings(resourceName);
             const currentMonth = new Date().getMonth();
 
+            const bookingMap = bookings.reduce((result, booking) => {
+                const color = booking.color;
+
+                // Check if the color key already exists in the result object
+                if (!result[color]) {
+                    // If not, create an array for that color
+                    result[color] = [];
+                }
+
+                // Push the booking object into the array for that color
+                result[color].push({
+                    dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1),
+                    highlight: false,
+                    dot: {
+                        color: booking.color,
+                        class: booking.isComplete ? "opacity-75" : "",
+                    },
+                    popover: {
+                        label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
+                    },
+                });
+
+                return result;
+            }, {});
+
             const test = [
                 ...this.selectedDates.map(date => ({
                     highlight: true,
                     dates: date,
                 })),
-                ...bookings
-                    .sort((a, b) => a.period - b.period) // Sort the bookings by period value
-                    .filter(booking => booking.date.getMonth() === currentMonth)
-                    .map(booking => ({
-                        dates: new Date(booking.date.getFullYear(), booking.date.getMonth(), booking.date.getDate() + 1), // Shift the date forward by one day
-                        highlight: false,
-                        dot: {
-                            color: booking.color,
-                            class: booking.isComplete ? "opacity-75" : "",
-                        },
-                        popover: {
-                            label: booking.bookerLastName + ", " + booking.bookerFirstName + " - " + booking.resourceName + " (Period " + booking.period + ")",
-                        },
-                    })),
+                ...bookingMap
             ];
 
-            console.log(resourceName, test)
+            console.log(resourceName, test, bookingMap)
 
             return test;
         },
