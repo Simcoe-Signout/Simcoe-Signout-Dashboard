@@ -304,6 +304,7 @@ export default {
             return bookings;
         },
         async onDayClick(day) {
+            console.log("Calling dayclick handler", day)
             const idx = this.selectedDates.findIndex(d => d.id === day.id);
             if (idx >= 0) {
                 this.selectedDates.splice(idx, 1);
