@@ -1,7 +1,7 @@
 <template>
     <v-menu v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end">
         <template v-slot:activator="{ props }">
-            {{ attributes }}
+            {{ attributes(resource.name) }}
             <v-btn class="mt-3 mb-1" color="green" variant="outlined" v-bind="props" @click="openBookingMenu(i)">
                 <v-icon class="mr-3">mdi-book-open-page-variant</v-icon>
                 <h3>Book Resource</h3>
