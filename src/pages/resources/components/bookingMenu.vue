@@ -342,8 +342,6 @@ export default {
                                     return dateComparison;
                                 }) || [];
 
-            console.log(bookings)
-
             const bookingMap = bookings.reduce((result, booking) => {
                 const color = booking.color;
 
@@ -368,6 +366,8 @@ export default {
 
                 return result;
             }, {});
+
+            console.log(bookingMap)
 
             const test = [
                 ...this.selectedDates.map(date => ({
