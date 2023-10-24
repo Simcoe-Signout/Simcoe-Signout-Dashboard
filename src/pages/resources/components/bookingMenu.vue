@@ -1,5 +1,5 @@
 <template>
-    <v-menu v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end">
+    <v-dialog v-model="bookingMenuOpen[index]" :close-on-content-click="false" location="end" width="500">
         <template v-slot:activator="{ props }">
             <v-btn class="mt-3 mb-1" color="green" variant="outlined" v-bind="props" @click="openBookingMenu(i)">
                 <v-icon class="mr-3">mdi-book-open-page-variant</v-icon>
@@ -11,12 +11,12 @@
         <v-card min-width="300">
             <!-- Navigation buttons -->
             <v-list>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 0">When</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" @click="bookingPhaseIndex = 0" width="125">When</v-btn>
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" width="125"
                     @click="bookingPhaseIndex = 1">Where</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" width="125"
                     @click="bookingPhaseIndex = 2">Comments</v-btn>
-                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0"
+                <v-btn color="dark-grey" variant="flat" rounded="0" class="mt-0" width="125"
                     @click="bookingPhaseIndex = 3">Review</v-btn>
             </v-list>
             <v-divider />
@@ -26,7 +26,7 @@
                     <v-row class="text-center align-center justify-center">
                         <v-col class="py-5">
                             <h5 class="mb-2">Period Identifiers</h5>
-                            <div class="d-flex ml-10">
+                            <div class="d-flex ml-15">
                                 <div class="d-flex align-items-center">
                                     <v-badge dot color="blue" class="pt-2">
                                     <v-icon size="x-large"></v-icon>
@@ -125,7 +125,7 @@
                 </v-btn>
             </v-card-actions>
         </v-card>
-    </v-menu>
+    </v-dialog>
 
     <v-dialog v-model="showNoDatesSelectedDialog" max-width="500">
         <v-card>
