@@ -5,10 +5,10 @@
         <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350" width="100%">
           <div class="ml-2 mb-2 text-wrap">
             <h2 class="mt-2">{{ resource.name }}</h2>
-            <div class="text-h6 font-weight-medium">
+            <div class="text-h6 font-weight-light">
               {{ resource.description }}
             </div>
-            <h3 class="mt-2">Location: {{ resource.location }}</h3>
+            <h3 class="mt-2">Location: <span class="font-weight-light">{{ resource.location }}</span></h3>
             <div>
               <v-chip v-for="tag in getTags(resource)" class="mt-2 mr-2" :color="tag.colour">
                 {{ tag.text }}
