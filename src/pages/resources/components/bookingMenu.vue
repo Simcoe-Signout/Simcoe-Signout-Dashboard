@@ -26,7 +26,7 @@
                     <v-row class="text-center align-center justify-center">
                         <v-col class="py-5">
                             <h5 class="mb-2">Period Identifiers</h5>
-                            <div class="d-flex ml-15">
+                            <div class="d-flex mx-auto ml-16 pl-7" width="200px">
                                 <div class="d-flex align-items-center">
                                     <v-badge dot color="blue" class="pt-2">
                                     <v-icon size="x-large"></v-icon>
