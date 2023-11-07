@@ -7,9 +7,9 @@
                     <div class="ml-2 mb-2 text-wrap">
                         <v-row no-gutters>
                             <v-avatar color="grey-darken-3 mt-3" :image="user.avatar_url" />
-                            <h1 class="mt-2 ml-4">{{ user.full_name }}</h1>
+                            <h2 class="mt-4 ml-4">{{ user.full_name }}</h2>
                         </v-row>
-                        <h2 class="mt-1 font-weight-light">{{ user.email }}</h2>
+                        <h3 class="mt-1 font-weight-bold">{{ user.email }}</h3>
                         <h2 class="mt-3 font-weight-bold">Google UID: <span class="font-weight-light">{{ user.uid }}</span>
                         </h2>
 
