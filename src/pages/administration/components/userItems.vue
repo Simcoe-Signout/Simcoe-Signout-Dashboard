@@ -119,7 +119,13 @@ export default {
         pagedUsers() {
             const startIndex = (this.pageNo - 1) * this.usersPerPage;
             const endIndex = startIndex + this.usersPerPage;
-
+            
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+            
             return this.users.slice(startIndex, endIndex);
         }
     },
