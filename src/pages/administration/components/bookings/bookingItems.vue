@@ -99,6 +99,8 @@ export default {
       const startIndex = (this.pageNo - 1) * this.bookingsPerPage;
       const endIndex = startIndex + this.bookingsPerPage;
 
+      window.scrollTo(0, 0);
+
       return this.bookingsStore.bookings.slice(startIndex, endIndex);
     }
   },
