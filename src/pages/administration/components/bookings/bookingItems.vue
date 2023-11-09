@@ -5,14 +5,14 @@
       <v-row no-gutters class="align-center">
         <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350" width="100%">
           <div class="ml-2 mb-2 text-wrap">
-            <h1 class="mt-2">{{ booking.resourceName }}</h1>
+            <h2 class="mt-2">{{ booking.resourceName }}</h2>
 
-            <h2 class="mt-1 font-weight-bold">Booker: <span class="font-weight-light">{{ booking.bookedBy }}</span></h2>
-            <h2 class="mt-1 font-weight-bold">Booked Period: <span class="font-weight-light">{{
-              booking.bookingDates[0].period }}</span></h2>
-            <h2 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
-            }}</span></h2>
-            <h2 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h2>
+            <h3 class="mt-1 font-weight-bold">Booker: <span class="font-weight-light">{{ booking.bookedBy }}</span></h3>
+            <h3 class="mt-1 font-weight-bold">Booked Period: <span class="font-weight-light">{{
+              booking.bookingDates[0].period }}</span></h3>
+            <h3 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
+            }}</span></h3>
+            <h3 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h3>
             <v-chip color="blue" class="mr-2 mt-2" v-for="(date, i) in booking.bookingDates" :key="i">{{ date.date
             }}</v-chip>
 
