@@ -49,7 +49,7 @@
     </v-card>
   </v-dialog>
 
-  <v-pagination class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
+  <v-pagination width="100" class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
 </template>
   
 <script>

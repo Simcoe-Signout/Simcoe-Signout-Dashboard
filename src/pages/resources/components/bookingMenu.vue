@@ -60,7 +60,7 @@
                             <div v-if="selectedDates.length === 0">
                                 <h5>Select a rental date to view availability</h5>
                             </div>
-                            <div v-else>
+                            <div v-else class="ml-11">
                                 <v-row>
                                     <v-col v-for="(item, index) in periods" :key="index">
                                         <v-checkbox
