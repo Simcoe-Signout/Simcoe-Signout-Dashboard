@@ -16,7 +16,7 @@
                             <VCalendar :attributes="attributes()" is-dark="system"
                                 class="mb-4" expanded />
                             <h3 class="mb-2">Period Identifiers</h3>
-                            <div class="d-flex ml-10">
+                            <div class="d-flex ml-15">
                                 <div class="d-flex align-items-center">
                                     <v-badge dot color="blue" class="pt-2">
                                         <v-icon size="x-large"></v-icon>
