@@ -60,7 +60,7 @@
                             <div v-if="selectedDates.length === 0">
                                 <h5>Select a rental date to view availability</h5>
                             </div>
-                            <div v-else class="ml-11">
+                            <!-- <div v-else class="ml-11">
                                 <v-row>
                                     <v-col v-for="(item, index) in periods" :key="index">
                                         <v-checkbox
@@ -68,6 +68,21 @@
                                             :value="item"
                                             :label="item"
                                             :readonly="availablePeriodsForSelectedDate.indexOf(item) === -1"
+                                            @click="(availablePeriodsForSelectedDate.indexOf(item) === -1) ? dispatchSnackbarMessageEvent() : false">
+                                        </v-checkbox>
+                                    </v-col>
+                                </v-row>
+                            </div> -->
+                            <div v-else class="ml-11">
+                                <v-row>
+                                    <v-col v-for="(item, index) in periods" :key="index">
+                                        <v-checkbox
+                                            v-model="selectedPeriods"
+                                            :value="item"
+                                            :label="item"
+                                            :disabled="availablePeriodsForSelectedDate.indexOf(item) === -1"
+                                            color="light-blue-accent-3"
+                                            base-color="light-blue-accent-3"
                                             @click="(availablePeriodsForSelectedDate.indexOf(item) === -1) ? dispatchSnackbarMessageEvent() : false">
                                         </v-checkbox>
                                     </v-col>
