@@ -25,6 +25,7 @@
                 <v-card v-if="bookingPhaseIndex == 0" class="v-card--reveal">
                     <v-row class="text-center align-center justify-center">
                         <v-col class="py-5">
+                            <h2 class="mb-2">{{ resource.name }}</h2>
                             <h5 class="mb-2">Period Identifiers</h5>
                             <div class="d-flex mx-auto ml-16 pl-7" width="200px">
                                 <div class="d-flex align-items-center">
@@ -55,10 +56,8 @@
 
                             <VCalendar :attributes="attributes(resource.name)" is-dark="system" @dayclick="onDayClick" expanded />
 
-                            <h3 class="mt-5">Periods</h3>
-
                             <div v-if="selectedDates.length === 0">
-                                <h5>Select a rental date to view availability</h5>
+                                <h5 class="my-10">Select a rental date to view availability</h5>
                             </div>
                             <!-- <div v-else class="ml-11">
                                 <v-row>
@@ -73,7 +72,7 @@
                                     </v-col>
                                 </v-row>
                             </div> -->
-                            <div v-else class="ml-11">
+                            <div v-else class="ml-11 mt-6">
                                 <v-row>
                                     <v-col v-for="(item, index) in periods" :key="index">
                                         <v-checkbox
