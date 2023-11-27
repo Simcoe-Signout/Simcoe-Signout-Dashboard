@@ -78,7 +78,7 @@
                                         <v-checkbox
                                             v-model="selectedPeriods"
                                             :value="item"
-                                            :label="item"
+                                            :label="item.toString()"
                                             :disabled="availablePeriodsForSelectedDate.indexOf(item) === -1"
                                             color="light-blue-accent-3"
                                             base-color="light-blue-accent-3"
@@ -257,21 +257,30 @@ export default {
                 return;
             }
 
-            const bookingDates = [];
+            // dates 15th, 16th, and 17th of november
+            // periods 1, 3, 4
+
+            // for every date we are going to add it and the period to an array
+
+            let bookingDates = [];
             try {
                 const userData = await this.authenticationStore.requestMyUserData(this.$cookies.get('auth_token'));
-                for (let i = 0; i < this.selectedDates.length; i++) {
-                    for (let j = 0; j < this.selectedPeriods.length; j++) {
-                        bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriods[j] });
+                for (let i = 0; i < this.selectedDates.length; i++) {  // iterate through selected dates
+                    for (let j = 0; j < this.selectedPeriods.length; j++) {  // iterate through selected periods
+                        bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriods[j] });  //push date and period
+                        this.bookingsStore.createBooking({
+                        bookedBy: userData.full_name, // Don't worry, you can't spoof this ;)
+                        resourceName: resource.name,
+                        bookingDates: bookingDates,
+                        destination: this.destination,
+                        comments: this.comments,
+                        });
+                        console.log(bookingDates)
+                        bookingDates = [];
                     }
+                
                 }
-                this.bookingsStore.createBooking({
-                    bookedBy: userData.full_name, // Don't worry, you can't spoof this ;)
-                    resourceName: resource.name,
-                    bookingDates: bookingDates,
-                    destination: this.destination,
-                    comments: this.comments,
-                });
+
                 this.resetAllVariables();
                 this.closeBookingMenu(index);
                 this.bookingsStore.fetchAllBookings();
