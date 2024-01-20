@@ -11,7 +11,7 @@ module Admin
                     requires :text, type: String
                     requires :colour, type: String
                 end
-                requires :category_id, type: String
+                requires :category_id, type: Integer
             end
         end
   

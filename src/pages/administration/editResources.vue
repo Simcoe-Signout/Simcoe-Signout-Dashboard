@@ -138,8 +138,10 @@ export default {
                 resourceDescription: this.resourceDescription,
                 resourceLocation: this.resourceLocation,
                 resourceTags: this.tagsArray,
-                resourceCategory: this.resourceCategory
+                categoryId: this.categoriesStore.getCategoryId(this.resourceCategory)
         });
+
+        console.log(this.resourceCategory)
 
             this.clearInput();
         },
@@ -150,7 +152,7 @@ export default {
         editResource(resource) {
             this.resourceName = resource.name;
             this.resourceDescription = resource.description;
-            this.resourceCategory = resource.category;
+            this.resourceCategory = this.categoriesStore.getCategoryName(resource.category_id);
             this.resourceLocation = resource.location;
             this.tagsArray = this.getTags(resource);
             this.isEditingResource = true;
@@ -174,7 +176,8 @@ export default {
                     resourceDescription: this.resourceDescription,
                     resourceLocation: this.resourceLocation,
                     resourceTags: this.tagsArray,
-                    resourceCategory: this.resourceCategory
+                    //resourceCategory: this.resourceCategory,
+                    categoryId: this.categoriesStore.getCategoryId(this.resourceCategory)
                 });
 
             this.clearInput();
@@ -226,9 +229,10 @@ export default {
     /**
      * Fetches all resources when this page is mounted
      */
-    mounted() {
-        this.resourcesStore.fetchResources();
-        this.categoriesStore.fetchCategoryNames();
+    async mounted() {
+        await this.resourcesStore.fetchResources();
+        await this.categoriesStore.fetchCategoryNames();
+        await this.categoriesStore.fetchCategoriesAdmin();
     }
 }
 </script>

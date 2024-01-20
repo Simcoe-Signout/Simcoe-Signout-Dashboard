@@ -3,5 +3,6 @@ interface Resource {
     resourceDescription: string;
     resourceLocation: string;
     resourceCategory: string;
+    categoryId: number;
     resourceTags: Tag[];
 }

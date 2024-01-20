@@ -151,7 +151,7 @@ export const resourcesPageStore = defineStore({
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
-                    category: resource.resourceCategory,
+                    category_id: resource.categoryId,
                     tags: resource.resourceTags,
                 }
             })
@@ -175,7 +175,8 @@ export const resourcesPageStore = defineStore({
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
                     tags: resource.resourceTags,
-                    category: resource.resourceCategory,
+                    //category: resource.resourceCategory,
+                    category_id: resource.categoryId,
                     id: id
                 }
             })

@@ -10,6 +10,10 @@ export const categoriesStore = defineStore({
         categoryNames: [] as string[],
     }),
     getters: {
+        getCategoryId: (state) => (categoryName: string) => {
+            const category = state.categories.find(category => category.title === categoryName);
+            return category ? category.id : -1;
+        },
         getCategories: (state) => state.categories,
         getCategoryNames: (state) => state.categoryNames,
         // get all category Ids based off of what what category names are provided
@@ -28,6 +32,11 @@ export const categoriesStore = defineStore({
         },
     },
     actions: {
+        getCategoryName (categoryId: number) {
+            const category = this.categories.find(category => category.id === categoryId);
+            console.log(category)
+            return category ? category.title : '';
+        },
         /**
          * Fetches all categories from the via the administrator API (all data)
          */
