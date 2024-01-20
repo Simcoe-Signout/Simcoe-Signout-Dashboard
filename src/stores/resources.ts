@@ -85,8 +85,7 @@ export const resourcesPageStore = defineStore({
         async fetchResources(date: String) {
             await categoriesStore().fetchCategoriesCore();
             const categoryIds = categoriesStore().getCategoryIds(this.filteredCategories);
-            console.log(categoryIds);
-            console.log(this.filteredCategories)
+
             const url = `${this.api_uri}?category_ids=${categoryIds}&available_on_date=${date}`
 
             this.resources = await getRequest(url)
