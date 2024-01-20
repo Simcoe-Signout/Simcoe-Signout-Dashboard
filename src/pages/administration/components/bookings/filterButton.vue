@@ -19,23 +19,28 @@
             <!-- Period tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'period'" class="v-card--reveal">
-                    <v-checkbox hide-details density="comfortable" v-for="(period, i) in bookingsStore.getValidPeriods" :key="i"
-                        :value="period" :label="period.toString()" v-model="bookingsStore.filteredPeriods" @change='bookingsStore.fetchBookings()'></v-checkbox>
+                    <v-checkbox hide-details density="comfortable" v-for="(period, i) in bookingsStore.getValidPeriods"
+                        :key="i" :value="period" :label="period.toString()" v-model="bookingsStore.filteredPeriods"
+                        @change='bookingsStore.fetchBookings()'></v-checkbox>
                 </v-card>
             </v-expand-transition>
 
             <!-- Date range tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'dateRange'" class="v-card--reveal">
-                    <v-text-field type="date" label="Start Date" v-model="bookingsStore.filteredDateFrom" @change="bookingsStore.fetchBookings"></v-text-field>
-                    <v-text-field type="date" label="End Date" v-model="bookingsStore.filteredDateTo" @change="bookingsStore.fetchBookings"></v-text-field>
+                    <v-text-field type="date" label="Start Date" v-model="bookingsStore.filteredDateFrom"
+                        @change="bookingsStore.fetchBookings"></v-text-field>
+                    <v-text-field type="date" label="End Date" v-model="bookingsStore.filteredDateTo"
+                        @change="bookingsStore.fetchBookings"></v-text-field>
                 </v-card>
             </v-expand-transition>
 
             <!-- Resource tab -->
             <v-expand-transition>
                 <v-card v-if="activeFilterTab === 'resource'" class="v-card--reveal">
-                    <v-select class="ml-2 mr-2" v-model="this.bookingsStore.filteredResourceName" :items='this.store.resourceNames' label="Resource" @update:model-value="bookingsStore.fetchBookings"></v-select>
+                    <v-checkbox hide-details density="comfortable" class="ml-2 mr-2" v-for="(resource, i) in this.store.resourceNames"
+                        :key="i" :label="resource" :value="resource" v-model="this.bookingsStore.filteredResourceName"
+                        @change="bookingsStore.fetchBookings"></v-checkbox>
                 </v-card>
             </v-expand-transition>
 
@@ -75,5 +80,4 @@ export default {
     opacity: 1 !important;
     position: absolute;
     width: 100%;
-}
-</style>
+}</style>
