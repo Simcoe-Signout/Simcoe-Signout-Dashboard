@@ -8,13 +8,13 @@
             <h1 class="mt-2">{{ booking.resourceName }}</h1>
 
             <h3 class="mt-1 font-weight-bold">Booked Periods:
-              <span class="font-weight-light" v-for="(date, i) in booking.bookingDates" :key="i">
-                {{ date.period }}{{ i < booking.bookingDates.length - 1 ? ', ' : '' }} </span>
+              <span class="font-weight-light" v-for="(period, i) in uniquePeriods" :key="i">
+                {{ period }}{{ i < booking.bookingDates.length - 1 ? ', ' : '' }} </span>
             </h3>
             <h2 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
             }}</span></h2>
             <h2 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h2>
-            <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in booking.bookingDates" :key="i">{{ date.date
+            <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in uniqueDates" :key="i">{{ date
             }}</v-chip>
 
             <v-menu>
@@ -95,6 +95,14 @@ export default {
     },
   },
   computed: {
+    uniquePeriods() {
+      const allPeriods = this.bookings.flatMap(booking => booking.bookingDates.map(date => date.period));
+      return [...new Set(allPeriods)];
+    },
+    uniqueDates() {
+      const allDates = this.bookings.flatMap(booking => booking.bookingDates.map(date => date.date));
+      return [...new Set(allDates)];
+    },
     numPages() {
       return Math.ceil(this.bookings.length / this.bookingsPerPage);
     },
