@@ -225,7 +225,7 @@ export default {
         */
         resetAllVariables() {
             this.bookingPhaseIndex = 0;
-            this.selectedDates = [];bookingDates.push({ date: this.selectedDates[i].id, period: this.selectedPeriod });
+            this.selectedDates = [];
             this.selectedPeriods = [];
             this.destination = null;
             this.comments = null;
