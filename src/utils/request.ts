@@ -134,8 +134,6 @@ export async function patchRequest(url: string, headers: any = {}, body: any = {
  */
 function checkStatus(response: Response, data: any) {
     switch (response.status) {
-        case 200:
-            return data;
         case 401:
             throw new Error('user not authorized');
         case 403:
@@ -143,7 +141,7 @@ function checkStatus(response: Response, data: any) {
         case 404:
             throw new Error('not found. Please contact DiRamio for assistance');
         default:
-            throw new Error(response.statusText);
+            return data;
     }
 }
 
