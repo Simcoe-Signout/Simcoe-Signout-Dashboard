@@ -4,7 +4,7 @@ module Core
   
         params do
           requires :booking, type: Hash do
-            requires :resourceName, type: String
+            requires :resource_id, type: Integer
             requires :bookingDates, type: Array do
               requires :date, type: String
               requires :period, type: Integer
@@ -20,7 +20,7 @@ module Core
   
           if resource_booking.bookingDates.uniq! { |booking_date| [booking_date["date"], booking_date["period"]] }
             error!({ error: "Duplicate booking dates found" }, 422)
-          elsif ResourceBooking.where(resourceName: resource_booking.resourceName).any? do |booking|
+          elsif ResourceBooking.where(resource_id: resource_booking.resource_id).any? do |booking|
             booking.bookingDates.any? do |booking_date|
               resource_booking.bookingDates.any? do |new_booking_date|
                 new_booking_date["date"] == booking_date["date"] && new_booking_date["period"] == booking_date["period"]

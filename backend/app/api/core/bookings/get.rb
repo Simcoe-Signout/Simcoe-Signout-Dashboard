@@ -5,7 +5,7 @@ module Core
         optional :start_date, type: String
         optional :end_date, type: String
         optional :period, type: Integer
-        optional :resource_name, type: String
+        optional :resource_id, type: Integer
         optional :only_mine, type: Boolean
       end
 
@@ -30,9 +30,9 @@ module Core
             end
           end
 
-          if params[:resource_name].present?
+          if params[:resource_id].present?
             @resource_bookings = @resource_bookings.select do |booking|
-              booking.resourceName == params[:resource_name]
+              booking.resource_id == params[:resource_id]
             end
           end
         elsif params[:period].present?
@@ -42,14 +42,14 @@ module Core
             end
           end
 
-          if params[:resource_name].present?
+          if params[:resource_id].present?
             @resource_bookings = @resource_bookings.select do |booking|
-              booking.resourceName == params[:resource_name]
+              booking.resource_id == params[:resource_id]
             end
           end
-        elsif params[:resource_name].present?
+        elsif params[:resource_id].present?
           @resource_bookings = ResourceBooking.select do |booking|
-            booking.resourceName == params[:resource_name]
+            booking.resource_id == params[:resource_id]
           end
         else
           @resource_bookings = ResourceBooking.all
@@ -64,7 +64,8 @@ module Core
         response = @resource_bookings.map do |booking|
           {
             bookedBy: booking.bookedBy,
-            resourceName: booking.resourceName,
+            resourceName: Resource.find_by_id(booking.resource_id).name,
+            resource_id: booking.resource_id,
             bookingDates: booking.bookingDates
           }.tap do |hash|
             if params[:only_mine] == true

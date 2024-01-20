@@ -12,6 +12,20 @@ export const categoriesStore = defineStore({
     getters: {
         getCategories: (state) => state.categories,
         getCategoryNames: (state) => state.categoryNames,
+        // get all category Ids based off of what what category names are provided
+        getCategoryIds: (state) => (categoryNames: string[]) => {
+            const categories = state.categories;
+            const categoryIds: number[] = [];
+
+            categoryNames.forEach(categoryName => {
+                const category = categories.find(category => category.title === categoryName);
+                if (category) {
+                    categoryIds.push(category.id);
+                }
+            });
+
+            return categoryIds;
+        },
     },
     actions: {
         /**

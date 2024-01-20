@@ -5,7 +5,7 @@ module Admin
         optional :start_date, type: String
         optional :end_date, type: String
         optional :period, type: String
-        optional :resource_name, type: String
+        optional :resource_id, type: Integer
       end
 
       get do
@@ -30,9 +30,9 @@ module Admin
             end
           end
 
-          if params[:resource_name].present?
+          if params[:resource_id].present?
             @resource_bookings = @resource_bookings.select do |booking|
-              booking.resourceName == params[:resource_name]
+              booking.resource_id == params[:resource_id]
             end
           end
         elsif params[:period].present?
@@ -43,17 +43,21 @@ module Admin
             end
           end
 
-          if params[:resource_name].present?
+          if params[:resource_id].present?
             @resource_bookings = @resource_bookings.select do |booking|
-              booking.resourceName == params[:resource_name]
+              booking.resource_id == params[:resource_id]
             end
           end
-        elsif params[:resource_name].present?
+        elsif params[:resource_id].present?
           @resource_bookings = ResourceBooking.select do |booking|
-            booking.resourceName == params[:resource_name]
+            booking.resource_id == params[:resource_id]
           end
         else
           @resource_bookings = ResourceBooking.all
+          @resource_bookings = @resource_bookings.map do |booking|
+            resource = Resource.find_by_id(booking.resource_id)
+            booking.attributes.merge(resourceName: resource ? resource.name : "Unknown")
+          end
         end
 
         present(@resource_bookings)

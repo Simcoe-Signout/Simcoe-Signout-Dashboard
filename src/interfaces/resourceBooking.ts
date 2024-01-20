@@ -1,6 +1,6 @@
 interface ResourceBooking {
     bookedBy: string;
-    resourceName: string;
+    resource_id: number;
     bookingDates: BookingDate[];
     destination: string;
     comments: string;

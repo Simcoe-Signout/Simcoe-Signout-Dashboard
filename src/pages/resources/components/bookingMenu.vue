@@ -267,7 +267,7 @@ export default {
                 }
                 this.bookingsStore.createBooking({
                     bookedBy: userData.full_name, // Don't worry, you can't spoof this ;)
-                    resourceName: resource.name,
+                    resource_id: resource.id,
                     bookingDates: bookingDates,
                     destination: this.destination,
                     comments: this.comments,

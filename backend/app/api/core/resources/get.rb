@@ -2,15 +2,15 @@ module Core
   module Resources
     class Get < Grape::API
       params do
-        optional :categories, type: String
+        optional :category_ids, type: String
         optional :available_on_date, type: String
       end
 
       get do
         resources = Resource.all
-        if params[:categories].present?
-          categories = params[:categories].split(",")
-          resources = resources.where(category: categories)
+        if params[:category_ids].present?
+          categories = params[:category_ids].split(",")
+          resources = resources.where(category_id: categories)
         end
         if params[:available_on_date].present?
           resources = resources.select do |resource|

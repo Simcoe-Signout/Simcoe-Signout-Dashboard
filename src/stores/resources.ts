@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { bookingsStore } from './bookings';
+import { categoriesStore } from './categories';
 import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/request';
 
 export const resourcesPageStore = defineStore({
@@ -40,7 +41,7 @@ export const resourcesPageStore = defineStore({
         // Returns a resources ID based on its name
         getResourceID: (state) => (name: string) => {
             const resource = state.resources.find((r) => r.name === name);
-            return resource.id ? resource.id : '';
+            return resource ? resource.id : '';
         },
         // Returns a list of resources that have one of the filtered categories
         // If there are none, it just returns all of them
@@ -73,12 +74,20 @@ export const resourcesPageStore = defineStore({
         }
     },
     actions: {
+        getResourceNameFromId(id: number) {
+            const resource = this.resources.find((resource: any) => resource.id === id);
+            return resource ? resource.name : '';
+        },
         /**
          * Fetches resources available on a date and that fall under the filtered categories
          * @param date The date to get available resources for
          */
         async fetchResources(date: String) {
-            const url = `${this.api_uri}?categories=${this.filteredCategories}&available_on_date=${date}`
+            await categoriesStore().fetchCategoriesCore();
+            const categoryIds = categoriesStore().getCategoryIds(this.filteredCategories);
+            console.log(categoryIds);
+            console.log(this.filteredCategories)
+            const url = `${this.api_uri}?category_ids=${categoryIds}&available_on_date=${date}`
 
             this.resources = await getRequest(url)
         },

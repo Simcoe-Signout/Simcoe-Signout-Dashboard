@@ -56,12 +56,14 @@
 <script>
 import { bookingsStore } from '@/stores/bookings';
 import { authenticationStore } from '@/stores/authentication';
+import { resourcesPageStore } from '@/stores/resources';
 
 export default {
   data() {
     return {
       bookings: [],
       bookingsStore: bookingsStore(),
+      resourcesStore: resourcesPageStore(),
       authenticationStore: authenticationStore(),
       showConfirmationDialog: false,
       selectedBooking: null,

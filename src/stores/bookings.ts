@@ -35,7 +35,11 @@ export const bookingsStore = defineStore({
          * Fetches all bookings from the API with the specified filters
          */
         async fetchBookings() {
-            const url = `${this.admin_api_uri}?period=${this.filteredPeriods}&resource_name=${this.filteredResourceName}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`
+            var resourceId = resourcesPageStore().getResourceID(this.filteredResourceName);
+            if (resourceId === undefined) {
+                console.log("Invalid resource name")
+            }
+            const url = `${this.admin_api_uri}?period=${this.filteredPeriods}&resource_id=${resourceId}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`
             this.bookings = await getRequest(url);
         },
         /**
@@ -73,7 +77,7 @@ export const bookingsStore = defineStore({
             const body = JSON.stringify({
                 booking: {
                     bookedBy: booking.bookedBy,
-                    resourceName: booking.resourceName,
+                    resource_id: booking.resource_id,
                     bookingDates: booking.bookingDates,
                     destination: booking.destination,
                     comments: booking.comments,

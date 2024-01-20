@@ -5,7 +5,7 @@ module Admin
         requires :id, type: Integer
         requires :booking, type: Hash do
           requires :bookedBy, type: String
-          requires :resourceName, type: String
+          requires :resource_id, type: Integer
           requires :bookingDates, type: Array do
             requires :date, type: String
             requires :period, type: Integer
