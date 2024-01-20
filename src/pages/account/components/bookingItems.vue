@@ -8,13 +8,14 @@
             <h1 class="mt-2">{{ booking.resourceName }}</h1>
 
             <h3 class="mt-1 font-weight-bold">Booked Periods:
-              <span class="font-weight-light" v-for="(period, i) in uniquePeriods" :key="i">
-                {{ period }}{{ i < booking.bookingDates.length - 1 ? ', ' : '' }} </span>
+              <span class="font-weight-light" v-for="(period, i) in uniquePeriods(booking.id)" :key="i">
+                {{ period }}{{ i < uniquePeriods(booking.id).length - 1 ? ', ' : '' }} 
+              </span>
             </h3>
             <h2 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
             }}</span></h2>
             <h2 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h2>
-            <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in uniqueDates" :key="i">{{ date
+            <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in uniqueDates(booking.id)" :key="i">{{ date
             }}</v-chip>
 
             <v-menu>
@@ -95,16 +96,20 @@ export default {
       await this.getMyBookings();
       this.bookings = this.bookingsStore.getBookings;
     },
-  },
-  computed: {
-    uniquePeriods() {
-      const allPeriods = this.bookings.flatMap(booking => booking.bookingDates.map(date => date.period));
+    uniquePeriods(bookingId) {
+      const booking = this.bookings.find(booking => booking.id === bookingId);
+      if (!booking) return [];
+      const allPeriods = booking.bookingDates.map(date => date.period);
       return [...new Set(allPeriods)];
     },
-    uniqueDates() {
-      const allDates = this.bookings.flatMap(booking => booking.bookingDates.map(date => date.date));
+    uniqueDates(bookingId) {
+      const booking = this.bookings.find(booking => booking.id === bookingId);
+      if (!booking) return [];
+      const allDates = booking.bookingDates.map(date => date.date);
       return [...new Set(allDates)];
-    },
+    }
+  },
+  computed: {
     numPages() {
       return Math.ceil(this.bookings.length / this.bookingsPerPage);
     },
@@ -117,6 +122,7 @@ export default {
   },
   async mounted() {
     await this.getMyBookings();
+    this.bookings = this.bookingsStore.getBookings;
   },
 };
 </script>

@@ -9,13 +9,13 @@
 
             <h3 class="mt-1 font-weight-bold">Booker: <span class="font-weight-light">{{ booking.bookedBy }}</span></h3>
             <h3 class="mt-1 font-weight-bold">Booked Periods:
-              <span class="font-weight-light" v-for="(period, i) in getUniquePeriods(booking)" :key="i">
-                {{ period }}{{ i < booking.bookingDates.length - 1 ? ', ' : '' }} </span>
+              <span class="font-weight-light" v-for="(period, i) in uniquePeriods(booking.id)" :key="i">
+                {{ period }}{{ i < uniquePeriods(booking.id).length - 1 ? ', ' : '' }} </span>
             </h3>
             <h3 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
             }}</span></h3>
             <h3 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h3>
-            <v-chip color="blue" class="mr-2 mt-2" v-for="(date, i) in getUniqueDates(booking)" :key="i">{{ date
+            <v-chip color="blue" class="mr-2 mt-2" v-for="(date, i) in uniqueDates(booking.id)" :key="i">{{ date
             }}</v-chip>
 
             <v-menu>
@@ -92,22 +92,18 @@ export default {
       await this.getAllBookings();
       this.bookings = this.bookingsStore.getBookings;
     },
-    getUniquePeriods(booking) {
-      if (!booking.bookingDates) {
-        return [];
-      }
-
+    uniquePeriods(bookingId) {
+      const booking = this.bookings.find(booking => booking.id === bookingId);
+      if (!booking) return [];
       const allPeriods = booking.bookingDates.map(date => date.period);
       return [...new Set(allPeriods)];
     },
-    getUniqueDates(booking) {
-      if (!booking.bookingDates) {
-        return [];
-      }
-
+    uniqueDates(bookingId) {
+      const booking = this.bookings.find(booking => booking.id === bookingId);
+      if (!booking) return [];
       const allDates = booking.bookingDates.map(date => date.date);
       return [...new Set(allDates)];
-    },
+    }
   },
   computed: {
     numPages() {

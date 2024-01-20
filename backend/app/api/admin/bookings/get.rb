@@ -54,12 +54,13 @@ module Admin
           end
         else
           @resource_bookings = ResourceBooking.all
-          @resource_bookings = @resource_bookings.map do |booking|
-            resource = Resource.find_by_id(booking.resource_id)
-            booking.attributes.merge(resourceName: resource ? resource.name : "Unknown")
-          end
         end
 
+        @resource_bookings = @resource_bookings.map do |booking|
+          resource = Resource.find_by_id(booking.resource_id)
+          booking.attributes.merge(resourceName: resource ? resource.name : "Unknown")
+        end
+        
         present(@resource_bookings)
       end
     end
