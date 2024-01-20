@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { bookingsStore } from './bookings';
+import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/request';
 
 export const resourcesPageStore = defineStore({
     id: 'resources',
@@ -72,94 +73,116 @@ export const resourcesPageStore = defineStore({
         }
     },
     actions: {
-        // Fetches all resources from the API
+        /**
+         * Fetches resources available on a date and that fall under the filtered categories
+         * @param date The date to get available resources for
+         */
         async fetchResources(date: String) {
-            const res = await fetch(`${this.api_uri}?categories=${this.filteredCategories}&available_on_date=${date}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.resources = await res.json();
+            const url = `${this.api_uri}?categories=${this.filteredCategories}&available_on_date=${date}`
+
+            this.resources = await getRequest(url)
         },
+        /**
+         * Fetches all resources names
+         */
         async fetchAllResourceNames() {
-            const res = await fetch(`${this.api_uri}?categories=&available_on_date=`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            const resources = await res.json();
-            this.resourceNames = resources.map((resource: any) => resource.name);
+            const url = `${this.api_uri}?categories=&available_on_date=`
+
+            const resourceNames = await getRequest(url);
+            this.resourceNames = resourceNames.map((resource: any) => resource.name);
         },
+        /**
+         * Fetches all available periods for a resource that it can be booked for
+         * @param id The ID of the resource to fetch available periods for
+         */
         async fetchAvailablePeriodsForResource(id: number) {
-            const res = await fetch(`${this.api_uri}/available_periods?id=${id}`, {
-                method: 'GET',
-                credentials: 'include'
-            });
-            const periods = await res.json();
-            this.availablePeriods = periods;
+            const url = `${this.api_uri}/available_periods?id=${id}`
+
+            const availablePeriods = await getRequest(url);
+            this.availablePeriods = availablePeriods;
         },
+        /**
+         * Adds categories to filter resources by
+         * @param categories An array of category names as a string
+         */
         setFilteredCategories(categories: string[]) {
             this.filteredCategories = categories;
             this.fetchResources(this.filteredDate.toISOString().slice(0, 10));
         },
+        /**
+         * Adds availability types to filter resources by
+         * @param availabilityTypes An array of availability types as a string
+         */
         setFilteredAvailabilityTypes(availabilityTypes: string[]) {
             this.filteredAvailabilityTypes = availabilityTypes;
         },
+        /**
+         * Removes a category name from the filter
+         * @param category The category to add to remove from the filter
+         */
         removeCategoryFilter(category: string) {
             this.filteredCategories = this.filteredCategories.filter(c => !c.includes(category));
         },
-        // Adds a new resource to the API
+        /**
+         * Creates a new resource in the API
+         * @param resource The object of a resource that withholds all of the data
+         */
         async createResource(resource: Resource) {
-            const res = await fetch(this.admin_api_uri, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ resource: {
+            const url = `${this.admin_api_uri}`
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({
+                resource: {
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
                     category: resource.resourceCategory,
                     tags: resource.resourceTags,
-                }})
-            });
+                }
+            })
 
-            const data = await res.json();
-
-            this.resources.push(data);
+            const resources = await postRequest(url, headers, body);
+            this.resources.push(resources);
         },
-        // Updates a resource in the API
+        /**
+         * Updates a resources information
+         * @param id The ID of the resource to update
+         * @param resource The new object of the resource that has all of the data
+         */
         async updateResource(id: string, resource: Resource) {
-            const res = await fetch(`${this.admin_api_uri}/${id}`, {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ resource: {
+            const url = `${this.admin_api_uri}/${id}`
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({
+                resource: {
                     name: resource.resourceName,
                     description: resource.resourceDescription,
                     location: resource.resourceLocation,
                     tags: resource.resourceTags,
                     category: resource.resourceCategory,
                     id: id
-                }})
-            });
+                }
+            })
 
-            let data = await res.json();
+            const resources = await putRequest(url, headers, body);
 
             const resourceIndex = this.resources.findIndex(resource => resource.id === id);
-            this.resources[resourceIndex] = data;
+            this.resources[resourceIndex] = resources;
         },
-        // Deletes a resource from the API
+        /**
+         * Deletes a resource
+         * @param id The ID of the resource to delete
+         */
         async deleteResource(id: number) {
-            await fetch(`${this.admin_api_uri}/${id}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            })
+            const url = `${this.admin_api_uri}/${id}`
+            await deleteRequest(url);
             this.resources = this.resources.filter(resource => resource.id !== id);
         },
-        // Deletes ALL resources from the API
-        // USE THIS WITH CAUTION
+        /**
+         * USE WITH CAUTION. Deletes all resources from the API and from the store
+         */
         deleteAllResources() {
             for (const resource of this.resources) {
                 this.deleteResource(resource.id);

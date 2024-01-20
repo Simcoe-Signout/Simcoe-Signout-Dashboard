@@ -1,3 +1,4 @@
+import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/request';
 import { defineStore } from 'pinia'
 
 export const categoriesStore = defineStore({
@@ -13,72 +14,80 @@ export const categoriesStore = defineStore({
         getCategoryNames: (state) => state.categoryNames,
     },
     actions: {
+        /**
+         * Fetches all categories from the via the administrator API (all data)
+         */
         async fetchCategoriesAdmin() {
-            const res = await fetch(`${this.admin_api_uri}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.categories = await res.json();
+            const url = `${this.admin_api_uri}`
+            this.categories = await getRequest(url);
         },
+        /**
+         * Fetches all categories from the via the core API (names only)
+         */
         async fetchCategoriesCore() {
-            const res = await fetch(`${this.api_uri}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.categories = await res.json();
+            const url = `${this.api_uri}`
+            this.categories = await getRequest(url);
         },
+        /**
+         * Fetches all category names of resources
+         */
         async fetchCategoryNames() {
-            const res = await fetch(`${this.api_uri}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            const categories = await res.json();
+            const url = `${this.api_uri}`
+            const categories = await getRequest(url);
 
             this.categoryNames = categories.map((category: Category) => {
                 return category.title;
             });
         },
+        /**
+         * Creates a new category
+         * @param category The category to create (title and description)
+         */
         async createCategory(category: Category) {
-            const res = await fetch(this.admin_api_uri, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ category: {
+            const url = this.admin_api_uri
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({
+                category: {
                     title: category.title,
                     description: category.description
-                }})
-            });
+                }
+            })
 
-            const data: Category = await res.json();
-
-            this.categories = this.categories.concat(data);
+            const newCategory: Category = await postRequest(url, headers, body);
+            this.categories = this.categories.concat(newCategory);
         },
+        /**
+         * Updates a categories details (title and description)
+         * @param id The ID of the category to update
+         * @param category The category object that has the data
+         */
         async updateCategory(id: number, category: Category) {
-            const res = await fetch(`${this.admin_api_uri}/${id}`, {
-                method: 'PUT',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ category: {
+            const url = `${this.admin_api_uri}/${id}`
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({
+                category: {
                     title: category.title,
                     description: category.description,
                     id: id
-                }})
-            });
+                }
+            })
 
-            let data = await res.json();
+            let newCategory = await putRequest(url, headers, body);
 
             const resourceIndex = this.categories.findIndex(category => category.id === id);
-            this.categories[resourceIndex] = data;
+            this.categories[resourceIndex] = newCategory;
         },
+        /**
+         * Deletes a category from the database and from the store
+         * @param id The ID of the category to delete
+         */
         async deleteCategory(id: number) {
-            await fetch(`${this.admin_api_uri}/${id}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            })
+            const url = `${this.admin_api_uri}/${id}`
+            await deleteRequest(url);
             this.categories = this.categories.filter(resource => resource.id !== id);
         },
     }

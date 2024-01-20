@@ -58,10 +58,6 @@ export default {
     },
   },
   components: { BookingMenu },
-  // mounted() {
-  //   const isoDate = this.date.toISOString().slice(0, 10);
-  //   this.resourceStore.fetchResources(isoDate);
-  // },
 };
 </script>
 

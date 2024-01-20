@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { resourcesPageStore } from './resources';
+import { deleteRequest, getRequest, postRequest } from '@/utils/request';
 
 export const bookingsStore = defineStore({
     id: 'bookings',
@@ -30,71 +31,91 @@ export const bookingsStore = defineStore({
         }
     },
     actions: {
-        // Fetches all bookings from the API
+        /**
+         * Fetches all bookings from the API with the specified filters
+         */
         async fetchBookings() {
-            const res = await fetch(`${this.admin_api_uri}?period=${this.filteredPeriods}&resource_name=${this.filteredResourceName}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.bookings = await res.json();
+            const url = `${this.admin_api_uri}?period=${this.filteredPeriods}&resource_name=${this.filteredResourceName}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`
+            this.bookings = await getRequest(url);
         },
-        // Fetches all bookings from the API
+        /**
+         * Fetches all bookings from the API without any filters applied
+         */
         async fetchAllBookings() {
-            const res = await fetch(this.api_uri, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.bookings = await res.json();
+            const url = this.api_uri
+            this.bookings = await getRequest(url);
         },
-        // Fetches all my bookings from the API
+        /**
+         * Fetches all of the bookings for the user that is currently logged in
+         */
         async fetchMyBookings() {
-            const res = await fetch(`${this.api_uri}?only_mine=true`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            this.bookings = await res.json();
+            const url = `${this.api_uri}?only_mine=true`
+            this.bookings = await getRequest(url);
         },
+        /**
+         * Fetches all bookings that were made on the specified date
+         * @param date The date to fetch bookings for
+         * @returns The bookings for the specified date
+         */
         async fetchBookingsForDate(date: string) {
-            const res = await fetch(`${this.api_uri}?date=${date}`, {
-                method: 'GET',
-                credentials: 'include'
-            })
-            return await res.json();
+            const url = `${this.api_uri}?date=${date}`
+            return await getRequest(url);
         },
+        /**
+         * Creates a new booking for a resource
+         * @param booking The booking to create
+         */
         async createBooking(booking: ResourceBooking) {
-            const res = await fetch(this.api_uri, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ booking:{
+            const url = this.api_uri
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({
+                booking: {
                     bookedBy: booking.bookedBy,
                     resourceName: booking.resourceName,
                     bookingDates: booking.bookingDates,
                     destination: booking.destination,
                     comments: booking.comments,
-                }}),
-            });
-            const newBooking = await res.json();
+                }
+            })
+            const newBooking = await postRequest(url, headers, body);
             this.bookings.push(newBooking);
         },
-        // Deletes a booking
-        // Also known as cancelling bookings
+        /**
+         * Deletes a booking from an administrator standpoint through the admin API
+         * @param id The ID of the booking to delete
+         */
         async deleteBooking(id: string) {
-            await fetch(`${this.admin_api_uri}/${id}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            });
+            const url = `${this.admin_api_uri}/${id}`
+            await deleteRequest(url);
             this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
         },
+        /**
+         * Deletes a booking from a user standpoint through the core API
+         * @param id The ID of the booking to delete
+         */
         async deleteMyBooking(id: string) {
-            await fetch(`${this.api_uri}/${id}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            });
+            const url = `${this.api_uri}/${id}`
+            await deleteRequest(url);
             this.bookings = this.bookings.filter((booking: any) => booking.id !== id);
         },
+        /**
+         * Deletes all of the bookings for the current logged in user
+         * FOR DEVELOPMENT ONLY
+         */
+        async deleteAllMyBookings() {
+            await this.fetchMyBookings();
+            this.bookings.forEach(async (booking: any) => {
+                await this.deleteMyBooking(booking.id);
+            })
+        },
+        /**
+         * Gets the available periods that a user can book for the specified dates
+         * @param id The ID of the resource to get the available periods for
+         * @param resourceName The name of the resource to get the available periods for
+         * @param dates The dates to get the available periods for
+         */
         async getAvailablePeriodsForResourceOnDates(id: number, resourceName: string, dates: string[]) {
             // Get all periods for the resource
             await resourcesPageStore().fetchAvailablePeriodsForResource(id);

@@ -21,10 +21,6 @@
                     <v-btn color="red" class="mr-2" @click="deleteCategory(category.id)">
                         <v-icon>mdi-delete</v-icon> Delete
                     </v-btn>
-                    <!-- <v-btn color="blue" class="ml-5 mr-2" @click="editCategory(category.id)">
-                        <v-icon>mdi-pencil</v-icon> Edit
-                    </v-btn> -->
-                    <!-- <editCategoryButton :title="category.title" :description="category.description" :id="category.id" :categories="categories"/> -->
                 </td>
             </tr>
         </tbody>
@@ -49,6 +45,10 @@ export default {
         editCategoryButton
     },
     methods: {
+        /**
+         * Deletes a category and fetches an updates list of categories
+         * @param {*} id The ID of the category to delete
+         */
         async deleteCategory(id) {
             await this.categoriesStore.deleteCategory(id);
             await this.categoriesStore.fetchCategoriesAdmin();

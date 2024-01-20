@@ -70,6 +70,7 @@ const routes: RouteRecordRaw[] = [
     component: LoginPage,
     meta: {
       layout: 'login',
+      logout: true
     },
   },
   {
@@ -94,6 +95,12 @@ router.beforeEach(async (to, _, next) => {
   if (!$cookies || await $cookies.get('auth_token') === undefined || await $cookies.get('auth_token') === null) {
     to.name !== 'Logout' ? next({ name: 'Logout' }) : next();
   } else {
+    // If they're logging out, delete JWT and move to logout
+    if (to.meta.logout) {
+      $cookies?.remove('auth_token');
+      next();
+    }
+
     const authToken = await $cookies.get('auth_token');
     const decodedJWT = authentication.decodeJWT(authToken);
     if (decodedJWT.user_role === 'administrator') {

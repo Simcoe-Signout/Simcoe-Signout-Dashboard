@@ -201,13 +201,23 @@ export default {
                 this.tagsArray.splice(index, 1);
             }
         },
+        /**
+         * Displays the confirmation dialog
+         * @param resource The resource to show the popup for
+         */
         showConfirmation(resource) {
             this.stagedDeletionResource = resource;
             this.showConfirmationDialog = true;
         },
+        /**
+         * Hides the confirmation dialog
+         */
         hidePopup() {
             this.showConfirmationDialog = false;
         },
+        /**
+         * Confirms the deletion of a resource and closes the popup
+         */
         confirmDelete() {
             this.resourcesStore.deleteResource(this.stagedDeletionResource.id)
             this.hidePopup();

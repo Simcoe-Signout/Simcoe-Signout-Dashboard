@@ -6,12 +6,15 @@ module Admin
     format :json
     prefix 'api/admin'
 
+    # helpers Config::ErrorCodes
+    # helpers Config::ErrorMessages
+
     # Global Error Handling
     rescue_from Grape::Exceptions::ValidationErrors do |e|
       # Gracefully handle plz
     end
     rescue_from ActiveRecord::RecordNotFound do |e|
-      # Gracefully handle plz
+     # error!('403 record not found', 403)
     end
     rescue_from :all do |e|
       # Gracefully handle plz

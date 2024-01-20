@@ -5,6 +5,9 @@ module Core
     format :json
     prefix :api
 
+    # helpers Config::ErrorCodes
+    # helpers Config::ErrorMessages
+
     # Global Error Handling
     rescue_from Grape::Exceptions::ValidationErrors do |e|
       # Gracefully handle plz
@@ -13,7 +16,7 @@ module Core
       # Gracefully handle plz
     end
     rescue_from :all do |e|
-      error!(e.message, 500)
+      # error!(e.message, 500)
     end
 
     helpers do

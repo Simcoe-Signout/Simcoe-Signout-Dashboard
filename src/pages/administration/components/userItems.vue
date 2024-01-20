@@ -79,24 +79,46 @@ export default {
         };
     },
     methods: {
+        /**
+         * Gets all users from the database
+         */
         async getAllUsers() {
             await this.authenticationStore.getAllUsers();
             this.users = this.authenticationStore.users;
         },
+        /**
+         * Converts a date to ISO8601 format
+         * @param date 
+         */
         getISO8601Date(date) {
             return new Date(date).toISOString().slice(0, 10);
         },
+        /**
+         * Converts a time to ISO8601 format
+         * @param date The date to convert and get the time of
+         */
         getISO8601Time(date) {
             return new Date(date).toISOString().slice(11, 16);
         },
+        /**
+         * Displays a confirmation popup to update a users role
+         * @param {*} user The user to update the role of
+         * @param {*} role The role to update the user to
+         */
         openConfirmationPopup(user, role) {
             this.selectedUser = user;
             this.selectedRole = role;
             this.showConfirmationDialog = true;
         },
+        /**
+         * Hides the confirmation popup
+         */
         hidePopup() {
             this.showConfirmationDialog = false;
         },
+        /**
+         * Confirms the role update and updates the user/hides the popup
+         */
         async confirmRoleUpdate() {
             this.authenticationStore.updateUser(
                 this.selectedUser.id,
@@ -113,6 +135,9 @@ export default {
         },
     },
     computed: {
+        /**
+         * Both of the following splice up all users to their respective pages
+         */
         numPages() {
             return Math.ceil(this.users.length / this.usersPerPage);
         },

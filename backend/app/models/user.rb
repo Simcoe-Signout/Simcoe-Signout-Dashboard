@@ -13,12 +13,11 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(auth)
-    if auth.present? && (auth.info.email.ends_with?('@dsbn.org') || auth.info.email == 'iantapply22@gmail.com' || auth.info.email == 'iantapply17@gmail.com' || auth.info.email == 'dacotahj.harvey@gmail.com' || auth.info.email == 'noah.jr.mills@gmail.com')
+    if auth.present? && (ENV.fetch('ALLOWED_EMAIL_DOMAINS').split(',').any? { |domain| auth.info.email.end_with?(domain.strip) } || ENV.fetch('ALLOWED_EMAILS').include?(auth.info.email))
       where(uid: auth.uid).first_or_create do |user|
         user.email = auth.info.email
         user.full_name = auth.info.name
         user.avatar_url = auth.info.image
-        # user.skip_confirmation!
       end
     else
       # Return nil if the auth object is nil or the email address is not valid

@@ -7,8 +7,10 @@
           <div class="ml-2 mb-2 text-wrap">
             <h1 class="mt-2">{{ booking.resourceName }}</h1>
 
-            <h2 class="mt-1 font-weight-bold">Booked Period: <span class="font-weight-light">{{
-              booking.bookingDates[0].period }}</span></h2>
+            <h3 class="mt-1 font-weight-bold">Booked Periods:
+              <span class="font-weight-light" v-for="(date, i) in booking.bookingDates" :key="i">
+                {{ date.period }}{{ i < booking.bookingDates.length - 1 ? ', ' : '' }} </span>
+            </h3>
             <h2 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
             }}</span></h2>
             <h2 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h2>
@@ -109,7 +111,9 @@ export default {
 };
 </script>
   
-<style>.text-wrap {
+<style>
+.text-wrap {
   word-break: break-word;
-}</style>
+}
+</style>
   
