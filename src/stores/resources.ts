@@ -74,7 +74,8 @@ export const resourcesPageStore = defineStore({
         }
     },
     actions: {
-        getResourceNameFromId(id: number) {
+        async getResourceNameFromId(id: number) {
+            await this.fetchAllResources();
             const resource = this.resources.find((resource: any) => resource.id === id);
             return resource ? resource.name : '';
         },
@@ -89,6 +90,11 @@ export const resourcesPageStore = defineStore({
             const url = `${this.api_uri}?category_ids=${categoryIds}&available_on_date=${date}`
 
             this.resources = await getRequest(url)
+        },
+        async fetchAllResources() {
+            const url = `${this.api_uri}?categories=&available_on_date=`
+
+            this.resources = await getRequest(url);
         },
         /**
          * Fetches all resources names

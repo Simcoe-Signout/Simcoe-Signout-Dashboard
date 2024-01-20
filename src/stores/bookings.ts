@@ -14,6 +14,7 @@ export const bookingsStore = defineStore({
         filteredDateFrom: new Date(new Date().getFullYear(), new Date().getMonth() - 2, new Date().getDate()).toISOString().slice(0, 10),
         filteredDateTo: new Date().toISOString().slice(0, 10),
         filteredResourceName: '',
+        filteredResourceId: -1,
 
         availablePeriods: [] as number[],
     }),
@@ -35,11 +36,17 @@ export const bookingsStore = defineStore({
          * Fetches all bookings from the API with the specified filters
          */
         async fetchBookings() {
-            var resourceId = resourcesPageStore().getResourceID(this.filteredResourceName);
-            if (resourceId === undefined) {
-                console.log("Invalid resource name")
+            // convert the filtered resource name to an ID
+            const resourcesPage = resourcesPageStore();
+            await resourcesPage.fetchAllResources();
+            const filteredResource: any = resourcesPage.resources.find((r) => r.name === this.filteredResourceName);
+            if (filteredResource) {
+                this.filteredResourceId = filteredResource.id;
             }
-            const url = `${this.admin_api_uri}?period=${this.filteredPeriods}&resource_id=${resourceId}&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`
+            let url = `${this.admin_api_uri}?period=${this.filteredPeriods}&resource_id=&start_date=${this.filteredDateFrom}&end_date=${this.filteredDateTo}`;
+            if (this.filteredResourceId !== -1) {
+                url += `&resource_id=${this.filteredResourceId}`;
+            }
             this.bookings = await getRequest(url);
         },
         /**
