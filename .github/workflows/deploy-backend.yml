@@ -2,8 +2,8 @@ name: Build & Deploy Backend
 
 on:
   push:
-    branches: [ "main" ]
-
+    branches: [ "staging" ]
+    
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -22,6 +22,6 @@ jobs:
 
       - uses: caprover/deploy-from-github@main
         with:
-          server: '${{ secrets.CAPROVER_SERVER_BACKEND }}'
-          app: '${{ secrets.APP_NAME_BACKEND }}'
-          token: '${{ secrets.APP_TOKEN_BACKEND }}'
+          server: '${{ secrets.CAPROVER_SERVER_BACKEND_STAGING }}'
+          app: '${{ secrets.APP_NAME_BACKEND_STAGING }}'
+          token: '${{ secrets.APP_TOKEN_BACKEND_STAGING }}'
