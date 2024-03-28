@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { bookingsStore } from './bookings';
 import { categoriesStore } from './categories';
-import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/request';
+import { deleteRequest, getRequest, patchRequest, postRequest, putRequest } from '@/utils/request';
 
 export const resourcesPageStore = defineStore({
     id: 'resources',
@@ -34,6 +34,16 @@ export const resourcesPageStore = defineStore({
         getAvailabilityTypes: (state) => state.availabilityTypes,
         getFilteredAvailabilityTypes: (state) => state.filteredAvailabilityTypes,
         getResources: (state) => state.resources,
+        getDeletedResources: (state) => {
+            return state.resources.filter((r) =>
+                r.deleted === true
+            );
+        },
+        getUndeletedResources: (state) => {
+            return state.resources.filter((r) =>
+                r.deleted === false
+            );
+        },
         // Returns a resource based on its ID
         getResource: (state) => (id: string) => {
             return state.resources.find((r) => r.id === id);
@@ -93,6 +103,11 @@ export const resourcesPageStore = defineStore({
         },
         async fetchAllResources() {
             const url = `${this.api_uri}?categories=&available_on_date=`
+
+            this.resources = await getRequest(url);
+        },
+        async fetchAllResourcesAdmin() {
+            const url = `${this.admin_api_uri}`
 
             this.resources = await getRequest(url);
         },
@@ -193,7 +208,20 @@ export const resourcesPageStore = defineStore({
         async deleteResource(id: number) {
             const url = `${this.admin_api_uri}/${id}`
             await deleteRequest(url);
-            this.resources = this.resources.filter(resource => resource.id !== id);
+            // add the deleted flag to the deleted resource in the resources array 
+            const resourceIndex = this.resources.findIndex(resource => resource.id === id);
+            this.resources[resourceIndex].deleted = true;
+        },
+        async restoreResource(id: number) {
+            const url = `${this.admin_api_uri}/${id}/restore`
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({})
+            await putRequest(url, headers, body);
+            // remove the deleted flag from the resource in the resources array
+            const resourceIndex = this.resources.findIndex(resource => resource.id === id);
+            this.resources[resourceIndex].deleted = false;
         },
         /**
          * USE WITH CAUTION. Deletes all resources from the API and from the store
