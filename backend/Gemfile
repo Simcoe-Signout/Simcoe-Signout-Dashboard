@@ -31,6 +31,6 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 end
 
-gem 'rswag-ui', '~> 2.10'
+gem 'rswag-ui', '~> 2.13'
 
 gem 'dotenv-rails', '~> 2.8'
