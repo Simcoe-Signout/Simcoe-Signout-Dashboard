@@ -1,6 +1,6 @@
 import router from '@/config/router';
 import { getRequest, putRequest } from '@/utils/request';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import { defineStore } from 'pinia';
 
 export const authenticationStore = defineStore({
@@ -17,7 +17,7 @@ export const authenticationStore = defineStore({
      * @returns The decoded and JSON formatted JWT
      */
     decodeJWT(jwt: string) {
-      var decodedJWT = jwt_decode<DecodedJWT>(jwt);
+      var decodedJWT = jwtDecode(jwt);
       return decodedJWT;
     },
     /**
