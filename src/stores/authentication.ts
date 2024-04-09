@@ -17,7 +17,7 @@ export const authenticationStore = defineStore({
      * @returns The decoded and JSON formatted JWT
      */
     decodeJWT(jwt: string) {
-      var decodedJWT = jwtDecode(jwt);
+      var decodedJWT = <DecodedJWT> jwtDecode(jwt);
       return decodedJWT;
     },
     /**
