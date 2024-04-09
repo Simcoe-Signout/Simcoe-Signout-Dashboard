@@ -56,7 +56,7 @@ export default {
         createCategory() {
             if (this.title) {
                 this.categoriesStore.createCategory({ title: this.title, description: this.description});
-                this.categories.push({ title: this.title, description: this.description });
+                this.categories.push({ title: this.title, description: this.description, deleted: false });
                 this.clearInputs();
             }
         },
