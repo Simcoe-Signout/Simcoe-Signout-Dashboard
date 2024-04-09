@@ -10,7 +10,8 @@ updates:
     open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
-  - package-ecosystem: 'bundler'
-    directory: '/backend'
+  - package-ecosystem: "bundler"
+    directory: "/backend"
+    open-pull-requests-limit: 100
     schedule:
       interval: "weekly"
