@@ -36,7 +36,7 @@ const app = createApp(App);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);
-app.use(setupCalendar);
+app.use(setupCalendar, {});
 app.use(VueCookies);
 
 app.component('VCalendar', Calendar);
