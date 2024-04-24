@@ -23,6 +23,10 @@
     </v-app-bar>
 
     <v-main>
+      <v-alert @click:close="storeWrappedClose" v-if="$route.path !== '/wrapped' && $route.path !== '/login' && this.wrappedBanner" closable
+        icon="mdi-gift" text="Wow! What a year is was, let's look back on what happend. Shall we? " type="info"><a
+          href="/wrapped">Check out Simcoe Signout Wrapped</a></v-alert>
+      <!-- <v-alert closable icon="mdi-gift" text="Wow! What a year is was, let's look back on what happend. Shall we? " type="info"><a href="/wrapped">Check out Simcoe Signout Wrapped</a></v-alert> -->
       <router-view />
     </v-main>
   </v-app>
@@ -44,9 +48,31 @@ export default {
       drawer: null,
       routes: router.getRoutes(),
       authenticationStore: authenticationStore(),
+      wrappedBanner: true,
     };
   },
+  methods: {
+    storeWrappedClose() {
+      localStorage
+        .setItem("wrappedBanner", false);
+        this.getWrappedBannerStatus();
+    },
+    storeWrappedOpen() {
+      localStorage
+        .setItem("wrappedBanner", true);
+        this.getWrappedBannerStatus();
+    },
+    isWrappedOpen() {
+      this.getWrappedBannerStatus();
+      return this.wrappedBanner;
+    },
+    getWrappedBannerStatus() {
+      const wrappedBanner = localStorage.getItem("wrappedBanner");
+      this.wrappedBanner = wrappedBanner === "true";
+    }
+  },
   computed: {
+
     // Returns the routes with their respective categories
     // When adding more routes, be sure to add the route into the category here
     routeCategories() {
@@ -56,6 +82,7 @@ export default {
           routes: [
             { route: this.routes[0], icon: 'mdi-home' },
             { route: this.routes[1], icon: 'mdi-database' },
+            { route: this.routes[8], icon: 'mdi-gift' },
           ],
         },
         {
@@ -63,7 +90,7 @@ export default {
           routes: [
             { route: this.routes[2], icon: 'mdi-lock' },
             { route: this.routes[3], icon: 'mdi-cog' },
-            { route: this.routes[4], icon: 'mdi-book-lock-open-outline'},
+            { route: this.routes[4], icon: 'mdi-book-lock-open-outline' },
             { route: this.routes[5], icon: 'mdi-format-list-bulleted' },
           ],
         },
@@ -72,7 +99,7 @@ export default {
           routes: [
             { route: this.routes[6], icon: 'mdi-account-circle' },
             { route: this.routes[7], icon: 'mdi-book-account-outline' },
-            { route: { name: 'Report a Bug', path: 'https://docs.google.com/forms/d/e/1FAIpQLSeX6b22OVFhMCx0Lzsmivbm3YesxD9d513ULRLmxzron_UWMA/viewform'}, icon: 'mdi-bug'}
+            { route: { name: 'Report a Bug', path: 'https://docs.google.com/forms/d/e/1FAIpQLSeX6b22OVFhMCx0Lzsmivbm3YesxD9d513ULRLmxzron_UWMA/viewform' }, icon: 'mdi-bug' }
           ],
         },
       ];
@@ -90,5 +117,17 @@ export default {
       return categories;
     },
   },
+  created() {
+    if (localStorage.getItem("wrappedBanner") === null) {
+      this.storeWrappedOpen();
+    }
+    this.getWrappedBannerStatus();
+  },
 };
 </script>
+
+<style>
+a {
+  color: inherit;
+}
+</style>

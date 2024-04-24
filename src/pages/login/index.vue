@@ -42,7 +42,7 @@ export default {
         const authToken = this.$cookies.get('auth_token');
         if (authToken && authToken !== null) {
           window.removeEventListener('message', handleMessage);
-          this.$router.push({ name: 'Home' });
+          this.$router.replace(this.$route.query.redirect || '/');
         } else {
           this.displaySnackbarMessage('You are either not logged in or the account selected is not a DSBN (@dsbn.org) account.');
         }
