@@ -1,5 +1,5 @@
 # Simcoe Signout
-A private, bookings manager used to book devices, tools, and other resources through an online dashboard.
+A web-based booking platform designed to allow teachers and school staff to book computer devices, rooms, and resources. 
 
 # Development Environment
 The development environment looks to create a consistent devlopment experience across all devices. It can be setup by doing the following:
