@@ -2,7 +2,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ['simcoesignout.com', 'www.simcoesignout.com', '127.0.0.1:5173', 'api.simcoesignout.com', 'staging.simcoesignout.com', 'stg.api.simcoesignout.com']
+    origins ['www.simcoesignout.com', 'simcoesignout.com', 'staging.simcoesignout.com', 'api.simcoesignout.com', 'stgapi.simcoesignout.com', '127.0.0.1:5173']
 
     resource '*',
              headers: :any,
