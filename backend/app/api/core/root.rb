@@ -22,7 +22,9 @@ module Core
     end
 
     before do
-      authenticate!
+      if request.path != '/api/core/utils/ping'
+        authenticate!
+      end
     end
 
     helpers do
@@ -39,6 +41,7 @@ module Core
     mount Resources::Base
     mount Users::Base
     mount Categories::Base
+    mount Utils::Base
     # Swagger mount?
   end
 end
