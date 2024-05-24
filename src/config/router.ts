@@ -6,6 +6,7 @@ import EditResources from '@pages/administration/editResources.vue';
 import ManageUsers from '@pages/administration/manageUsers.vue';
 import ManageBookings from '@pages/administration/manageBookings.vue';
 import Categories from '@pages/administration/categories.vue';
+import Wrapped from '@pages/wrapped/index.vue';
 
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
@@ -81,6 +82,14 @@ const routes: RouteRecordRaw[] = [
       requiredRole: 'member'
     }
   },
+  {
+    path: '/wrapped',
+    name: 'Wrapped',
+    component: Wrapped,
+    meta: {
+      requiredRole: 'member'
+    }
+  }
 ];
 
 const router = createRouter({
@@ -93,7 +102,15 @@ router.beforeEach(async (to, _, next) => {
   const $cookies = inject<VueCookies>('$cookies'); 
 
   if (!$cookies || await $cookies.get('auth_token') === undefined || await $cookies.get('auth_token') === null) {
-    to.name !== 'Logout' ? next({ name: 'Logout' }) : next();
+    // Check the name of the route the user is trying to navigate to
+    if (to.name !== 'Logout') {
+      // If the route is not 'Logout', redirect the user to the 'Logout' route
+      const loginpath = window.location.pathname;
+      next({ name: 'Logout', query: { redirect: loginpath } });
+    } else {
+      // If the route is 'Logout', allow the navigation to proceed
+      next();
+    }
   } else {
     // If they're logging out, delete JWT and move to logout
     if (to.meta.logout) {

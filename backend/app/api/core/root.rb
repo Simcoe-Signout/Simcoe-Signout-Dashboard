@@ -40,6 +40,7 @@ module Core
     mount Bookings::Base
     mount Resources::Base
     mount Users::Base
+    mount Wrapped::Base
     mount Categories::Base
     mount Utils::Base
     # Swagger mount?
