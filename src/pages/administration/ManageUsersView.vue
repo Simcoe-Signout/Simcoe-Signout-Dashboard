@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { authenticationStore } from '@/stores/authentication.ts';
-import userItems from './components/userItems.vue';
+import { authenticationStore } from '@/stores/AuthenticationService';
+import userItems from './components/Users.vue';
 
 export default {
     components: {

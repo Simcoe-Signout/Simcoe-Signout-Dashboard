@@ -165,9 +165,9 @@
 </template>
 
 <script>
-import { resourcesPageStore } from '@/stores/resources';
-import { categoriesStore } from '@/stores/categories';
-import TagButton from './components/tagButton.vue';
+import { resourcesPageStore } from '@/stores/ResourcesService';
+import { categoriesStore } from '@/stores/CategoriesService';
+import TagButton from './components/CreateTagMenu.vue';
 
 export default {
     components: {

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import bookingItems from './components/bookings/bookingItems.vue'
-import filterButton from './components/bookings/filterButton.vue';
+import bookingItems from './components/bookings/Bookings.vue'
+import filterButton from './components/bookings/FilterMenu.vue';
 
 export default {
     components: {

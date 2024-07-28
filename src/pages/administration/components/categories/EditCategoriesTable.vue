@@ -37,9 +37,9 @@
 </template>
   
 <script>
-import { categoriesStore } from '@/stores/categories.ts'
-import createCategoryButton from './createCategoryButton.vue'
-import editCategoryButton from './editCategoryButton.vue'
+import { categoriesStore } from '@/stores/CategoriesService'
+import createCategoryButton from './CreateCategoryMenu.vue'
+import editCategoryButton from './EditCategoryMenu.vue'
 export default {
     data() {
         return {

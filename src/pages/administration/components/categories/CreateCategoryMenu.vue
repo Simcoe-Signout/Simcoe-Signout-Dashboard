@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { categoriesStore } from '@/stores/categories';
+import { categoriesStore } from '@/stores/CategoriesService';
 export default {
     data() {
         return {

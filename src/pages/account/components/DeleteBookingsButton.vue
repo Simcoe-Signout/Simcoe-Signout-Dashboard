@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { bookingsStore } from '@/stores/bookings';
+import { bookingsStore } from '@/stores/BookingsService';
 export default {
     data: () => {
         return {

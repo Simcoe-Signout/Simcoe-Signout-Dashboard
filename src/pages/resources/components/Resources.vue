@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { resourcesPageStore } from '@/stores/resources';
-import BookingMenu from './bookingMenu.vue';
+import { resourcesPageStore } from '@/stores/ResourcesService';
+import BookingMenu from './BookingMenu.vue';
 
 export default {
   data() {

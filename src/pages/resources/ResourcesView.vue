@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import resourceItems from '@/pages/resources/components/resourceItems.vue';
-import filterButton from '@/pages/resources/components/filterButton.vue';
-import { resourcesPageStore } from '@/stores/resources';
+import resourceItems from '@/pages/resources/components/Resources.vue';
+import filterButton from '@/pages/resources/components/FilterMenu.vue';
+import { resourcesPageStore } from '@/stores/ResourcesService';
 
 export default {
   data() {

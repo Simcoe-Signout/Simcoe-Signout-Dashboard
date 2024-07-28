@@ -1,11 +1,12 @@
-name: Build App & Deploy
+name: Build and Deploy
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build-and-deploy:
+  deploy-frontend:
+    name: Build and Deploy Frontend
     runs-on: ubuntu-latest
 
     strategy:
@@ -22,7 +23,6 @@ jobs:
       - run: yarn
       - run: yarn run build
 
-      # Future plans in the works to create tarball from within the caprover/deploy-from-github action.
       - uses: a7ul/tar-action@v1.1.0
         with:
           command: c
@@ -38,3 +38,25 @@ jobs:
           server: '${{ secrets.CAPROVER_SERVER }}'
           app: '${{ secrets.APP_NAME }}'
           token: '${{ secrets.APP_TOKEN }}'
+          
+  deploy-backend:
+    name: Build and Deploy Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: a7ul/tar-action@v1.1.0
+        with:
+          command: c
+          cwd: "./"
+          files: |
+            backend/
+            backend/captain-definition
+          outPath: deploy.tar
+
+      - uses: caprover/deploy-from-github@main
+        with:
+          server: '${{ secrets.CAPROVER_SERVER_BACKEND }}'
+          app: '${{ secrets.APP_NAME_BACKEND }}'
+          token: '${{ secrets.APP_TOKEN_BACKEND }}'

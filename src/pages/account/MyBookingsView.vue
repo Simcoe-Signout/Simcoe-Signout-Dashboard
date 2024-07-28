@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import bookingItems from './components/bookingItems.vue';
-import myBookingsCalendar from './components/myBookingsCalendar.vue';
-import deleteAllBookings from './components/deleteAllBookings.vue';
+import bookingItems from './components/Bookings.vue';
+import myBookingsCalendar from './components/BookingsCalendar.vue';
+import deleteAllBookings from './components/DeleteBookingsButton.vue';
 
 export default {
     components: {

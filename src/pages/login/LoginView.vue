@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import googleLoginButton from '@components/authentication/googleLoginButton.vue';
-import { authenticationStore } from '@/stores/authentication.ts';
+import googleLoginButton from '@components/authentication/GoogleLoginButton.vue';
+import { authenticationStore } from '@/stores/AuthenticationService';
 
 export default {
   name: 'Login',

@@ -60,7 +60,7 @@
 </template>
   
 <script>
-import { authenticationStore } from '@/stores/authentication';
+import { authenticationStore } from '@/stores/AuthenticationService';
 
 export default {
     data() {

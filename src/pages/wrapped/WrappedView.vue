@@ -128,7 +128,7 @@
 
 <script lang="ts">
 import CountUp from 'vue-countup-v3'
-import { wrappedStore } from '@/stores/wrapped.ts';
+import { wrappedStore } from '@/stores/WrappedService';
 export default {
     components: {
         CountUp,

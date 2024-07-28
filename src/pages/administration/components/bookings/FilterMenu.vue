@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import { resourcesPageStore } from '@/stores/resources';
-import { bookingsStore } from '@/stores/bookings';
+import { resourcesPageStore } from '@/stores/ResourcesService';
+import { bookingsStore } from '@/stores/BookingsService';
 
 export default {
     data() {

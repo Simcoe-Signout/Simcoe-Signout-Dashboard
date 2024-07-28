@@ -1,4 +1,4 @@
-import { getRequest } from '@/utils/request';
+import { getRequest } from '@/helpers/RequestHelper';
 import { defineStore } from 'pinia';
 
 export const wrappedStore = defineStore({

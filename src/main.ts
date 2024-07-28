@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import App from './app.vue';
+import App from './App.vue';
 import { createPinia } from 'pinia';
 import { setupCalendar, Calendar, DatePicker } from 'v-calendar';
 import 'v-calendar/style.css';

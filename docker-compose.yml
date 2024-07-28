@@ -34,10 +34,11 @@ services:
       context: ./
       dockerfile: Dockerfile
     entrypoint: ./docker/entrypoints/frontend.sh
+    env_file: .env.local
     volumes:
       - ./:/app
     ports:
-      - 5173:5173
+      - 80:80
     environment:
       NODE_ENV: development
     depends_on:

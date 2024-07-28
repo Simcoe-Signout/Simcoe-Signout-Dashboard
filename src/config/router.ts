@@ -1,17 +1,17 @@
 import { createRouter, RouteRecordRaw, createWebHistory } from 'vue-router';
-import Home from '@pages/home/index.vue';
-import LoginPage from '@pages/login/index.vue';
-import Resources from '@pages/resources/index.vue';
-import EditResources from '@pages/administration/editResources.vue';
-import ManageUsers from '@pages/administration/manageUsers.vue';
-import ManageBookings from '@pages/administration/manageBookings.vue';
-import Categories from '@pages/administration/categories.vue';
-import Wrapped from '@pages/wrapped/index.vue';
+import Home from '@pages/home/HomeView.vue';
+import LoginPage from '@pages/login/LoginView.vue';
+import Resources from '@pages/resources/ResourcesView.vue';
+import EditResources from '@pages/administration/EditResourcesView.vue';
+import ManageUsers from '@pages/administration/ManageUsersView.vue';
+import ManageBookings from '@pages/administration/ManageBookingsView.vue';
+import Categories from '@pages/administration/EditCategoriesView.vue';
+import Wrapped from '@pages/wrapped/WrappedView.vue';
 
-import { authenticationStore } from '@/stores/authentication';
+import { authenticationStore } from '@/stores/AuthenticationService';
 import { VueCookies } from 'vue-cookies';
 import { inject } from 'vue';
-import myBookings from '@pages/account/myBookings.vue';
+import myBookings from '@pages/account/MyBookingsView.vue';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))
@@ -87,7 +87,8 @@ const routes: RouteRecordRaw[] = [
     name: 'Wrapped',
     component: Wrapped,
     meta: {
-      requiredRole: 'member'
+      requiredRole: 'member',
+      hidden: true
     }
   }
 ];
@@ -125,6 +126,9 @@ router.beforeEach(async (to, _, next) => {
       next();
     } else if (decodedJWT.user_role === 'member' && to.meta.requiredRole === 'administrator') {
       // If the user is a member and the required role is administrator, redirect to the 'Home' route
+      next({ name: 'Home' });
+    } else if (to.meta.hidden || routes.find(route => route.path === to.path) === undefined) {
+      // If the route doesn't exist or the route is hiden, just go to the home page
       next({ name: 'Home' });
     } else {
       // For all other cases, allow access to the route

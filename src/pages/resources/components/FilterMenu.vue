@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import { resourcesPageStore } from '@/stores/resources';
-import { categoriesStore } from '@/stores/categories';
+import { resourcesPageStore } from '@/stores/ResourcesService';
+import { categoriesStore } from '@/stores/CategoriesService';
 
 export default {
     data() {

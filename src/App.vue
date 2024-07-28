@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import DefaultLayout from '@/layouts/default';
-import LoginLayout from '@/layouts/login';
+import DefaultLayout from '@/layouts/Default.vue';
+import LoginLayout from '@/layouts/Login.vue';
 
 const fallbackLayout = 'Default';
 

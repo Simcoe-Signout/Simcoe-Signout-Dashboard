@@ -9,7 +9,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [vue()],
   server: {
-    port: 5173,
+    port: 80,
     host: true,
     strictPort: true,
     watch: {

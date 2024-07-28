@@ -23,10 +23,12 @@
     </v-app-bar>
 
     <v-main>
-      <v-alert @click:close="storeWrappedClose" v-if="$route.path !== '/wrapped' && $route.path !== '/login' && this.wrappedBanner" closable
-        icon="mdi-gift" text="Wow! What a year is was, let's look back on what happend. Shall we? " type="info"><a
-          href="/wrapped">Check out Simcoe Signout Wrapped</a></v-alert>
-      <!-- <v-alert closable icon="mdi-gift" text="Wow! What a year is was, let's look back on what happend. Shall we? " type="info"><a href="/wrapped">Check out Simcoe Signout Wrapped</a></v-alert> -->
+      <v-alert @click:close="storeWrappedClose"
+        v-if="$route.path !== '/wrapped' && $route.path !== '/login' && this.wrappedBanner && this.wrapped_enabled"
+        closable icon="mdi-gift" text="Wow! What a year it was, let's look back on what happened. Shall we?"
+        type="info">
+        <a href="/wrapped">Check out Simcoe Signout Wrapped</a>
+      </v-alert>
       <router-view />
     </v-main>
   </v-app>
@@ -35,10 +37,10 @@
 
 <script>
 import router from '@/config/router';
-import sidebarIcon from '@components/sidebar/sidebarIcon.vue';
-import sidebarItem from '@components/sidebar/sidebarItem.vue';
-import sidebarHeader from '@components/sidebar/sidebarHeader.vue';
-import { authenticationStore } from '@/stores/authentication.ts';
+import sidebarIcon from '@components/sidebar/SidebarIcon.vue';
+import sidebarItem from '@components/sidebar/SidebarItem.vue';
+import sidebarHeader from '@components/sidebar/SidebarHeader.vue';
+import { authenticationStore } from '@/stores/AuthenticationService';
 
 export default {
   name: 'DefaultLayout',
@@ -55,12 +57,12 @@ export default {
     storeWrappedClose() {
       localStorage
         .setItem("wrappedBanner", false);
-        this.getWrappedBannerStatus();
+      this.getWrappedBannerStatus();
     },
     storeWrappedOpen() {
       localStorage
         .setItem("wrappedBanner", true);
-        this.getWrappedBannerStatus();
+      this.getWrappedBannerStatus();
     },
     isWrappedOpen() {
       this.getWrappedBannerStatus();
@@ -72,6 +74,9 @@ export default {
     }
   },
   computed: {
+    wrapped_enabled() {
+      return import.meta.env.VITE_ENABLE_WRAPPED === 'true';
+    },
 
     // Returns the routes with their respective categories
     // When adding more routes, be sure to add the route into the category here
@@ -82,7 +87,6 @@ export default {
           routes: [
             { route: this.routes[0], icon: 'mdi-home' },
             { route: this.routes[1], icon: 'mdi-database' },
-            { route: this.routes[8], icon: 'mdi-gift' },
           ],
         },
         {

@@ -5,17 +5,17 @@
       <v-row no-gutters class="align-center">
         <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5 mr-5" max-width="350" width="100%">
           <div class="ml-2 mb-2 text-wrap">
-            <h2 class="mt-2">{{ booking.resourceName }}</h2>
+            <h1 class="mt-2">{{ booking.resourceName }}</h1>
 
-            <h3 class="mt-1 font-weight-bold">Booker: <span class="font-weight-light">{{ booking.bookedBy }}</span></h3>
             <h3 class="mt-1 font-weight-bold">Booked Periods:
               <span class="font-weight-light" v-for="(period, i) in uniquePeriods(booking.id)" :key="i">
-                {{ period }}{{ i < uniquePeriods(booking.id).length - 1 ? ', ' : '' }} </span>
+                {{ period }}{{ i < uniquePeriods(booking.id).length - 1 ? ', ' : '' }} 
+              </span>
             </h3>
-            <h3 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
-            }}</span></h3>
-            <h3 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h3>
-            <v-chip color="blue" class="mr-2 mt-2" v-for="(date, i) in uniqueDates(booking.id)" :key="i">{{ date
+            <h2 class="mt-1 font-weight-bold">Destination: <span class="font-weight-light">{{ booking.destination
+            }}</span></h2>
+            <h2 class="mt-1 font-weight-bold">Comments: <span class="font-weight-light">{{ booking.comments }}</span></h2>
+            <v-chip color="blue" class="mr-2 mt-2 mb-2" v-for="(date, i) in uniqueDates(booking.id)" :key="i">{{ date
             }}</v-chip>
 
             <v-menu>
@@ -28,19 +28,19 @@
               </template>
             </v-menu>
 
-            <h5>Created {{ getISO8601Date(booking.created_at) }} at {{ getISO8601Time(booking.created_at) }} (ID: {{
-              booking.id }})</h5>
+            <h5>Created {{ getISO8601Date(booking.created_at) }} at {{ getISO8601Time(booking.created_at) }} (ID: {{ booking.id }})</h5>
           </div>
         </v-sheet>
       </v-row>
     </v-col>
   </v-row>
 
+  <!-- Booking cancellation confirm dialog -->
   <v-dialog v-model="showConfirmationDialog" max-width="500">
     <v-card>
       <v-card-title class="headline">Cancel Booking Confirmation</v-card-title>
       <v-card-text>
-        <p>Are you sure you want to cancel {{ selectedBooking.bookedBy }}'s booking for resource "{{
+        <p>Are you sure you want to cancel your booking for the resource "{{
           selectedBooking.resourceName }}"? (booking ID: {{ selectedBooking.id }})</p>
       </v-card-text>
       <v-card-actions>
@@ -51,17 +51,21 @@
     </v-card>
   </v-dialog>
 
-  <v-pagination width="100" class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
+  <v-pagination class="mt-10" v-model="pageNo" :length="numPages"></v-pagination>
 </template>
   
 <script>
-import { bookingsStore } from '@/stores/bookings';
+import { bookingsStore } from '@/stores/BookingsService';
+import { authenticationStore } from '@/stores/AuthenticationService';
+import { resourcesPageStore } from '@/stores/ResourcesService';
 
 export default {
   data() {
     return {
       bookings: [],
       bookingsStore: bookingsStore(),
+      resourcesStore: resourcesPageStore(),
+      authenticationStore: authenticationStore(),
       showConfirmationDialog: false,
       selectedBooking: null,
       pageNo: 1,
@@ -69,8 +73,8 @@ export default {
     };
   },
   methods: {
-    async getAllBookings() {
-      await this.bookingsStore.fetchBookings();
+    async getMyBookings() {
+      await this.bookingsStore.fetchMyBookings();
       this.bookings = this.bookingsStore.getBookings;
     },
     getISO8601Date(date) {
@@ -87,9 +91,9 @@ export default {
       this.showConfirmationDialog = false;
     },
     async confirmCancelBooking() {
-      await this.bookingsStore.deleteBooking(this.selectedBooking.id);
+      await this.bookingsStore.deleteMyBooking(this.selectedBooking.id);
       this.hidePopup();
-      await this.getAllBookings();
+      await this.getMyBookings();
       this.bookings = this.bookingsStore.getBookings;
     },
     uniquePeriods(bookingId) {
@@ -107,19 +111,18 @@ export default {
   },
   computed: {
     numPages() {
-      return Math.ceil(this.bookingsStore.bookings.length / this.bookingsPerPage);
+      return Math.ceil(this.bookings.length / this.bookingsPerPage);
     },
     pagedBookings() {
       const startIndex = (this.pageNo - 1) * this.bookingsPerPage;
       const endIndex = startIndex + this.bookingsPerPage;
 
-      window.scrollTo(0, 0);
-
-      return this.bookingsStore.bookings.slice(startIndex, endIndex);
+      return this.bookings.slice(startIndex, endIndex);
     }
   },
   async mounted() {
-    await this.getAllBookings();
+    await this.getMyBookings();
+    this.bookings = this.bookingsStore.getBookings;
   },
 };
 </script>

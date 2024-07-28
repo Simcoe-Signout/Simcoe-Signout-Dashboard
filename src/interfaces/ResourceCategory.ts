@@ -1,4 +1,4 @@
-interface Category {
+interface ResourceCategory {
     id: number;
     title: string;
     description: string;

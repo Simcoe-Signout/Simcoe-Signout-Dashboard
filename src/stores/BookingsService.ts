@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { resourcesPageStore } from './resources';
-import { deleteRequest, getRequest, postRequest } from '@/utils/request';
+import { resourcesPageStore } from './ResourcesService';
+import { deleteRequest, getRequest, postRequest } from '@/helpers/RequestHelper';
 
 export const bookingsStore = defineStore({
     id: 'bookings',

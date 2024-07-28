@@ -1,5 +1,5 @@
 import router from '@/config/router';
-import { getRequest, putRequest } from '@/utils/request';
+import { getRequest, putRequest } from '@/helpers/RequestHelper';
 import { jwtDecode } from "jwt-decode";
 import { defineStore } from 'pinia';
 

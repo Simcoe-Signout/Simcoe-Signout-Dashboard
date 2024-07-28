@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import editCategoriesTable from './components/categories/editCategoriesTable.vue'
+import editCategoriesTable from './components/categories/EditCategoriesTable.vue'
 
 export default {
     components: {

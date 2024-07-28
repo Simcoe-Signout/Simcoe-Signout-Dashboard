@@ -12,7 +12,7 @@ RUN yarn install
 COPY . .
 
 # Expose the port your Vite app will run on
-EXPOSE 5173
+EXPOSE 80
 
 # Start the Vite development server
 CMD ["yarn", "run", "dev", "--host"]

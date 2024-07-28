@@ -1,4 +1,4 @@
-import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/request';
+import { deleteRequest, getRequest, postRequest, putRequest } from '@/helpers/RequestHelper';
 import { defineStore } from 'pinia'
 
 export const categoriesStore = defineStore({
@@ -6,7 +6,7 @@ export const categoriesStore = defineStore({
     state: () => ({
         api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/categories`,
         admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/categories`,
-        categories: [] as Category[],
+        categories: [] as ResourceCategory[],
         categoryNames: [] as string[],
     }),
     getters: {
@@ -57,7 +57,7 @@ export const categoriesStore = defineStore({
             const url = `${this.api_uri}`
             const fetchedCateogires = await getRequest(url);
 
-            this.categoryNames = fetchedCateogires.map((category: Category) => {
+            this.categoryNames = fetchedCateogires.map((category: ResourceCategory) => {
                 return category.title;
             });
         },
@@ -65,7 +65,7 @@ export const categoriesStore = defineStore({
          * Creates a new category
          * @param category The category to create (title and description)
          */
-        async createCategory(category: Category) {
+        async createCategory(category: ResourceCategory) {
             const url = this.admin_api_uri
             const headers = {
                 'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export const categoriesStore = defineStore({
                 }
             })
 
-            const newCategory: Category = await postRequest(url, headers, body);
+            const newCategory: ResourceCategory = await postRequest(url, headers, body);
             this.categories = this.categories.concat(newCategory);
         },
         /**
@@ -85,7 +85,7 @@ export const categoriesStore = defineStore({
          * @param id The ID of the category to update
          * @param category The category object that has the data
          */
-        async updateCategory(id: number, category: Category) {
+        async updateCategory(id: number, category: ResourceCategory) {
             const url = `${this.admin_api_uri}/${id}`
             const headers = {
                 'Content-Type': 'application/json'
