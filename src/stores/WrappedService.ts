@@ -4,7 +4,7 @@ import { defineStore } from 'pinia';
 export const wrappedStore = defineStore({
     id: 'wrapped',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/wrapped`
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/wrapped`
     }),
     actions: {
         // GLOBAL STATS
