@@ -15,7 +15,7 @@
     "@popperjs/core": "^2.11.8",
     "express": "^4.21.1",
     "jwt-decode": "^4.0.0",
-    "pinia": "^2.2.4",
+    "pinia": "^2.2.6",
     "v-calendar": "^3.1.2",
     "vue": "^3.5.12",
     "vue-cookies": "^1.8.4",
