@@ -1,0 +1,29 @@
+services:
+  simcoe-signout-dashboard:
+    image: nginx:stable
+    container_name: simcoe-signout-dashboard
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dist:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.simcoe_signout_dashboard.rule=Host(`simcoesignout.com`) || Host(`www.simcoesignout.com`)"
+      - "traefik.http.routers.simcoe_signout_dashboard.entrypoints=websecure"
+      - "traefik.http.services.simcoe_signout_dashboard.loadbalancer.server.port=3000"
+      - "traefik.http.routers.simcoe_signout_dashboard.tls.certresolver=myresolver"
+      # Force HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.simcoe_signout_dashboard.middlewares=redirect-to-https"
+    networks:
+      - simcoe_signout
+
+volumes:
+  simcoe_signout_dashboard:
+
+networks:
+  simcoe_signout:
+    name: simcoe_signout
+    external: true
