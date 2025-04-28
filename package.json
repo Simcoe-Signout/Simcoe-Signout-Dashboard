@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.8",
     "v-calendar": "^3.1.2",
