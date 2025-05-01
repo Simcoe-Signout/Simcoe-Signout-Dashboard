@@ -18,7 +18,7 @@
     "pinia": "^2.2.8",
     "v-calendar": "^3.1.2",
     "vue": "^3.5.13",
-    "vue-cookies": "^1.8.4",
+    "vue-cookies": "^1.8.6",
     "vue-countup-v3": "^1.4.2",
     "vue-router": "^4.5.0"
   },
